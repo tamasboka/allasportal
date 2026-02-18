@@ -2,8 +2,8 @@
 
 ## :pushpin: Tartalomjegyzék
 
-- [:information_source: A projektről](#information_source-a-projektről)
 - [:man_technologist: Fejlesztők](#man_technologist-fejlesztők)
+- [:information_source: A projektről](#information_source-a-projektről)
 - [:closed_book: Felhasználói dokumentáció](#closed_book-felhasználói-dokumentáció)
 - [:computer: Fejlesztői dokumentáció](#computer-fejlesztői-dokumentáció)
 

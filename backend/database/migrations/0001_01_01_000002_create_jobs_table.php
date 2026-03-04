@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('location');
             $table->boolean('has_home_office');
             $table->string('description');
-            $table->string('category');
             $table->string('status');
             $table->timestamps();
         });

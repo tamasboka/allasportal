@@ -15,7 +15,8 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class, 'to');
+            $table->foreignIdFor(User::class, 'from');
             $table->string('message');
             $table->enum('type',['accepted','rejected','system']);
             $table->boolean('is_read');

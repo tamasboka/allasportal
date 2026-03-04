@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('birthdate');
             $table->string('role');
             $table->string('phone');
-            $table->number('work_experience');
+            $table->integer('work_experience');
             $table->string('bio')->nullable();
             $table->timestamps();
         });

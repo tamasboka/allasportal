@@ -1,0 +1,12 @@
+:root,main{
+    background-color: #343a40;
+}
+h1,p{
+    color: white;
+}
+.navbar-nav .nav-link {
+    font-size: 18px;
+}
+.navbar-brand {
+    font-size: 22px;
+}

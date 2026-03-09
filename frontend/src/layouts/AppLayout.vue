@@ -1,5 +1,4 @@
 <script>
-
 import Navbar from "@/components/Navbar.vue";
 
 export default {
@@ -10,7 +9,10 @@ export default {
 
 <template>
   <Navbar/>
-  <RouterView/>
+  <main>
+    <RouterView/>
+  </main>
+
 </template>
 
 <style scoped>

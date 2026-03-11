@@ -1,5 +1,6 @@
 main {
-    background-color: #343a40;
+    --darkbg: #121314;
+    background-color: var(--darkbg);
 }
 
 h1, p {

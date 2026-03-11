@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from "@/layouts/AppLayout.vue";
-import HomeView from "@/views/HomeView.vue";
-import JobsView from "@/views/JobsView.vue";
-import CompaniesView from "@/views/CompaniesView.vue";
+import HomeView from "@/views/App/HomeView.vue";
+import JobsView from "@/views/App/JobsView.vue";
+import CompaniesView from "@/views/App/CompaniesView.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
-import RegisterView from "@/views/RegisterView.vue";
-import LoginView from "@/views/LoginView.vue";
+import RegisterView from "@/views/Auth/RegisterView.vue";
+import LoginView from "@/views/Auth/LoginView.vue";
 
 const routes=[
     {

@@ -24,8 +24,8 @@ export default {
             </li>
           </ul>
           <div class="d-flex gap-3">
-            <RouterLink class="btn btn-primary" :to="{name: 'register'}">Regisztrálás</RouterLink>
-            <RouterLink class="btn btn-primary" :to="{name: 'login'}">Bejelentkezés</RouterLink>
+            <RouterLink class="btn btn-primary rounded-pill" :to="{name: 'register'}">Regisztrálás</RouterLink>
+            <RouterLink class="btn btn-secondary rounded-pill" :to="{name: 'login'}">Bejelentkezés</RouterLink>
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ const routes = [
                         }
                     },
                     {
-                        path: '/companyID',
+                        path: ':companyID',
                         component: CompanyView,
                         name: 'company',
                     }
@@ -67,12 +67,18 @@ const routes = [
             {
                 path: 'register',
                 component: RegisterView,
-                name: 'register'
+                name: 'register',
+                meta: {
+                    title: 'Regisztráció'
+                }
             },
             {
                 path: 'login',
                 component: LoginView,
-                name: 'login'
+                name: 'login',
+                meta: {
+                    title: 'Bejelentkezés'
+                }
             },
         ]
     }
@@ -82,5 +88,8 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 })
-
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title
+    next()
+})
 export default router

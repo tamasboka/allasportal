@@ -1,48 +1,76 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import AppLayout from "@/layouts/AppLayout.vue";
 import HomeView from "@/views/App/HomeView.vue";
-import JobsView from "@/views/App/JobsView.vue";
-import CompaniesView from "@/views/App/CompaniesView.vue";
+import JobsView from "@/views/App/Jobs/JobsView.vue";
+import CompaniesView from "@/views/App/Companies/CompaniesView.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import RegisterView from "@/views/Auth/RegisterView.vue";
 import LoginView from "@/views/Auth/LoginView.vue";
+import JobView from "@/views/App/Jobs/JobView.vue";
+import CompanyView from "@/views/App/Companies/CompanyView.vue";
 
-const routes=[
+const routes = [
     {
-        path:'/',
+        path: '/',
         component: AppLayout,
         children: [
             {
-                path:'',
+                path: '',
                 component: HomeView,
                 name: 'home',
-                meta:{
+                meta: {
                     title: 'Főoldal',
                 }
             },
             {
                 path: 'jobs',
-                component: JobsView,
-                name: 'jobs'
+                children: [
+                    {
+                        path: '',
+                        component: JobsView,
+                        name: 'jobs',
+                        meta: {
+                            title: 'Állások'
+                        }
+                    },
+                    {
+                        path: ':jobID',
+                        component: JobView,
+                        name: 'job',
+                    }
+                ]
             },
             {
                 path: 'companies',
-                component: CompaniesView,
-                name: 'companies'
+                children: [
+                    {
+                        path: '',
+                        component: CompaniesView,
+                        name: 'companies',
+                        meta: {
+                            title: 'Cégek'
+                        }
+                    },
+                    {
+                        path: '/companyID',
+                        component: CompanyView,
+                        name: 'company',
+                    }
+                ]
             },
         ]
     },
     {
-        path:'/auth',
+        path: '/auth',
         component: AuthLayout,
         children: [
             {
-                path:'register',
+                path: 'register',
                 component: RegisterView,
                 name: 'register'
             },
             {
-                path:'login',
+                path: 'login',
                 component: LoginView,
                 name: 'login'
             },
@@ -51,8 +79,8 @@ const routes=[
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes,
 })
 
 export default router

@@ -7,7 +7,7 @@ export default {
 
 <template>
   <header>
-    <nav class="navbar bg-dark border-bottom border-body navbar-expand-lg p-3" data-bs-theme="dark">
+    <nav class="navbar bg-black border-bottom border-body navbar-expand-lg p-3" data-bs-theme="dark">
       <div class="container-fluid">
         <RouterLink class="navbar-brand" :to="{name: 'home'}">Home</RouterLink>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

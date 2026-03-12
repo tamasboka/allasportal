@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
     // APP
+    // Nem kell auth
     {
         path: '/',
         component: () => import("@/layouts/AppLayout.vue"),
@@ -54,6 +55,7 @@ const routes = [
         ]
     },
     // AUTH
+    // Nem kell auth
     {
         path: '/auth',
         component: () => import("@/layouts/AuthLayout.vue"),
@@ -77,6 +79,7 @@ const routes = [
         ]
     },
     // ADMIN
+    // Kell auth
     {
         path: '/admin',
         component: () => import("@/layouts/AdminLayout.vue"),
@@ -86,7 +89,8 @@ const routes = [
                 component: () => import("@/views/Admin/AdminHome.vue"),
                 name: 'admin-home',
                 meta: {
-                    title: 'Admin Home'
+                    title: 'Admin Home',
+                    requiresAuth: true
                 }
             },
             {
@@ -97,7 +101,8 @@ const routes = [
                         component: () => import("@/views/Admin/Company/AdminCompaniesView.vue"),
                         name: 'admin-companies',
                         meta: {
-                            title: 'Admin - Companies'
+                            title: 'Admin - Companies',
+                            requiresAuth: true
                         }
                     },
                     {
@@ -105,7 +110,8 @@ const routes = [
                         component: () => import("@/views/Admin/Company/AdminCompanyActions.vue"),
                         name: 'admin-company',
                         meta: {
-                            title: 'Admin - Company Actions'
+                            title: 'Admin - Company Actions',
+                            requiresAuth: true
                         }
                     }
                 ]
@@ -118,7 +124,8 @@ const routes = [
                         component: () => import("@/views/Admin/Jobs/AdminJobsView.vue"),
                         name: 'admin-jobs',
                         meta: {
-                            title: 'Admin - Jobs'
+                            title: 'Admin - Jobs',
+                            requiresAuth: true
                         }
                     },
                     {
@@ -126,7 +133,8 @@ const routes = [
                         component: () => import("@/views/Admin/Jobs/AdminJobActions.vue"),
                         name: ':admin-job',
                         meta: {
-                            title: 'Admin - Job Actions'
+                            title: 'Admin - Job Actions',
+                            requiresAuth: true
                         }
                     }
                 ]
@@ -139,7 +147,8 @@ const routes = [
                         component: () => import("@/views/Admin/User/AdminUsersListView.vue"),
                         name: 'admin-users',
                         meta: {
-                            title: 'Admin - Users'
+                            title: 'Admin - Users',
+                            requiresAuth: true
                         }
                     },
                     {
@@ -147,7 +156,8 @@ const routes = [
                         component: () => import("@/views/Admin/User/AdminUserActions.vue"),
                         name: 'admin-user',
                         meta: {
-                            title: 'Admin - User Actions'
+                            title: 'Admin - User Actions',
+                            requiresAuth: true
                         }
                     }
                 ]
@@ -155,6 +165,7 @@ const routes = [
         ]
     },
     // USER
+    // Van olyan rész ahova kell auth
     {
         path: '/user',
         component: () => import("@/layouts/UserLayout.vue"),
@@ -172,7 +183,8 @@ const routes = [
                 component: () => import("@/views/User/Actions/UserSettings.vue"),
                 name: 'user-settings',
                 meta: {
-                    title: 'Settings'
+                    title: 'Settings',
+                    requiresAuth: true
                 }
             },
             {
@@ -183,7 +195,8 @@ const routes = [
                         component: () => import("@/views/User/Actions/CreateJob.vue"),
                         name: 'create-job',
                         meta: {
-                            title: 'Create Job'
+                            title: 'Create Job',
+                            requiresAuth: true
                         }
                     },
                     {
@@ -191,7 +204,8 @@ const routes = [
                         component: () => import("@/views/User/Actions/CreateJob.vue"),
                         name: 'edit-job',
                         meta: {
-                            title: 'Edit Job'
+                            title: 'Edit Job',
+                            requiresAuth: true
                         }
                     }
                 ]

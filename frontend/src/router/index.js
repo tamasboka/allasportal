@@ -1,35 +1,14 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import AppLayout from "@/layouts/AppLayout.vue";
-import HomeView from "@/views/App/HomeView.vue";
-import JobsView from "@/views/App/Jobs/JobsView.vue";
-import CompaniesView from "@/views/App/Companies/CompaniesView.vue";
-import AuthLayout from "@/layouts/AuthLayout.vue";
-import RegisterView from "@/views/Auth/RegisterView.vue";
-import LoginView from "@/views/Auth/LoginView.vue";
-import JobView from "@/views/App/Jobs/JobView.vue";
-import CompanyView from "@/views/App/Companies/CompanyView.vue";
-import AdminLayout from "@/layouts/AdminLayout.vue";
-import AdminHome from "@/views/Admin/AdminHome.vue";
-import AdminCompaniesView from "@/views/Admin/Company/AdminCompaniesView.vue";
-import AdminCompanyActions from "@/views/Admin/Company/AdminCompanyActions.vue";
-import AdminJobsView from "@/views/Admin/Jobs/AdminJobsView.vue";
-import AdminJobActions from "@/views/Admin/Jobs/AdminJobActions.vue";
-import AdminUsersListView from "@/views/Admin/User/AdminUsersListView.vue";
-import AdminUserActions from "@/views/Admin/User/AdminUserActions.vue";
-import UserLayout from "@/layouts/UserLayout.vue";
-import UserHomeView from "@/views/UserHomeView.vue";
-import UserSettings from "@/views/User/Actions/UserSettings.vue";
-import CreateJob from "@/views/User/Actions/CreateJob.vue";
 
 const routes = [
     // APP
     {
         path: '/',
-        component: AppLayout,
+        component: () => import("@/layouts/AppLayout.vue"),
         children: [
             {
                 path: '',
-                component: HomeView,
+                component: () => import("@/views/App/HomeView.vue"),
                 name: 'home',
                 meta: {
                     title: 'Főoldal',
@@ -40,7 +19,7 @@ const routes = [
                 children: [
                     {
                         path: '',
-                        component: JobsView,
+                        component: () => import("@/views/App/Jobs/JobsView.vue"),
                         name: 'jobs',
                         meta: {
                             title: 'Állások'
@@ -48,7 +27,7 @@ const routes = [
                     },
                     {
                         path: ':jobID',
-                        component: JobView,
+                        component: () => import("@/views/App/Jobs/JobView.vue"),
                         name: 'job',
                     }
                 ]
@@ -58,7 +37,7 @@ const routes = [
                 children: [
                     {
                         path: '',
-                        component: CompaniesView,
+                        component: () => import("@/views/App/Companies/CompaniesView.vue"),
                         name: 'companies',
                         meta: {
                             title: 'Cégek'
@@ -66,7 +45,7 @@ const routes = [
                     },
                     {
                         path: ':companyID',
-                        component: CompanyView,
+                        component: () => import("@/views/App/Companies/CompanyView.vue"),
                         name: 'company',
                     }
                 ]
@@ -77,11 +56,11 @@ const routes = [
     // AUTH
     {
         path: '/auth',
-        component: AuthLayout,
+        component: () => import("@/layouts/AuthLayout.vue"),
         children: [
             {
                 path: 'register',
-                component: RegisterView,
+                component: () => import("@/views/Auth/RegisterView.vue"),
                 name: 'register',
                 meta: {
                     title: 'Regisztráció'
@@ -89,7 +68,7 @@ const routes = [
             },
             {
                 path: 'login',
-                component: LoginView,
+                component: () => import("@/views/Auth/LoginView.vue"),
                 name: 'login',
                 meta: {
                     title: 'Bejelentkezés'
@@ -100,11 +79,11 @@ const routes = [
     // ADMIN
     {
         path: '/admin',
-        component: AdminLayout,
+        component: () => import("@/layouts/AdminLayout.vue"),
         children: [
             {
                 path: '',
-                component: AdminHome,
+                component: () => import("@/views/Admin/AdminHome.vue"),
                 name: 'admin-home',
                 meta: {
                     title: 'Admin Home'
@@ -115,7 +94,7 @@ const routes = [
                 children: [
                     {
                         path: '',
-                        component: AdminCompaniesView,
+                        component: () => import("@/views/Admin/Company/AdminCompaniesView.vue"),
                         name: 'admin-companies',
                         meta: {
                             title: 'Admin - Companies'
@@ -123,7 +102,7 @@ const routes = [
                     },
                     {
                         path: ':companyID',
-                        component: AdminCompanyActions,
+                        component: () => import("@/views/Admin/Company/AdminCompanyActions.vue"),
                         name: 'admin-company',
                         meta: {
                             title: 'Admin - Company Actions'
@@ -136,7 +115,7 @@ const routes = [
                 children: [
                     {
                         path: '',
-                        component: AdminJobsView,
+                        component: () => import("@/views/Admin/Jobs/AdminJobsView.vue"),
                         name: 'admin-jobs',
                         meta: {
                             title: 'Admin - Jobs'
@@ -144,7 +123,7 @@ const routes = [
                     },
                     {
                         path: 'jobID',
-                        component: AdminJobActions,
+                        component: () => import("@/views/Admin/Jobs/AdminJobActions.vue"),
                         name: ':admin-job',
                         meta: {
                             title: 'Admin - Job Actions'
@@ -157,7 +136,7 @@ const routes = [
                 children: [
                     {
                         path: '',
-                        component: AdminUsersListView,
+                        component: () => import("@/views/Admin/User/AdminUsersListView.vue"),
                         name: 'admin-users',
                         meta: {
                             title: 'Admin - Users'
@@ -165,7 +144,7 @@ const routes = [
                     },
                     {
                         path: ':userID',
-                        component: AdminUserActions,
+                        component: () => import("@/views/Admin/User/AdminUserActions.vue"),
                         name: 'admin-user',
                         meta: {
                             title: 'Admin - User Actions'
@@ -178,11 +157,11 @@ const routes = [
     // USER
     {
         path: '/user',
-        component: UserLayout,
+        component: () => import("@/layouts/UserLayout.vue"),
         children: [
             {
                 path: ':userID',
-                component: UserHomeView,
+                component: () => import("@/views/UserHomeView.vue"),
                 name: 'user-home',
                 meta: {
                     title: ''
@@ -190,7 +169,7 @@ const routes = [
             },
             {
                 path: 'settings',
-                component: UserSettings,
+                component: () => import("@/views/User/Actions/UserSettings.vue"),
                 name: 'user-settings',
                 meta: {
                     title: 'Settings'
@@ -201,7 +180,7 @@ const routes = [
                 children: [
                     {
                         path: 'create-job',
-                        component: CreateJob,
+                        component: () => import("@/views/User/Actions/CreateJob.vue"),
                         name: 'create-job',
                         meta: {
                             title: 'Create Job'
@@ -209,7 +188,7 @@ const routes = [
                     },
                     {
                         path: 'edit-job',
-                        component: CreateJob,
+                        component: () => import("@/views/User/Actions/CreateJob.vue"),
                         name: 'edit-job',
                         meta: {
                             title: 'Edit Job'

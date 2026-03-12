@@ -5,7 +5,9 @@ export default {
 </script>
 
 <template>
-
+  <div class="d-flex justify-content-center">
+    <div class="spinner-grow"></div>
+  </div>
 </template>
 
 <style scoped>

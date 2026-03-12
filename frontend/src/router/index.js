@@ -76,7 +76,7 @@ const routes = [
     },
     // AUTH
     {
-        path: 'auth',
+        path: '/auth',
         component: AuthLayout,
         children: [
             {
@@ -99,7 +99,7 @@ const routes = [
     },
     // ADMIN
     {
-        path: 'admin',
+        path: '/admin',
         component: AdminLayout,
         children: [
             {

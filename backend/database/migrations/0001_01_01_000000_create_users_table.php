@@ -1,11 +1,13 @@
 <?php
 
+use App\Models\Job;
+use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -23,6 +25,19 @@ return new class extends Migration
             $table->string('phone');
             $table->integer('work_experience');
             $table->string('bio')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('user_saved_jobs', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Job::class);
+            $table->timestamps();
+        });
+        Schema::create('user_skills', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Skill::class);
+            $table->string('level')->nullable();
             $table->timestamps();
         });
 

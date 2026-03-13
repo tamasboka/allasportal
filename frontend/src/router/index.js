@@ -51,7 +51,14 @@ const routes = [
                     }
                 ]
             },
-
+            {
+                path: 'about',
+                component: () => import('@/views/App/AboutUsView.vue'),
+                name: 'about',
+                meta: {
+                    title: 'Rólunk'
+                }
+            }
         ]
     },
     // AUTH

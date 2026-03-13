@@ -22,6 +22,9 @@ export default {
             <li class="nav-item">
               <RouterLink class="nav-link" :to="{name: 'companies'}">Cégek</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" :to="{name: 'about'}">Rólunk</RouterLink>
+            </li>
           </ul>
           <div class="d-flex gap-3">
             <RouterLink class="btn btn-primary rounded-pill" :to="{name: 'register'}">Regisztrálás</RouterLink>

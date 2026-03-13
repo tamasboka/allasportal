@@ -21,7 +21,7 @@ export default {
     </div>
     <div class="col-12 col-lg-6 col-md-6 col-sm-6 text-center">
       <h1 class="h4">GitHub Repository</h1>
-      <button class="btn btn-secondary"><i class="bi bi-github me-2"></i>allasportal</button>
+      <a href="https://github.com/tamasboka/allasportal" target="_blank" class="btn btn-secondary"><i class="bi bi-github me-2"></i>allasportal</a>
     </div>
   </div>
 </footer>

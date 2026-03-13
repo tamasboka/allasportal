@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
-    //
+    public $table = 'jobs';
+    public function owner() {
+        return $this->hasOne(User::class);
+    }
+    public function categories() {
+        return $this->belongsToMany(Category::class);
+    }
+    public function required_skills() {
+        return $this->belongsToMany(Skill::class);
+    }
 }

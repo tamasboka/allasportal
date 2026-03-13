@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    public $table = 'users';
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -44,5 +46,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function saved_jobs() {
+        return $this->hasMany(Job::class);
+    }
+    public function received_ratings() {
+        return $this->hasMany(Rating::class);
+    }
+    public function sent_ratings() {
+        return $this->hasMany(Rating::class);
     }
 }

@@ -218,6 +218,14 @@ const routes = [
                 ]
             }
         ]
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import('@/views/Error/NotFound.vue'),
+        meta: {
+            title: '404 Not Found'
+        }
     }
 ];
 

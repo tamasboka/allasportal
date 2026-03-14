@@ -4,10 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobRequest;
-use App\Http\Resources\JobResource;
+use App\Http\Resources\Job\JobResource;
 use App\Models\Job;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 class JobController extends Controller
 {

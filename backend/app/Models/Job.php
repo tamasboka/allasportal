@@ -7,13 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     public $table = 'jobs';
-    public function owner() {
+
+    public function owner()
+    {
         return $this->hasOne(User::class);
     }
-    public function categories() {
+
+    public function categories()
+    {
         return $this->belongsToMany(Category::class);
     }
-    public function required_skills() {
+
+    public function required_skills()
+    {
         return $this->belongsToMany(Skill::class);
     }
 }

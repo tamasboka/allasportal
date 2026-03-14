@@ -47,13 +47,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function saved_jobs() {
+
+    public function saved_jobs()
+    {
         return $this->hasMany(Job::class);
     }
-    public function received_ratings() {
+
+    public function received_ratings()
+    {
         return $this->hasMany(Rating::class);
     }
-    public function sent_ratings() {
+
+    public function sent_ratings()
+    {
         return $this->hasMany(Rating::class);
     }
 }

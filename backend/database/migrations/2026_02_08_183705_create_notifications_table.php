@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'to');
             $table->foreignIdFor(User::class, 'from');
             $table->string('message');
-            $table->enum('type',['accepted','rejected','system']);
+            $table->enum('type', ['accepted', 'rejected', 'system']);
             $table->boolean('is_read');
             $table->timestamps();
         });

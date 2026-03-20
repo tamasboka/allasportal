@@ -16,9 +16,11 @@ class JobResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "advertiser" => $this->user_id,
+            "advertiser" => $this->owner,
             "name" => $this->name,
-            "job_type" => $this->job_type
+            "job_type" => $this->job_type,
+            "catrgories" => $this->categories,
+            "required" => $this->required_skills
         ];
     }
 }

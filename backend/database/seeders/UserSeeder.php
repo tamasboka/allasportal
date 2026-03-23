@@ -14,6 +14,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-
+        User::create([
+            'firstname' => 'Tamás',
+            'lastname' => 'Bóka',
+            'email' => 'tamasboka@jobnest.hu',
+            'password' => 'jelszo12345',
+            'gender' => 'male',
+            'phone' => '062012312312',
+        ]);
+        User::create([
+            'firstname' => 'Bence',
+            'lastname' => 'Beretzky',
+            'email' => 'beretzkybence@jobnest.hu',
+            'password' => 'jelszo121212',
+            'gender' => 'male',
+            'phone' => '0630676767',
+        ]);
     }
 }

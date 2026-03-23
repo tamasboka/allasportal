@@ -14,6 +14,23 @@ class JobSeeder extends Seeder
      */
     public function run(): void
     {
-
+        Job::create([
+            'user_id' => 1,
+            'name' => 'Frontend programozó',
+            'job_type' => 'programmer',
+            'min_salary' => 10000,
+            'max_salary' => 670000,
+            'location' => 'Hungary',
+            'has_home_office' => 1,
+        ]);
+        Job::create([
+            'user_id' => 2,
+            'name' => 'aaaeaeeaeaarraar',
+            'job_type' => 'nem tudom',
+            'min_salary' => 5000,
+            'max_salary' => 10000,
+            'location' => 'Hungary',
+            'has_home_office' => 0,
+        ]);
     }
 }

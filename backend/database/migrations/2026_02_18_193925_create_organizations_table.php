@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('user_organizations', function (Blueprint $table) {
+        Schema::create('organization_user', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Organization::class);

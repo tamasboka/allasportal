@@ -23,19 +23,19 @@ return new class extends Migration {
             $table->integer('max_salary');
             $table->string('location');
             $table->boolean('has_home_office');
-            $table->string('description');
-            $table->string('status');
+            $table->string('description')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('required_skills', function (Blueprint $table) {
+        Schema::create('job_skill', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Skill::class);
             $table->foreignIdFor(Job::class);
             $table->timestamps();
         });
 
-        Schema::create('job_categories', function (Blueprint $table) {
+        Schema::create('category_job', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Category::class);
             $table->foreignIdFor(Job::class);

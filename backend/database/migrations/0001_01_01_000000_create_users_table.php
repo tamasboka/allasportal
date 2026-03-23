@@ -19,11 +19,11 @@ return new class extends Migration {
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('gender');
-            $table->date('birthdate');
-            $table->string('role');
-            $table->string('phone');
-            $table->integer('work_experience');
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->date('birthdate')->nullable();
+            $table->enum('role', ['user', 'admin'])->nullable()->default('user');
+            $table->string('phone')->nullable();
+            $table->integer('work_experience')->nullable();
             $table->string('bio')->nullable();
             $table->timestamps();
         });

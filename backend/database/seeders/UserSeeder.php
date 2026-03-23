@@ -14,16 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
 
-        ]);
-
-        DB::table('user_saved_jobs')->insert([
-
-        ]);
-
-        DB::table('user_skills')->insert([
-
-        ]);
     }
 }

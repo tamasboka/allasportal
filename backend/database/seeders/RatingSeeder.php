@@ -13,8 +13,6 @@ class RatingSeeder extends Seeder
      */
     public function run(): void
     {
-        Rating::create([
 
-        ]);
     }
 }

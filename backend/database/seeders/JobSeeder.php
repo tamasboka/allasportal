@@ -14,16 +14,6 @@ class JobSeeder extends Seeder
      */
     public function run(): void
     {
-        Job::create([
 
-        ]);
-
-        DB::table('required_skills')->insert([
-
-        ]);
-
-        DB::table('job_categories')->insert([
-
-        ]);
     }
 }

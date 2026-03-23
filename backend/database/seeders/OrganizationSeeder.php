@@ -14,12 +14,6 @@ class OrganizationSeeder extends Seeder
      */
     public function run(): void
     {
-        Organization::create([
 
-        ]);
-
-        DB::table('users')->insert([
-
-        ]);
     }
 }

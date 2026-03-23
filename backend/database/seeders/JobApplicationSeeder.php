@@ -13,8 +13,6 @@ class JobApplicationSeeder extends Seeder
      */
     public function run(): void
     {
-        JobApplication::create([
 
-        ]);
     }
 }

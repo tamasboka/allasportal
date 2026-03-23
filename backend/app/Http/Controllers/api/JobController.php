@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobRequest;
+use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\Job\JobResource;
 use App\Models\Job;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -15,7 +16,14 @@ class JobController extends Controller
      */
     public function index()
     {
-        return JobResource::collection(Job::all());
+        $jobs = Job::with([
+            'owner',
+            'categories',
+            'required_skills'
+            ])->get();
+        return (new JobCollection($jobs))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -27,7 +35,7 @@ class JobController extends Controller
         return response()->json([
             "success" => true,
             "data" => $job,
-        ],201);
+        ], 201);
     }
 
     /**
@@ -37,16 +45,16 @@ class JobController extends Controller
     {
         try {
             $job = Job::findOrFail($id);
-        }catch (ModelNotFoundException $e){
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 "success" => false,
                 "message" => "Job not found"
-            ],404);
+            ], 404);
         }
         return response()->json([
             "success" => true,
             "data" => $job,
-        ],200);
+        ], 200);
     }
 
     /**
@@ -57,16 +65,16 @@ class JobController extends Controller
         try {
             $job = Job::findOrFail($id);
             $job->update($request->validated());
-        }catch (ModelNotFoundException $e){
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 "success" => false,
                 "message" => "Job not found"
-            ],404);
+            ], 404);
         }
         return response()->json([
             "success" => true,
             "data" => $job,
-        ],200);
+        ], 200);
     }
 
     /**
@@ -77,15 +85,15 @@ class JobController extends Controller
         try {
             $job = Job::findOrFail($id);
             $job->delete();
-        }catch (ModelNotFoundException $e){
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 "success" => false,
                 "message" => "Job not found"
-            ],404);
+            ], 404);
         }
         return response()->json([
             "success" => true,
             "data" => $job,
-        ],200);
+        ], 200);
     }
 }

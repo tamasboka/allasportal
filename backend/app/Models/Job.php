@@ -12,12 +12,10 @@ class Job extends Model
     {
         return $this->hasOne(User::class);
     }
-
     public function categories()
     {
         return $this->belongsToMany(Category::class);
     }
-
     public function required_skills()
     {
         return $this->belongsToMany(Skill::class);

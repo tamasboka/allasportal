@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->foreignIdFor(Job::class);
             $table->string('message');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
-            $table->date('sent_at');
+            //$table->date('sent_at');
             $table->timestamps();
         });
     }

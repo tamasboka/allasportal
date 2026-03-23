@@ -6,13 +6,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     public $table = 'users';
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -52,14 +53,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Job::class);
     }
-
     public function received_ratings()
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Rating::class, 'rated_user_id');
     }
-
+    public function sent_notifications() {
+        return $this->hasMany(Notification::class, 'from_user_id');
+    }
+    public function received_notifications() {
+        return $this->hasMany(Notification::class, 'to_user_id');
+    }
     public function sent_ratings()
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Rating::class, 'rater_user_id');
     }
 }

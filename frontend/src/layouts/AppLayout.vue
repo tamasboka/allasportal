@@ -10,7 +10,7 @@ export default {
 
 <template>
   <Navbar/>
-  <main>
+  <main class="min-vh-100">
     <RouterView/>
   </main>
   <Footer/>

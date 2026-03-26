@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use App\Models\Job;
+use App\Models\Organization;
 use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -16,7 +17,14 @@ return new class extends Migration {
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->nullable()
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignIdFor(Organization::class)->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('name');
             $table->string('job_type');
             $table->integer('min_salary');

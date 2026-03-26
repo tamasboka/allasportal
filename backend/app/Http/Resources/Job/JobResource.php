@@ -23,7 +23,8 @@ class JobResource extends JsonResource
             "name" => $this->name,
             "job_type" => $this->job_type,
             "categories" => new CategoryCollection($this->whenLoaded('categories')),
-            "required" => new SkillCollection($this->whenLoaded('required_skills')),
+            "skills" => new SkillCollection($this->whenLoaded('required_skills')),
+            "type" => $this->type
         ];
     }
 }

@@ -179,7 +179,7 @@ const routes = [
         children: [
             {
                 path: ':userID',
-                component: () => import("@/views/UserHomeView.vue"),
+                component: () => import("@/views/User/UserView.vue"),
                 name: 'user-home',
                 meta: {
                     title: ''

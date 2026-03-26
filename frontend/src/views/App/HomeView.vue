@@ -1,6 +1,9 @@
 <script>
+import Searchbar from "@/components/Searchbar.vue";
+
 export default {
   name: "Home",
+  components: {Searchbar},
 }
 </script>
 
@@ -10,10 +13,7 @@ export default {
       <div class="text-center">
         <h1>JobNest</h1>
         <p>A JobNest lehetővé teszi a felhasználók számára az egyszerű munka keresést, vagy annak közzétételét.</p>
-        <div class="d-inline-flex">
-          <input class="form-control" type="text" placeholder="Itt kereshetsz">
-          <button class="btn btn-secondary">Keresés</button>
-        </div>
+        <Searchbar/>
       </div>
     </div>
   </section>

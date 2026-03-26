@@ -72,4 +72,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Rating::class, 'rater_user_id');
     }
+    public function worksAt() {
+        return $this->hasMany(Organization::class);
+    }
 }

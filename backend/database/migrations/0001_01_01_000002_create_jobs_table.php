@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->integer('max_salary');
             $table->string('location');
             $table->boolean('has_home_office');
+            $table->enum('type', ['onetime', 'parttime', 'fulltime']);
             $table->string('description')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();

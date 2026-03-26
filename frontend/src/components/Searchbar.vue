@@ -24,7 +24,7 @@ export default {
       }
     },
     filterJobs() {
-      if (this.query) this.filteredJobs = this.jobs.filter(job => job.name.toLowerCase().includes(this.query.toLowerCase()))
+      if (this.query) this.filteredJobs = this.jobs.filter(job => job.name.toLowerCase().includes(this.query.toLowerCase())).slice(0, 4)
       else this.filteredJobs = []
     }
   },
@@ -38,7 +38,7 @@ export default {
   <input type="text" v-model="query" class="form-control" placeholder="Keress állást..." @input="filterJobs">
   <ul class="list-group" v-if="filteredJobs">
     <li class="list-group-item" v-for="job in filteredJobs">
-      {{ job.name }}
+      <RouterLink :to="{name: 'job', params: {jobID: job.id}}" class="text-decoration-none">{{ job.name }}</RouterLink>
     </li>
   </ul>
 </template>

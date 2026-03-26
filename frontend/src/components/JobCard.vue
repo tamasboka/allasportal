@@ -15,8 +15,8 @@ export default {
   <section>
     <div class="card">
       <div class="card-body">
-        <h1 class="card-title">{{ job.title }}</h1>
-        <p class="card-text">{{ job.advertiser.firstname }} {{ job.advertiser.lastname }}</p>
+        <h1 class="card-title text-dark">{{ job.name }}</h1>
+        <p class="card-text text-dark">{{ job.advertiser.firstname }} {{ job.advertiser.lastname }}</p>
         <RouterLink :to="{name: 'job', params: {jobID: job.id}}">Részletek</RouterLink>
       </div>
     </div>

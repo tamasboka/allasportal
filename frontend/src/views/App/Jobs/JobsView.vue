@@ -2,10 +2,11 @@
 import {getAllJobs} from "@/data/data.js";
 import JobCard from "@/components/JobCard.vue";
 import JobTypeNavbar from "@/components/JobTypeNavbar.vue";
+import Spinner from "@/components/Spinner.vue";
 
 export default {
   name: "JobsView",
-  components: {JobTypeNavbar, JobCard},
+  components: {Spinner, JobTypeNavbar, JobCard},
   data() {
     return {
       jobs: [],
@@ -41,9 +42,12 @@ export default {
 </script>
 
 <template>
-  <section>
+  <section v-if="loading">
+    <Spinner/>
+  </section>
+  <section v-else>
     <JobTypeNavbar @newFilter="filterJobs"/>
-    <div class="row">
+    <div class="row py-5">
       <div class="col-12 col-xl-2 col-lg-4 col-md-6 col-sm-6" v-for="job in filteredJobs">
           <JobCard :job="job"/>
       </div>

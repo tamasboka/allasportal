@@ -36,6 +36,12 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
+        $role_abilities = [
+            'user' => [
+                ''
+            ]
+        ];
+
         $abilities = ['user'];
         if ($user->role === 'admin') {
             $abilities = ['user', 'admin'];
@@ -55,6 +61,12 @@ class AuthController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Logout successfully"
+        ], 200);
+    }
+    function checkRole(Request $request) {
+        return response()->json([
+            "success" => true,
+            'role' => $request->user()->role,
         ], 200);
     }
 }

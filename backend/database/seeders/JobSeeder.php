@@ -22,7 +22,7 @@ class JobSeeder extends Seeder
             'max_salary' => 670000,
             'location' => 'Hungary',
             'has_home_office' => 1,
-            'type' => 'parttime'
+            'type' => 'part-time'
         ]);
         Job::create([
             'user_id' => 2,
@@ -32,7 +32,7 @@ class JobSeeder extends Seeder
             'max_salary' => 10000,
             'location' => 'Hungary',
             'has_home_office' => 0,
-            'type' => 'fulltime'
+            'type' => 'full-time'
         ]);
     }
 }

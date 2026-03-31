@@ -5,14 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class JobRequest extends FormRequest
+class NotificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,46 +23,22 @@ class JobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
+            'title' => [
                 'required',
                 'string',
                 'min:3',
                 'max:100',
             ],
-            'job_type' => [
+            'message' => [
                 'required',
                 'string',
                 'min:3',
-                'max:100',
-            ],
-            'min_salary' => [
-                'required',
-                'integer',
-                'min:1',
-            ],
-            'max_salary' => [
-                'required',
-                'integer',
-                'min:1',
-            ],
-            'location' => [
-                'required',
-                'string',
-            ],
-            'has_home_office' => [
-                'required',
-                'boolean',
+                'max:255',
             ],
             'type' => [
                 'required',
                 'string',
-                Rule::in(['full-time', 'part-time', 'one-time']),
-            ],
-            'description' => [
-                'required',
-                'string',
-                'min:3',
-                'max:500',
+                Rule::in(['accept', 'reject', 'system', 'general'])
             ]
         ];
     }

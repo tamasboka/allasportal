@@ -13,11 +13,11 @@ return new class extends Migration {
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->foreignIdFor(User::class, 'to_user_id');
             $table->foreignIdFor(User::class, 'from_user_id');
+            $table->string('title');
             $table->string('message');
-            $table->enum('type', ['accepted', 'rejected', 'system']);
+            $table->enum('type', ['accept', 'reject', 'general', 'system']);
             $table->boolean('is_read');
             $table->timestamps();
         });

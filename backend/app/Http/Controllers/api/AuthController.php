@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(UserRequest $request)
+    public function register(RegisterRequest $request)
     {
         $validated = $request->validated();
         $user = User::create($validated);
@@ -23,7 +23,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(UserRequest $request)
+    public function login(LoginRequest $request)
     {
         $validated = $request->validated();
 
@@ -38,14 +38,31 @@ class AuthController extends Controller
 
         $role_abilities = [
             'user' => [
-                ''
+                'create-job',
+                'update-job',
+                'delete-job',
+                'create-rating',
+                'update-rating',
+                'delete-rating',
+                'create-notification',
+                'delete-notification',
+            ],
+            'admin' => [
+                'create-job',
+                'delete-job',
+                'create-rating',
+                'delete-rating',
+                'create-notification',
+                'delete-notification',
+                'create-organization',
+                'delete-organization',
+                'create-skill',
+                'update-skill',
+                'delete-skill',
             ]
         ];
 
-        $abilities = ['user'];
-        if ($user->role === 'admin') {
-            $abilities = ['user', 'admin'];
-        }
+        $abilities = $role_abilities[$user->role];
         $token = $user->createToken('auth_token', $abilities)->plainTextToken;
 
         return response()->json([
@@ -63,10 +80,13 @@ class AuthController extends Controller
             "message" => "Logout successfully"
         ], 200);
     }
-    function checkRole(Request $request) {
+    function abilities(Request $request) {
+        $abilities = [];
+        foreach ($request->user()->tokens() as $token) {
+            $abilities[] = $token->abilities;
+        }
         return response()->json([
-            "success" => true,
-            'role' => $request->user()->role,
+            "role" => $request->user()->role,
         ], 200);
     }
 }

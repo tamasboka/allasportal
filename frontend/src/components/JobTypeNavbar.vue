@@ -17,14 +17,14 @@ export default {
         <li class="nav-item">
           <button class="nav-link" @click="emitFilter('all')">Összes</button>
         </li>
-        <li class="nav-item">
-          <button class="nav-link" @click="emitFilter('fulltime')">Full Time</button>
+        <li class="nav-item full-time">
+          <button class="nav-link" @click="emitFilter('full-time')">Teljes munka</button>
         </li>
-        <li class="nav-item">
-          <button class="nav-link" @click="emitFilter('parttime')">Part Time</button>
+        <li class="nav-item part-time">
+          <button class="nav-link" @click="emitFilter('part-time')">Részmunka</button>
         </li>
-        <li class="nav-item">
-          <button class="nav-link" @click="emitFilter('onetime')">One Time</button>
+        <li class="nav-item one-time">
+          <button class="nav-link" @click="emitFilter('one-time')">Egyszeri munka</button>
         </li>
       </ul>
     </div>

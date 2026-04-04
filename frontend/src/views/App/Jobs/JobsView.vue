@@ -30,9 +30,9 @@ export default {
     },
     filterJobs(filter) {
       if (filter === 'all') this.filteredJobs = this.jobs
-      else if (filter === 'fulltime') this.filteredJobs = this.jobs.filter(job => job.type === 'fulltime')
-      else if (filter === 'parttime') this.filteredJobs = this.jobs.filter(job => job.type === 'parttime')
-      else if (filter === 'onetime') this.filteredJobs = this.jobs.filter(job => job.type === 'onetime')
+      else if (filter === 'full-time') this.filteredJobs = this.jobs.filter(job => job.type === 'full-time')
+      else if (filter === 'part-time') this.filteredJobs = this.jobs.filter(job => job.type === 'part-time')
+      else if (filter === 'one-time') this.filteredJobs = this.jobs.filter(job => job.type === 'one-time')
     }
   },
   mounted() {
@@ -47,7 +47,7 @@ export default {
   </section>
   <section v-else>
     <JobTypeNavbar @newFilter="filterJobs"/>
-    <div class="row py-5">
+    <div class="row p-5 m-1">
       <div class="col-12 col-xl-2 col-lg-4 col-md-6 col-sm-6" v-for="job in filteredJobs">
           <JobCard :job="job"/>
       </div>

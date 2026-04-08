@@ -32,5 +32,13 @@ export default {
 </template>
 
 <style scoped>
-
+.full-time {
+  border-bottom: 5px solid var(--bs-primary);
+}
+.part-time {
+  border-bottom: 5px solid var(--bs-secondary)
+}
+.one-time {
+  border-bottom: 5px solid #ffff47;
+}
 </style>

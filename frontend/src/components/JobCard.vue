@@ -8,6 +8,19 @@ export default {
       required: true
     }
   },
+  computed:{
+    Translate(){
+      if (this.job.type === "full-time"){
+        return "Teljes munka"
+      }
+      else if(this.job.type === "part-time"){
+        return "Részmunka"
+      }
+      else if(this.job.type === "one-time"){
+        return "Egyszeri munka"
+      }
+    }
+  }
 }
 </script>
 
@@ -16,7 +29,7 @@ export default {
     <div class="card" :class="job.type">
       <div class="card-body">
         <h1 class="card-title text-dark">{{ job.name }}</h1>
-        <p class="card-text text-dark">({{job.type}})</p>
+        <p class="card-text text-dark">({{Translate}})</p>
         <p class="card-text text-dark">{{ job.advertiser.firstname }} {{ job.advertiser.lastname }}</p>
         <RouterLink :to="{name: 'job', params: {jobID: job.id}}" class="btn btn-outline-dark">Részletek</RouterLink>
       </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobApplicationRequest;
@@ -19,7 +19,7 @@ class JobApplicationController extends Controller
     {
         if ($request->user()->tokenCan('admin')) {
             $applications = JobApplication::with('*')->get();
-            return (new JobApplicationCollection($applications))
+            return new JobApplicationCollection($applications)
                 ->response()
                 ->setStatusCode(200);
         } else {
@@ -37,7 +37,7 @@ class JobApplicationController extends Controller
     {
         if ($request->user()->tokenCan('user')) {
             $application = JobApplication::create($request->all());
-            return (new JobApplicationResource($application))
+            return new JobApplicationResource($application)
                 ->response()
                 ->setStatusCode(201);
         } else {
@@ -61,7 +61,7 @@ class JobApplicationController extends Controller
                     "message" => "Job Application not found"
                 ], 404);
         }
-        return (new JobApplicationResource($application))
+        return new JobApplicationResource($application)
             ->response()
             ->setStatusCode(200);
     }

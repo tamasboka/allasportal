@@ -54,7 +54,8 @@ class JobApplicationController extends Controller
     public function show(string $id)
     {
         try {
-            $application = JobApplication::with('*')->findOrFail($id);
+            $application = JobApplication::with(['sender', 'receiver'])->findOrFail($id);
+            $application->status = "read";
         } catch (ModelNotFoundException $e) {
             return response()
                 ->json([

@@ -44,17 +44,20 @@ class JobController extends Controller
     public function show(string $id)
     {
         try {
-            $job = Job::findOrFail($id);
+            $job = Job::with([
+                'owner',
+                'categories',
+                'required_skills'
+            ])->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 "success" => false,
                 "message" => "Job not found"
             ], 404);
         }
-        return response()->json([
-            "success" => true,
-            "data" => $job,
-        ], 200);
+        return new JobResource($job)
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**

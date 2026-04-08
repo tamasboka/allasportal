@@ -55,7 +55,7 @@ class JobController extends Controller
                 "message" => "Job not found"
             ], 404);
         }
-        return new JobResource($job)
+        return (new JobResource($job))
             ->response()
             ->setStatusCode(200);
     }

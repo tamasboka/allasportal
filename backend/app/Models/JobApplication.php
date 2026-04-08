@@ -14,10 +14,10 @@ class JobApplication extends Model
     public $table = 'job_applications';
     public function sender()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
     public function receiver()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Job::class, 'job_id', 'id');
     }
 }

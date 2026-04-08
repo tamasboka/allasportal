@@ -11,7 +11,7 @@ class JobApplicationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,6 +22,12 @@ class JobApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => [
+                'in:users'
+            ],
+            'job_id' => [
+                'in:jobs'
+            ],
             'message' => [
                 'required',
                 'string',

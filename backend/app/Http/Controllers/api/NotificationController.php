@@ -39,7 +39,7 @@ class NotificationController extends Controller
             $notif = Notification::create($validated);
             return response()->json([
                 $notif => new NotificationResource($notif)
-            ]);
+            ], 201);
         } else {
             return response()->json([
                 'message' => 'Unauthorized'

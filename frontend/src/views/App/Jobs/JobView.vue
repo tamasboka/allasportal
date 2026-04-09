@@ -1,8 +1,10 @@
 <script>
 import {getJobById} from "@/data/data.js";
+import Spinner from "@/components/Spinner.vue";
 
 export default {
   name: "JobView",
+  components: {Spinner},
   data() {
     return {
       job: {},
@@ -45,12 +47,10 @@ export default {
 
 <template>
   <section class="p-5">
-    <div class="row">
+    <div v-if="!loading" class="row">
       <div class="col-12 col-lg-8">
-        <div class="d-flex">
           <h1>{{job.name}}</h1>
-          <RouterLink :to="{name:'user-home', params: {userID: job.id}}"/>
-        </div>
+        <RouterLink v-if="job.advertiser" class="text-decoration-none text-black badge bg-white" :to="{name: 'user-home', params: {userID: job.advertiser.id}}">{{ job.advertiser.firstname }} {{ job.advertiser.lastname }}</RouterLink>
         <p>{{Translate}}</p>
         <p class="badge bg-success">Fizetés: {{job.min_salary}}Ft - {{job.max_salary}}Ft</p>
         <p>{{job.description}}</p>
@@ -60,6 +60,7 @@ export default {
         </div>
       </div>
     </div>
+    <spinner v-else/>
   </section>
 </template>
 

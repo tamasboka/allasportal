@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\EditUserRequest;
 use App\Http\Resources\User\UserCollection;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -50,6 +51,9 @@ class UserController extends Controller
                     'works_at',
                 ])->findOrFail($id);
             }
+            return (new UserResource($user))
+                ->response()
+                ->setStatusCode(200);
 
         } catch (ModelNotFoundException $e) {
             return response()->json([
@@ -68,6 +72,9 @@ class UserController extends Controller
             try {
                 $user = User::findOrFail($id);
                 $user->update($validated);
+                return response()->json([
+                    "message" => "User updated successfully"
+                ]);
             } catch (ModelNotFoundException $e) {
                 return response()->json([
                     "message" => "User not found"
@@ -97,6 +104,10 @@ class UserController extends Controller
                     "message" => "User not found"
                 ], 404);
             }
+        } else {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 401);
         }
     }
 }

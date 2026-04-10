@@ -75,4 +75,7 @@ class User extends Authenticatable
     public function worksAt() {
         return $this->hasMany(Organization::class);
     }
+    public function skills() {
+        return $this->belongsToMany(Skill::class);
+    }
 }

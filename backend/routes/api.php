@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\JobApplicationController;
 use App\Http\Controllers\api\JobController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\api\OrganizationController;
 use App\Http\Controllers\api\RatingController;
+use App\Http\Controllers\api\SkillController;
 use App\Http\Controllers\api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,4 +41,5 @@ Route::apiResource('/applications', JobApplicationController::class)
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('notifications', NotificationController::class);
     Route::apiResource('ratings', RatingController::class);
+    Route::apiResource('skills', SkillController::class);
 });

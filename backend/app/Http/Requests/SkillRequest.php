@@ -11,7 +11,7 @@ class SkillRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,6 +24,7 @@ class SkillRequest extends FormRequest
         return [
             'name' => [
                 'required',
+                'unique:skills,name',
                 'string',
                 'min:3',
                 'max:100',

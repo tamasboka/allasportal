@@ -42,4 +42,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('notifications', NotificationController::class);
     Route::apiResource('ratings', RatingController::class);
     Route::apiResource('skills', SkillController::class);
+    Route::apiResource('categories', CategoryController::class);
 });

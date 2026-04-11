@@ -8,9 +8,9 @@ class Rating extends Model
 {
     public $table = 'ratings';
     public function rater() {
-        return $this->belongsTo(User::class, 'rater_user_id');
+        return $this->belongsTo(User::class);
     }
     public function rated() {
-        return $this->belongsTo(User::class, 'rated_user_id');
+        return $this->belongsTo(Job::class);
     }
 }

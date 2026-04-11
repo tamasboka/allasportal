@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,8 +14,8 @@ return new class extends Migration {
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'rater_user_id');
-            $table->foreignIdFor(User::class, 'rated_user_id');
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Job::class);
             $table->integer('rating');
             $table->string('title');
             $table->text('message');

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Job;
 
 use App\Http\Resources\Category\CategoryCollection;
+use App\Http\Resources\Rating\RatingCollection;
 use App\Http\Resources\Skill\SkillCollection;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
@@ -24,9 +25,10 @@ class JobResource extends JsonResource
             "job_type" => $this->job_type,
             "categories" => new CategoryCollection($this->whenLoaded('categories')),
             "skills" => new SkillCollection($this->whenLoaded('required_skills')),
-	    "type" => $this->type,
-	    "min_salary" => $this->min_salary,
-	    "max_salary" => $this->max_salary
+            "type" => $this->type,
+            "min_salary" => $this->min_salary,
+            "max_salary" => $this->max_salary,
+            'ratings' => new RatingCollection($this->whenLoaded('ratings')),
         ];
     }
 }

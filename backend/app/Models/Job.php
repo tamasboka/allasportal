@@ -23,4 +23,7 @@ class Job extends Model
     public function received_applications() {
         return $this->hasMany(JobApplication::class, 'job_id', 'id');
     }
+    public function ratings() {
+        return $this->hasMany(Rating::class, 'job_id', 'id');
+    }
 }

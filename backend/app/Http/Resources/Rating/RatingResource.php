@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Rating;
 
+use App\Http\Resources\Job\JobResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,7 +19,7 @@ class RatingResource extends JsonResource
         return [
             'id' => $this->id,
             'rater' => new UserResource($this->whenLoaded('rater')),
-            'rated' => new UserResource($this->whenLoaded('rated')),
+            'rated' => new JobResource($this->whenLoaded('rated')),
             'title' => $this->title,
             'message' => $this->message,
             'stars' => $this->rating

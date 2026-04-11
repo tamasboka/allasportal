@@ -19,8 +19,9 @@ class JobController extends Controller
         $jobs = Job::with([
             'owner',
             'categories',
-            'required_skills'
-            ])->get();
+            'required_skills',
+            'ratings'
+        ])->get();
         return (new JobCollection($jobs))
             ->response()
             ->setStatusCode(200);

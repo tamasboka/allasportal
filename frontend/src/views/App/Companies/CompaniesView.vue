@@ -1,7 +1,10 @@
 <script>
 
 export default {
-  name: "Companies"
+  name: "Companies",
+  data(){
+
+  }
 }
 </script>
 

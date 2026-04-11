@@ -33,7 +33,8 @@ export default {
       else if (filter === 'full-time') this.filteredJobs = this.jobs.filter(job => job.type === 'full-time')
       else if (filter === 'part-time') this.filteredJobs = this.jobs.filter(job => job.type === 'part-time')
       else if (filter === 'one-time') this.filteredJobs = this.jobs.filter(job => job.type === 'one-time')
-    }
+    },
+
   },
   mounted() {
     this.LoadAllJobs();
@@ -48,7 +49,7 @@ export default {
   <section v-else>
     <JobTypeNavbar @newFilter="filterJobs"/>
     <div class="row p-5 m-1">
-      <div class="col-12 col-xl-2 col-lg-4 col-md-6 col-sm-6" v-for="job in filteredJobs">
+      <div class="col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6" v-for="job in filteredJobs">
           <JobCard :job="job"/>
       </div>
     </div>

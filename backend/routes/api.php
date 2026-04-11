@@ -4,7 +4,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\JobApplicationController;
 use App\Http\Controllers\api\JobController;
-use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\api\NotificationController;
 use App\Http\Controllers\api\OrganizationController;
 use App\Http\Controllers\api\RatingController;
 use App\Http\Controllers\api\SkillController;

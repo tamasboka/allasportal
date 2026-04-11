@@ -1,7 +1,22 @@
 <script>
+import {http} from "@/utils/http.js";
+
 
 export default {
-  name: "Navbar"
+  name: "Navbar",
+  computed:{
+    isLoggedIn(){
+      return !!localStorage.getItem('token')
+    }
+  },
+  methods:{
+    async Logout(){
+      await http.post('/api/logout',{},{headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+      localStorage.removeItem('token')
+      alert("Sikeres kijelentkezés")
+      this.$router.push()
+    }
+  }
 }
 </script>
 
@@ -29,7 +44,16 @@ export default {
           <div class="d-flex gap-3">
             <RouterLink class="btn btn-primary rounded-pill" :to="{name: 'register'}">Regisztrálás</RouterLink>
             <RouterLink class="btn btn-secondary rounded-pill" :to="{name: 'login'}">Bejelentkezés</RouterLink>
-            <button class="btn" :class="{ 'btn-light':  true}"><i class="bi bi-brightness-high"></i></button>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-gear"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li v-if="isLoggedIn"><RouterLink :to="{name: 'user-settings'}" class="dropdown-item">Profil szerkesztése</RouterLink></li>
+                <li><button class="dropdown-item"><i class="bi bi-circle-half"></i> Téma</button></li>
+                <li class="bg-danger" v-if="isLoggedIn"><button class="dropdown-item bg-danger">Kijelentkezés</button></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -38,5 +62,7 @@ export default {
 </template>
 
 <style scoped>
-
+.bg-danger:hover{
+  background-color: var(--bs-danger) !important;
+}
 </style>

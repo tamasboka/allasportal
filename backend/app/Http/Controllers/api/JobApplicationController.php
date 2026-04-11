@@ -18,7 +18,7 @@ class JobApplicationController extends Controller
     public function index(Request $request)
     {
         if ($request->user()->tokenCan('admin')) {
-            $applications = JobApplication::with('*')->get();
+            $applications = JobApplication::with(['sender', 'receiver'])->get();
             return (new JobApplicationCollection($applications))
                 ->response()
                 ->setStatusCode(200);
@@ -96,8 +96,22 @@ class JobApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-
+        try {
+            $application = JobApplication::findOrFail($id);
+        } catch (ModelNotFoundException) {
+            return response()->json([
+                'message' => 'Model not found'
+            ], 404);
+        }
+        if ($request->user()->tokenCan('admin') || $request->user()->id === $application->user_id) {
+            $application->delete();
+            return response()->json([], 204);
+        } else {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }
     }
 }

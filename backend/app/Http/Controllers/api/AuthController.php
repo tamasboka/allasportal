@@ -38,27 +38,11 @@ class AuthController extends Controller
 
         $role_abilities = [
             'user' => [
-                'create-job',
-                'update-job',
-                'delete-job',
-                'create-rating',
-                'update-rating',
-                'delete-rating',
-                'create-notification',
-                'delete-notification',
+                'user'
             ],
             'admin' => [
-                'create-job',
-                'delete-job',
-                'create-rating',
-                'delete-rating',
-                'create-notification',
-                'delete-notification',
-                'create-organization',
-                'delete-organization',
-                'create-skill',
-                'update-skill',
-                'delete-skill',
+                'user',
+                'admin'
             ]
         ];
 

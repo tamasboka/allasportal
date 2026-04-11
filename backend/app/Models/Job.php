@@ -20,4 +20,7 @@ class Job extends Model
     {
         return $this->belongsToMany(Skill::class);
     }
+    public function received_applications() {
+        return $this->hasMany(JobApplication::class, 'job_id', 'id');
+    }
 }

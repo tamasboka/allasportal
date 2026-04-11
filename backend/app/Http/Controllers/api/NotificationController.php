@@ -36,10 +36,11 @@ class NotificationController extends Controller
     {
         if ($request->user()->tokenCan('user')) {
             $validated = $request->validated();
+            $validated['from_user_id'] = $request->user()->id;
             $notif = Notification::create($validated);
-            return response()->json([
-                $notif => new NotificationResource($notif)
-            ], 201);
+            return (new NotificationResource($notif))
+                ->response()
+                ->setStatusCode(201);
         } else {
             return response()->json([
                 'message' => 'Unauthorized'
@@ -88,7 +89,13 @@ class NotificationController extends Controller
     {
         try {
             $notification = Notification::findOrFail($id);
-            $notification->delete();
+            if ($request->user()->tokenCan('admin') || $request->user()->id === $notification->from_user_id) {
+                $notification->delete();
+            } else {
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
             return response()->json([], 204);
         } catch (ModelNotFoundException $e) {
             return response()->json([

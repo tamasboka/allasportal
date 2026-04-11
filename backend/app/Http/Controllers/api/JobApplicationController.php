@@ -18,16 +18,21 @@ class JobApplicationController extends Controller
     public function index(Request $request)
     {
         if ($request->user()->tokenCan('admin')) {
-            $applications = JobApplication::with(['sender', 'receiver'])->get();
-            return (new JobApplicationCollection($applications))
-                ->response()
-                ->setStatusCode(200);
+            $applications = JobApplication::with(['sender', 'receiver'])
+                ->get();
+        } else if ($request->user()->tokenCan('user')) {
+            $applications = JobApplication::with(['sender', 'receiver'])
+                ->where('user_id', $request->user()->id)
+                ->get();
         } else {
             return response()
                 ->json([
                     "message" => "Unauthorized"
                 ], 401);
         }
+        return (new JobApplicationCollection($applications))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -51,20 +56,25 @@ class JobApplicationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
         try {
             $application = JobApplication::with(['sender', 'receiver'])->findOrFail($id);
-            $application->status = "read";
         } catch (ModelNotFoundException $e) {
             return response()
                 ->json([
                     "message" => "Job Application not found"
                 ], 404);
         }
-        return (new JobApplicationResource($application))
-            ->response()
-            ->setStatusCode(200);
+        if ($request->user()->tokenCan('admin') || $request->user()->id === $application->user_id) {
+            return (new JobApplicationResource($application))
+                ->response()
+                ->setStatusCode(200);
+        } else {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 401);
+        }
     }
 
     /**

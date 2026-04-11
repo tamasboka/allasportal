@@ -13,12 +13,18 @@ return new class extends Migration {
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'to_user_id');
-            $table->foreignIdFor(User::class, 'from_user_id');
+            $table->foreignIdFor(User::class, 'to_user_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignIdFor(User::class, 'from_user_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('title');
             $table->string('message');
             $table->enum('type', ['accept', 'reject', 'general', 'system']);
-            $table->boolean('is_read');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }

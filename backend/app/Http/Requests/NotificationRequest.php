@@ -12,7 +12,7 @@ class NotificationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,11 @@ class NotificationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'to_user_id' => [
+                'required',
+                'integer',
+                'exists:users,id',
+            ],
             'title' => [
                 'required',
                 'string',
@@ -39,6 +44,9 @@ class NotificationRequest extends FormRequest
                 'required',
                 'string',
                 Rule::in(['accept', 'reject', 'system', 'general'])
+            ],
+            'is_read' => [
+                'boolean'
             ]
         ];
     }

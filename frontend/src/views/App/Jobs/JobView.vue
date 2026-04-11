@@ -48,7 +48,7 @@ export default {
 <template>
   <section class="p-5">
     <div v-if="!loading" class="row">
-      <div class="col-12 col-lg-8">
+      <div class="col-12 col-lg-8 col-md-6 col-sm-12">
           <h1>{{job.name}}</h1>
         <RouterLink v-if="job.advertiser" class="text-decoration-none text-black badge bg-white" :to="{name: 'user-home', params: {userID: job.advertiser.id}}">{{ job.advertiser.firstname }} {{ job.advertiser.lastname }}</RouterLink>
         <p>{{Translate}}</p>
@@ -59,6 +59,9 @@ export default {
           <button class="btn btn-secondary ms-2">Mentés</button>
         </div>
       </div>
+      <aside class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <h1>Vélemények: </h1>
+      </aside>
     </div>
     <spinner v-else/>
   </section>

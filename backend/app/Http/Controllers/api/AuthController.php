@@ -57,14 +57,18 @@ class AuthController extends Controller
             "abilities" => $abilities,
         ]);
     }
-    function logout(Request $request) {
+
+    function logout(Request $request)
+    {
         $request->user()->tokens()->delete();
         return response()->json([
             "success" => true,
             "message" => "Logout successfully"
         ], 200);
     }
-    function abilities(Request $request) {
+
+    function abilities(Request $request)
+    {
         $abilities = [];
         foreach ($request->user()->tokens() as $token) {
             $abilities[] = $token->abilities;
@@ -72,5 +76,12 @@ class AuthController extends Controller
         return response()->json([
             "role" => $request->user()->role,
         ], 200);
+    }
+
+    function role(Request $request)
+    {
+        return response()->json([
+            "role" => $request->user()->role
+        ]);
     }
 }

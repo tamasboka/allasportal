@@ -1,4 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import {http} from "@/utils/http.js";
+
 
 const routes = [
     // APP
@@ -72,7 +74,8 @@ const routes = [
                 component: () => import("@/views/Auth/RegisterView.vue"),
                 name: 'register',
                 meta: {
-                    title: 'Regisztráció'
+                    title: 'Regisztráció',
+                    guestOnly: true
                 }
             },
             {
@@ -80,7 +83,8 @@ const routes = [
                 component: () => import("@/views/Auth/LoginView.vue"),
                 name: 'login',
                 meta: {
-                    title: 'Bejelentkezés'
+                    title: 'Bejelentkezés',
+                    guestOnly: true
                 }
             },
         ]
@@ -90,6 +94,9 @@ const routes = [
     {
         path: '/admin',
         component: () => import("@/layouts/AdminLayout.vue"),
+        redirect: {
+            name: 'admin-home'
+        },
         children: [
             {
                 path: '',
@@ -97,7 +104,7 @@ const routes = [
                 name: 'admin-home',
                 meta: {
                     title: 'Admin Home',
-                    requiresAuth: true
+                    requiresAdmin: true
                 }
             },
             {
@@ -109,7 +116,7 @@ const routes = [
                         name: 'admin-companies',
                         meta: {
                             title: 'Admin - Companies',
-                            requiresAuth: true
+                            requiresAdmin: true
                         }
                     },
                     {
@@ -118,7 +125,7 @@ const routes = [
                         name: 'admin-company',
                         meta: {
                             title: 'Admin - Company Actions',
-                            requiresAuth: true
+                            requiresAdmin: true
                         }
                     }
                 ]
@@ -132,7 +139,7 @@ const routes = [
                         name: 'admin-jobs',
                         meta: {
                             title: 'Admin - Jobs',
-                            requiresAuth: true
+                            requiresAdmin: true
                         }
                     },
                     {
@@ -141,7 +148,7 @@ const routes = [
                         name: ':admin-job',
                         meta: {
                             title: 'Admin - Job Actions',
-                            requiresAuth: true
+                            requiresAdmin: true
                         }
                     }
                 ]
@@ -155,7 +162,7 @@ const routes = [
                         name: 'admin-users',
                         meta: {
                             title: 'Admin - Users',
-                            requiresAuth: true
+                            requiresAdmin: true
                         }
                     },
                     {
@@ -164,7 +171,7 @@ const routes = [
                         name: 'admin-user',
                         meta: {
                             title: 'Admin - User Actions',
-                            requiresAuth: true
+                            requiresAdmin: true
                         }
                     }
                 ]
@@ -220,11 +227,23 @@ const routes = [
         ]
     },
     {
+        path: '/error',
+        component: () => import('@/layouts/ErrorLayout.vue'),
+        children: [
+            {
+                path: '/404',
+                name: 'not-found',
+                component: () => import('@/views/Error/NotFound.vue'),
+                meta: {
+                    title: '404 Not Found'
+                }
+            }
+        ]
+    },
+    {
         path: '/:pathMatch(.*)*',
-        name: 'not-found',
-        component: () => import('@/views/Error/NotFound.vue'),
-        meta: {
-            title: '404 Not Found'
+        redirect: {
+            name: 'not-found'
         }
     }
 ];
@@ -233,7 +252,47 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 })
-router.beforeEach((to, from, next) => {
+const isLoggedIn = !!localStorage.getItem('token')
+const isAdmin = async () => {
+    if (!isLoggedIn) {
+        return false;
+    }
+    const result = await http.get('/api/role', {
+        headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+    })
+    return result.data.role === 'admin';
+}
+router.beforeEach(async (to, from, next) => {
+    if (to.meta.requiresAuth) {
+        if (isLoggedIn) {
+            next()
+        } else {
+            next({
+                name: 'not-found'
+            })
+        }
+        return;
+    }
+    if (to.meta.requiresAdmin) {
+        if (await isAdmin()) {
+            next()
+        } else {
+            next({
+                name: 'not-found'
+            })
+        }
+        return;
+    }
+    if (to.meta.guestOnly) {
+        if (!isLoggedIn) {
+            next()
+        } else {
+            next({
+                name: 'not-found'
+            })
+        }
+        return;
+    }
     document.title = to.meta.title
     next()
 })

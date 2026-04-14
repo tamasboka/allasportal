@@ -42,7 +42,7 @@ export default {
         <option value="not-given">Nem adom meg</option>
       </Field>
       <div class="d-flex justify-content-center">
-        <button class="mt-3 btn btn-success" type="submit">Regisztrálás</button>
+        <button class="mt-3 btn btn-warning" type="submit">Regisztrálás</button>
       </div>
     </Form>
   </section>

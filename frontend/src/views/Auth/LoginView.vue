@@ -28,7 +28,7 @@ export default {
       <Field name="email" class="mt-3 form-control" type="email" placeholder="Email"/>
       <Field name="password" class="mt-3 form-control" type="password" placeholder="Jelszó"/>
       <div class="d-flex justify-content-center">
-        <button class="mt-3 btn btn-success" type="submit">Bejelentezés</button>
+        <button class="mt-3 btn btn-warning" type="submit">Bejelentezés</button>
       </div>
     </Form>
   </section>

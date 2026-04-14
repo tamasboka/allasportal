@@ -39,6 +39,6 @@ export default {
   border-bottom: 5px solid var(--bs-secondary)
 }
 .one-time {
-  border-bottom: 5px solid #ffff47;
+  border-bottom: 5px solid var(--bs-warning);
 }
 </style>

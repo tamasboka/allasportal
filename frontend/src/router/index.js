@@ -76,9 +76,6 @@ const routes = [
     {
         path: '/admin',
         component: () => import("@/layouts/AdminLayout.vue"),
-        redirect: {
-            name: 'admin-home'
-        },
         children: [
             {
                 path: '',
@@ -102,9 +99,9 @@ const routes = [
                         }
                     },
                     {
-                        path: 'jobID',
+                        path: ':jobID',
                         component: () => import("@/views/Admin/Jobs/AdminJobActions.vue"),
-                        name: ':admin-job',
+                        name: 'admin-job',
                         meta: {
                             title: 'Admin - Job Actions',
                             requiresAdmin: true

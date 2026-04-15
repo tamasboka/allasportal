@@ -33,7 +33,7 @@ return new class extends Migration {
             $table->foreignIdFor(Job::class);
             $table->timestamps();
         });
-        Schema::create('user_skills', function (Blueprint $table) {
+        Schema::create('skill_user', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Skill::class);

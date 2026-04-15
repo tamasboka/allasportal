@@ -27,10 +27,10 @@ return new class extends Migration {
                 ->onDelete('cascade');
             */
             $table->string('name');
-            $table->string('job_type');
+            $table->string('job_type')->nullable();
             $table->integer('min_salary');
             $table->integer('max_salary');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->boolean('has_home_office');
             $table->integer('capacity');
             $table->enum('type', ['one-time', 'part-time', 'full-time']);

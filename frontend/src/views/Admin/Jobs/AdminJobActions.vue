@@ -1,11 +1,13 @@
 <script>
 export default {
-  name: "JobEdit"
+  name: "AdminJobActions"
 }
 </script>
 
 <template>
+<section>
 
+</section>
 </template>
 
 <style scoped>

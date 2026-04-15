@@ -20,6 +20,7 @@ class JobSeeder extends Seeder
             'job_type' => 'programmer',
             'min_salary' => 10000,
             'max_salary' => 670000,
+            'capacity' => 10,
             'location' => 'Hungary',
             'has_home_office' => 1,
             'type' => 'part-time'
@@ -30,6 +31,7 @@ class JobSeeder extends Seeder
             'job_type' => 'nem tudom',
             'min_salary' => 5000,
             'max_salary' => 10000,
+            'capacity' => 67,
             'location' => 'Hungary',
             'has_home_office' => 0,
             'type' => 'full-time'

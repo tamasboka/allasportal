@@ -36,11 +36,19 @@ class JobController extends Controller
      */
     public function store(JobRequest $request)
     {
-        $job = Job::create($request->validated());
+        if ($request->user()->tokenCan('user')) {
+            $validated = $request->validated();
+            $validated['user_id'] = $request->user()->id;
+            $job = Job::create($validated);
+            return response()->json([
+                "success" => true,
+                "data" => $job,
+            ], 201);
+        }
         return response()->json([
-            "success" => true,
-            "data" => $job,
-        ], 201);
+            "success" => false,
+            "message" => "Unauthorized",
+        ], 401);
     }
 
     /**
@@ -52,6 +60,7 @@ class JobController extends Controller
             $job = Job::with([
                 'owner',
                 'categories',
+                'workers',
                 'required_skills'
             ])->findOrFail($id);
         } catch (ModelNotFoundException $e) {

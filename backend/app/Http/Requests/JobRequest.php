@@ -29,12 +29,6 @@ class JobRequest extends FormRequest
                 'min:3',
                 'max:100',
             ],
-            'job_type' => [
-                'required',
-                'string',
-                'min:3',
-                'max:100',
-            ],
             'min_salary' => [
                 'required',
                 'integer',
@@ -49,10 +43,6 @@ class JobRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1',
-            ],
-            'location' => [
-                'required',
-                'string',
             ],
             'has_home_office' => [
                 'required',

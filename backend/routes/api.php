@@ -49,4 +49,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('notifications', NotificationController::class);
     Route::apiResource('ratings', RatingController::class);
     Route::get('/user/admin/{id}', [UserController::class, 'showAdmin']);
+    Route::post('/addskill', [JobController::class, 'addSkill']);
+    Route::post('/addcategory', [JobController::class, 'addCategory']);
 });

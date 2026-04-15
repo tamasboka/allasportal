@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JobAddCategoryRequest;
+use App\Http\Requests\JobAddSkillRequest;
 use App\Http\Requests\JobRequest;
 use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\Job\JobResource;
 use App\Models\Job;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
@@ -100,5 +103,29 @@ class JobController extends Controller
             "success" => true,
             "data" => $job,
         ], 200);
+    }
+    public function addCategory(JobAddCategoryRequest $request) {
+        $job = Job::findOrFail($request->category_id);
+        if ($request->user()->id === $job->user_id) {
+            $job->categories()->attach($request->category_id);
+            return response()->json([
+                "message" => "Skill added successfully",
+            ], 201);
+        }
+        return response()->json([
+            'message' => 'Unauthorized'
+        ]);
+    }
+    public function addSkill(JobAddSkillRequest $request) {
+        $job = Job::findOrFail($request->job_id);
+        if ($request->user()->id === $job->user_id) {
+            $job->required_skills()->attach($request->skill_id);
+            return response()->json([
+                "message" => "Skill added successfully",
+            ], 201);
+        }
+        return response()->json([
+            'message' => 'Unauthorized'
+        ]);
     }
 }

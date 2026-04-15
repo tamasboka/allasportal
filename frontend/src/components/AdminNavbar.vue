@@ -20,9 +20,6 @@ export default {
               <RouterLink class="nav-link" :to="{name: 'admin-jobs'}">Állások</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" :to="{name: 'admin-companies'}">Cégek</RouterLink>
-            </li>
-            <li class="nav-item">
               <RouterLink class="nav-link" :to="{name: 'admin-users'}">Felhasználók</RouterLink>
             </li>
           </ul>

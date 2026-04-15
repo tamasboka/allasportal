@@ -35,9 +35,6 @@ export default {
               <RouterLink class="nav-link" :to="{name: 'jobs'}">Állások</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" :to="{name: 'companies'}">Cégek</RouterLink>
-            </li>
-            <li class="nav-item">
               <RouterLink class="nav-link" :to="{name: 'about'}">Rólunk</RouterLink>
             </li>
           </ul>
@@ -54,6 +51,7 @@ export default {
                 <li class="bg-danger" v-if="isLoggedIn"><button class="dropdown-item bg-danger">Kijelentkezés</button></li>
               </ul>
             </div>
+            <RouterLink class="btn btn-warning" :to="{name: 'create-job'}">Új munka</RouterLink>
           </div>
         </div>
       </div>

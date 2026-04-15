@@ -36,24 +36,6 @@ const routes = [
                 ]
             },
             {
-                path: 'companies',
-                children: [
-                    {
-                        path: '',
-                        component: () => import("@/views/App/Companies/CompaniesView.vue"),
-                        name: 'companies',
-                        meta: {
-                            title: 'Cégek'
-                        }
-                    },
-                    {
-                        path: ':companyID',
-                        component: () => import("@/views/App/Companies/CompanyView.vue"),
-                        name: 'company',
-                    }
-                ]
-            },
-            {
                 path: 'about',
                 component: () => import('@/views/App/AboutUsView.vue'),
                 name: 'about',
@@ -106,29 +88,6 @@ const routes = [
                     title: 'Admin Home',
                     requiresAdmin: true
                 }
-            },
-            {
-                path: 'companies',
-                children: [
-                    {
-                        path: '',
-                        component: () => import("@/views/Admin/Company/AdminCompaniesView.vue"),
-                        name: 'admin-companies',
-                        meta: {
-                            title: 'Admin - Companies',
-                            requiresAdmin: true
-                        }
-                    },
-                    {
-                        path: ':companyID',
-                        component: () => import("@/views/Admin/Company/AdminCompanyActions.vue"),
-                        name: 'admin-company',
-                        meta: {
-                            title: 'Admin - Company Actions',
-                            requiresAdmin: true
-                        }
-                    }
-                ]
             },
             {
                 path: 'jobs',
@@ -201,28 +160,28 @@ const routes = [
                     requiresAuth: true
                 }
             },
+        ]
+    },
+    {
+        path: '/action',
+        children: [
             {
-                path: 'action',
-                children: [
-                    {
-                        path: 'create-job',
-                        component: () => import("@/views/User/Actions/CreateJob.vue"),
-                        name: 'create-job',
-                        meta: {
-                            title: 'Create Job',
-                            requiresAuth: true
-                        }
-                    },
-                    {
-                        path: 'edit-job',
-                        component: () => import("@/views/User/Actions/CreateJob.vue"),
-                        name: 'edit-job',
-                        meta: {
-                            title: 'Edit Job',
-                            requiresAuth: true
-                        }
-                    }
-                ]
+                path: 'create-job',
+                component: () => import("@/views/User/Actions/CreateJob.vue"),
+                name: 'create-job',
+                meta: {
+                    title: 'Create Job',
+                    requiresAuth: true
+                }
+            },
+            {
+                path: 'edit-job',
+                component: () => import("@/views/User/Actions/CreateJob.vue"),
+                name: 'edit-job',
+                meta: {
+                    title: 'Edit Job',
+                    requiresAuth: true
+                }
             }
         ]
     },
@@ -268,7 +227,7 @@ router.beforeEach(async (to, from, next) => {
             next()
         } else {
             next({
-                name: 'not-found'
+                name: 'register'
             })
         }
         return;
@@ -278,7 +237,7 @@ router.beforeEach(async (to, from, next) => {
             next()
         } else {
             next({
-                name: 'not-found'
+                name: 'unauthorized'
             })
         }
         return;
@@ -288,7 +247,7 @@ router.beforeEach(async (to, from, next) => {
             next()
         } else {
             next({
-                name: 'not-found'
+                name: 'home'
             })
         }
         return;

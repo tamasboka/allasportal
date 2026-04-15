@@ -53,7 +53,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
     public function workplaces()
     {
         return $this->belongsToMany(Job::class);
@@ -69,10 +68,10 @@ class User extends Authenticatable
         return $this->hasMany(Job::class);
     }
 
-    public function sent_notifications()
+    /*public function sent_notifications()
     {
         return $this->hasMany(Notification::class, 'from_user_id');
-    }
+    }*/
 
     public function received_notifications()
     {
@@ -80,7 +79,7 @@ class User extends Authenticatable
     }
     public function sent_ratings()
     {
-        return $this->hasMany(Rating::class, 'rater_user_id');
+        return $this->hasMany(Rating::class);
     }
 
     public function skills()

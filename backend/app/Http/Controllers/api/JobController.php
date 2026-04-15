@@ -20,7 +20,8 @@ class JobController extends Controller
             'owner',
             'categories',
             'required_skills',
-            'ratings'
+            'ratings',
+            'workers'
         ])->get();
         return (new JobCollection($jobs))
             ->response()

@@ -45,6 +45,11 @@ class JobRequest extends FormRequest
                 'integer',
                 'min:1',
             ],
+            'capacity' => [
+                'required',
+                'integer',
+                'min:1',
+            ],
             'location' => [
                 'required',
                 'string',

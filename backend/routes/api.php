@@ -34,7 +34,6 @@ Route::apiResource('/jobs', JobController::class)
 // User
 Route::apiResource('/user', UserController::class)
     ->middlewareFor(['index', 'update', 'destroy'], 'auth:sanctum');
-
 // Applications
 Route::apiResource('/applications', JobApplicationController::class)
     ->middleware('auth:sanctum');
@@ -45,4 +44,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('ratings', RatingController::class);
     Route::apiResource('skills', SkillController::class);
     Route::apiResource('categories', CategoryController::class);
+    Route::get('/user/admin/{id}', [UserController::class, 'showAdmin']);
 });

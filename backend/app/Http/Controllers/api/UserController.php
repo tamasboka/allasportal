@@ -33,33 +33,23 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, string $id)
+    public function show(string $id)
     {
         try {
-            if ($request->user()->id === $id) {
-                $user = User::with([
-                    'received_ratings',
-                    'sent_ratings',
-                    'works_at',
-                    'saved_jobs',
-                    'sent_notifications',
-                ])->findOrFail($id);
-            } else {
-                $user = User::with([
-                    'received_ratings',
-                    'sent_ratings',
-                    'works_at',
-                ])->findOrFail($id);
-            }
-            return (new UserResource($user))
-                ->response()
-                ->setStatusCode(200);
-
-        } catch (ModelNotFoundException $e) {
+            $user = User::with([
+                'workplaces',
+                'published_jobs',
+                'sent_ratings',
+                'skills'
+            ])->findOrFail($id);
+        } catch(ModelNotFoundException) {
             return response()->json([
-                "message" => "User not found"
+                'message' => 'User not found'
             ], 404);
         }
+        return (new UserResource($user))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -109,5 +99,29 @@ class UserController extends Controller
                 "message" => "Unauthorized"
             ], 401);
         }
+    }
+    public function showAdmin(Request $request, string $id) {
+        if ($request->user()->tokenCan('admin')) {
+            try {
+                $user = User::with([
+                    'workplaces',
+                    'saved_jobs',
+                    'published_jobs',
+                    'received_notifications',
+                    'sent_ratings',
+                    'skills'
+                ])->findOrFail($id);
+            } catch (ModelNotFoundException) {
+                return response()->json([
+                    'message' => 'User not found'
+                ], 404);
+            }
+            return (new UserResource($user))
+                ->response()
+                ->setStatusCode(200);
+        }
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
     }
 }

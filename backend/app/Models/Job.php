@@ -26,4 +26,7 @@ class Job extends Model
     public function ratings() {
         return $this->hasMany(Rating::class, 'job_id', 'id');
     }
+    public function workers() {
+        return $this->belongsToMany(User::class);
+    }
 }

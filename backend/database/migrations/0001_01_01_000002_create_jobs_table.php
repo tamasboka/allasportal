@@ -21,16 +21,18 @@ return new class extends Migration {
                 ->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreignIdFor(Organization::class)->nullable()
+            /*$table->foreignIdFor(Organization::class)->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            */
             $table->string('name');
             $table->string('job_type');
             $table->integer('min_salary');
             $table->integer('max_salary');
             $table->string('location');
             $table->boolean('has_home_office');
+            $table->integer('capacity');
             $table->enum('type', ['one-time', 'part-time', 'full-time']);
             $table->string('description')->nullable();
             $table->string('status')->nullable();
@@ -49,6 +51,12 @@ return new class extends Migration {
             $table->foreignIdFor(Category::class);
             $table->foreignIdFor(Job::class);
             $table->timestamps();
+        });
+
+        Schema::create('job_user', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Job::class);
         });
     }
 

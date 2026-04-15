@@ -15,18 +15,12 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->user()->tokenCan('admin')) {
-            $categories = Category::all();
-            return (new CategoryCollection($categories))
-                ->response()
-                ->setStatusCode(200);
-        } else {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
-        }
+        $categories = Category::all();
+        return (new CategoryCollection($categories))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**

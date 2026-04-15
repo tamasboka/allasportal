@@ -38,11 +38,15 @@ Route::apiResource('/user', UserController::class)
 Route::apiResource('/applications', JobApplicationController::class)
     ->middleware('auth:sanctum');
 
+Route::apiResource('skills', SkillController::class)
+    ->middlewareFor(['store', 'update', 'show', 'destroy'], 'auth:sanctum');
+
+Route::apiResource('categories', CategoryController::class)
+    ->middlewareFor(['store', 'update', 'show', 'destroy'], 'auth:sanctum');
+
 // Notifications, ratings
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('notifications', NotificationController::class);
     Route::apiResource('ratings', RatingController::class);
-    Route::apiResource('skills', SkillController::class);
-    Route::apiResource('categories', CategoryController::class);
     Route::get('/user/admin/{id}', [UserController::class, 'showAdmin']);
 });

@@ -15,18 +15,12 @@ class SkillController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->user()->tokenCan('admin')) {
-            $skills = Skill::all();
-            return (new SkillCollection($skills))
-                ->response()
-                ->setStatusCode(200);
-        } else {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
-        }
+        $skills = Skill::all();
+        return (new SkillCollection($skills))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**

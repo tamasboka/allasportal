@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     public $table = 'jobs';
+    public $fillable = [
+        'name',
+        'description',
+        'min_salary',
+        'max_salary',
+        'capacity',
+        'has_home_office',
+        'job_type',
+        'type',
+        'user_id'
+    ];
 
     public function owner()
     {

@@ -31,7 +31,6 @@ class JobAddCategoryRequest extends FormRequest
                 'required',
                 'integer',
                 'exists:categories,id',
-                'unique:category_job,category_id'
             ]
         ];
     }

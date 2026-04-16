@@ -1,6 +1,7 @@
 <script>
 import {getJobById} from "@/data/data.js";
 import Spinner from "@/components/Spinner.vue";
+import {http} from "@/utils/http.js";
 
 export default {
   name: "JobView",
@@ -25,6 +26,20 @@ export default {
     }
   },
   methods: {
+    async SaveJob(){
+      try {
+        await http.post('/api/savejob',{
+          job_id:this.job.id,
+        },{
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+          }
+        })
+      }catch (e){
+        console.log(e.message)
+      }
+    },
+
     async getJob(id) {
       this.loading = true
       try {
@@ -56,7 +71,7 @@ export default {
         <p>{{job.description}}</p>
         <div class="d-flex">
           <button class="btn btn-primary me-2">Jelentkezés</button>
-          <button class="btn btn-secondary ms-2">Mentés</button>
+          <button class="btn btn-secondary ms-2" @click="SaveJob">Mentés</button>
         </div>
       </div>
       <aside class="col-12 col-lg-4 col-md-6 col-sm-12">

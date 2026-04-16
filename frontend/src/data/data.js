@@ -22,3 +22,7 @@ export async function getAllCategories(){
 export async function getAllSkills(){
     return await http.get('/api/skills')
 }
+
+export async function getUserById(id) {
+    return await http.get('/api/user/' + id)
+}

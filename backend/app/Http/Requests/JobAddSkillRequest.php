@@ -31,7 +31,6 @@ class JobAddSkillRequest extends FormRequest
                 'required',
                 'integer',
                 'exists:skills,id',
-                'unique:job_skill,skill_id'
             ]
         ];
     }

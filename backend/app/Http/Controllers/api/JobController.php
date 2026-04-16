@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobAddCategoryRequest;
 use App\Http\Requests\JobAddSkillRequest;
 use App\Http\Requests\JobRequest;
+use App\Http\Requests\SaveJobRequest;
 use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\Job\JobResource;
 use App\Models\Job;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JobController extends Controller
 {
@@ -135,6 +137,12 @@ class JobController extends Controller
         }
         return response()->json([
             'message' => 'Unauthorized'
+        ]);
+    }
+    public function saveJob(SaveJobRequest $request) {
+        DB::table('user_saved_jobs')->insert([
+            'job_id' => $request->job_id,
+            'user_id' => $request->user()->id,
         ]);
     }
 }

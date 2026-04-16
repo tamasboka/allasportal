@@ -26,3 +26,11 @@ export async function getAllSkills(){
 export async function getUserById(id) {
     return await http.get('/api/user/' + id)
 }
+
+export async function getSavedJobs(){
+    return await http.get('/api/savedjobs',{
+        headers:{
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    })
+}

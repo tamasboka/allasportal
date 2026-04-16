@@ -114,7 +114,7 @@ class JobController extends Controller
         ], 200);
     }
     public function addCategory(JobAddCategoryRequest $request) {
-        $job = Job::findOrFail($request->category_id);
+        $job = Job::findOrFail($request->job_id);
         if ($request->user()->id === $job->user_id) {
             $job->categories()->attach($request->category_id);
             return response()->json([

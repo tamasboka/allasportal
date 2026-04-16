@@ -144,5 +144,8 @@ class JobController extends Controller
             'job_id' => $request->job_id,
             'user_id' => $request->user()->id,
         ]);
+        return response()->json([
+            "message" => "Job saved successfully",
+        ], 201);
     }
 }

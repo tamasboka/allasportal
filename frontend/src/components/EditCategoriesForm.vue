@@ -58,6 +58,19 @@ export default {
 
 <template>
   <h1 class="bg-warning text-center">Kategóriák</h1>
+  <div class="row">
+    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
+      <p class="me-5">Új kategória</p>
+    </div>
+    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
+      <select v-if="!categoriesLoading" v-model="categoryID" class="form-select">
+        <option :value="category.id" v-for="category in allCategories">{{ category.name }}</option>
+      </select>
+    </div>
+    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
+      <button class="btn btn-success" @click="addCategory">Hozzáadás</button>
+    </div>
+  </div>
   <h2 v-if="!categories.length">Nincsenek hozzáadott kategóriák!</h2>
   <table class="table table-striped" v-else>
     <thead>
@@ -73,19 +86,7 @@ export default {
     </tr>
     </tbody>
   </table>
-  <div class="row">
-    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
-      <p class="me-5">Új kategória</p>
-    </div>
-    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
-      <select v-if="!categoriesLoading" v-model="categoryID" class="form-select">
-        <option :value="category.id" v-for="category in allCategories">{{ category.name }}</option>
-      </select>
-    </div>
-    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
-      <button class="btn btn-success" @click="addCategory">Hozzáadás</button>
-    </div>
-  </div>
+
 </template>
 
 <style scoped>

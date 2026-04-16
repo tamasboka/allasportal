@@ -52,5 +52,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/addskill', [JobController::class, 'addSkill']);
     Route::post('/addcategory', [JobController::class, 'addCategory']);
     Route::post('/savejob', [JobController::class, 'saveJob']);
+    Route::get('/savedjobs', [UserController::class, 'savedJobs']);
     Route::get('/me', [AuthController::class, 'me']);
 });

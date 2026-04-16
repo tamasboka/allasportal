@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\EditUserRequest;
+use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
@@ -123,5 +124,10 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Unauthorized'
         ], 401);
+    }
+    public function savedJobs(Request $request) {
+        return (new JobCollection($request->user()->saved_jobs))
+            ->response()
+            ->setStatusCode(200);
     }
 }

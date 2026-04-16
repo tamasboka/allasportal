@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {http} from "@/utils/http.js";
+import {getJobById, getUserById} from "@/data/data.js";
 
 
 const routes = [
@@ -144,9 +145,14 @@ const routes = [
                 path: ':userID',
                 component: () => import("@/views/User/UserView.vue"),
                 name: 'user-home',
-                meta: {
-                    title: ''
-                }
+                beforeEnter: async (to) => {
+                    const user = await getUserById(to.params.userID)
+                    console.log(user)
+                    if (!user) return
+                    to.meta.prefetched = {user}
+                    to.meta.title = user.data.data.firstname + " " + user.data.data.lastname
+                    return true
+                },
             },
             {
                 path: 'settings',
@@ -172,11 +178,20 @@ const routes = [
                 }
             },
             {
-                path: 'edit-job',
-                component: () => import("@/views/User/Actions/CreateJob.vue"),
+                path: 'edit-job/:jobID',
+                component: () => import("@/views/User/Actions/EditJob.vue"),
                 name: 'edit-job',
+                beforeEnter: async (to) => {
+                    const job = await getJobById(to.params.jobID)
+                    if (!job) {
+                        await this.$router.push({name: 'not-found'})
+                        return
+                    }
+                    to.meta.prefetched = {job}
+                    to.meta.title = "Szerkesztés | " + job.data.data.name
+                    return true
+                },
                 meta: {
-                    title: 'Edit Job',
                     requiresAuth: true
                 }
             }
@@ -192,6 +207,14 @@ const routes = [
                 component: () => import('@/views/Error/NotFound.vue'),
                 meta: {
                     title: '404 Not Found'
+                }
+            },
+            {
+                path: '401',
+                name: 'unauthorized',
+                component: () => import('@/views/Error/Unauthorized.vue'),
+                meta: {
+                    title: '401 Unauthorized'
                 }
             }
         ]
@@ -249,7 +272,9 @@ router.beforeEach(async (to, from, next) => {
         }
         return;
     }
-    document.title = to.meta.title
     next()
+})
+router.afterEach((to) => {
+    document.title = to.meta.title
 })
 export default router

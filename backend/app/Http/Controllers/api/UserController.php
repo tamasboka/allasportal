@@ -131,7 +131,7 @@ class UserController extends Controller
             'categories',
             'workers',
             'required_skills'
-        ])))
+        ])->get()))
             ->response()
             ->setStatusCode(200);
     }

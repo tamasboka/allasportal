@@ -5,7 +5,9 @@ export default {
 </script>
 
 <template>
-
+  <section>
+    <h1 class="bg-danger">404 - Not Found</h1>
+  </section>
 </template>
 
 <style scoped>

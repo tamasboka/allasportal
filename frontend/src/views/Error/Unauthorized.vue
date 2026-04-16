@@ -5,9 +5,9 @@ export default {
 </script>
 
 <template>
-<section>
-  <h1>Unauthorized</h1>
-</section>
+  <section>
+    <h1 class="bg-danger">401 - Unauthorized</h1>
+  </section>
 </template>
 
 <style scoped>

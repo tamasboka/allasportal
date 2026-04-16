@@ -75,6 +75,7 @@ export default {
               </ul>
             </div>
             <RouterLink class="btn btn-warning" :to="{name: 'create-job'}">Új munka</RouterLink>
+            <RouterLink class="btn btn-warning" v-if="isLoggedIn" :to="{name: 'saved-jobs'}"><i class="bi bi-star-fill"></i></RouterLink>
           </div>
         </div>
       </div>

@@ -28,6 +28,7 @@ class JobResource extends JsonResource
             "type" => $this->type,
             "min_salary" => $this->min_salary,
             "max_salary" => $this->max_salary,
+            "description" => $this->description,
             "advertiser" => new UserResource($this->whenLoaded('owner')),
             "applications" => new JobApplicationCollection($this->whenLoaded('received_applications')),
             "categories" => new CategoryCollection($this->whenLoaded('categories')),

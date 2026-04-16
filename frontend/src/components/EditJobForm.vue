@@ -81,7 +81,7 @@ export default {
           </label>
           <Field name="capacity" id="capacity" :value="job.capacity" class="form-control"/>
         </div>
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center mt-3">
           <label for="description" class="form-label me-2">
             Leírás
           </label>

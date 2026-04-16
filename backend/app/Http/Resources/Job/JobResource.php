@@ -33,7 +33,7 @@ class JobResource extends JsonResource
             "applications" => new JobApplicationCollection($this->whenLoaded('received_applications')),
             "categories" => new CategoryCollection($this->whenLoaded('categories')),
             "workers" => new UserCollection($this->whenLoaded('workers')),
-            "worker_count" => new UserCollection($this->whenLoaded('workers'))->count(),
+            //"worker_count" => new UserCollection($this->whenLoaded('workers'))->count(),
             "skills" => new SkillCollection($this->whenLoaded('required_skills')),
             "ratings" => new RatingCollection($this->whenLoaded('ratings')),
         ];

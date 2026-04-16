@@ -1,9 +1,13 @@
 <script>
 import {http} from "@/utils/http.js";
-
-
 export default {
   name: "Navbar",
+  data() {
+    return {
+      user: {},
+      userLoading: true
+    }
+  },
   computed:{
     isLoggedIn(){
       return !!localStorage.getItem('token')
@@ -15,7 +19,21 @@ export default {
       localStorage.removeItem('token')
       alert("Sikeres kijelentkezés")
       this.$router.push()
+    },
+    async getUserData() {
+      this.userLoading = true
+      if (!this.isLoggedIn) return
+      const res = await http.get('/api/me', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      this.userLoading = false
+      this.user = res.data.data
     }
+  },
+  mounted() {
+    this.getUserData()
   }
 }
 </script>
@@ -39,8 +57,13 @@ export default {
             </li>
           </ul>
           <div class="d-flex gap-3">
-            <RouterLink class="btn btn-primary rounded-pill" :to="{name: 'register'}">Regisztrálás</RouterLink>
-            <RouterLink class="btn btn-secondary rounded-pill" :to="{name: 'login'}">Bejelentkezés</RouterLink>
+            <div v-if="!isLoggedIn">
+              <RouterLink class="btn btn-primary rounded-pill" :to="{name: 'register'}">Regisztrálás</RouterLink>
+              <RouterLink class="btn btn-secondary rounded-pill" :to="{name: 'login'}">Bejelentkezés</RouterLink>
+            </div>
+            <div v-else-if="isLoggedIn && !userLoading">
+              <RouterLink :to="{name: 'user-home', params: {userID: user.id}}" class="btn btn-primary">{{ user.firstname }} {{ user.lastname }}</RouterLink>
+            </div>
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear"></i>

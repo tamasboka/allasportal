@@ -6,9 +6,9 @@ export default {
 </script>
 
 <template>
-<main class="min-vh-100">
-  <RouterView/>
-</main>
+  <main class="min-vh-100 d-flex justify-content-center align-items-center">
+    <RouterView/>
+  </main>
 </template>
 
 <style scoped>

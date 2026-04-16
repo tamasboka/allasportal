@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {http} from "@/utils/http.js";
-import {getJobById, getUserById} from "@/data/data.js";
+import {getJobById, getSavedJobs, getUserById} from "@/data/data.js";
 
 
 const routes = [
@@ -153,6 +153,21 @@ const routes = [
                     to.meta.title = user.data.data.firstname + " " + user.data.data.lastname
                     return true
                 },
+            },
+            {
+                path: 'saved',
+                component: ()=> import("@/views/User/SavedJobs.vue"),
+                name: 'saved-jobs',
+                meta: {
+                    title: 'Saved jobs',
+                    requiresAuth: true
+                },
+                beforeEnter: async(to)=>{
+                    const result = await getSavedJobs();
+                    const jobs=result.data.data;
+                    to.meta.prefetched={jobs}
+                    return true;
+                }
             },
             {
                 path: 'settings',

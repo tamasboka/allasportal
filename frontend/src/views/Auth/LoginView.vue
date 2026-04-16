@@ -9,7 +9,7 @@ export default {
     async Login(data){
       try{
         const result = await http.post('/api/login',data)
-        localStorage.setItem('token',result.data.data.token)
+        localStorage.setItem('token',result.data.token)
       }catch (e){
         console.log(e.message)
       }

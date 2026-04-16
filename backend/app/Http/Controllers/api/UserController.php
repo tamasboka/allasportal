@@ -126,7 +126,12 @@ class UserController extends Controller
         ], 401);
     }
     public function savedJobs(Request $request) {
-        return (new JobCollection($request->user()->saved_jobs))
+        return (new JobCollection($request->user()->saved_jobs()->with([
+            'owner',
+            'categories',
+            'workers',
+            'required_skills'
+        ])))
             ->response()
             ->setStatusCode(200);
     }

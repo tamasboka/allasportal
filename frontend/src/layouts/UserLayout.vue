@@ -1,11 +1,11 @@
 <script>
 export default {
-  name: "UserLayout"
+  name: "UserLayout",
 }
 </script>
 
 <template>
-
+<RouterView/>
 </template>
 
 <style scoped>

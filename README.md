@@ -9,10 +9,24 @@
 
 ## :man_technologist: Fejlesztők
 - [**Bóka Tamás**](https://github.com/tamasboka)
-    - mit csinalt szoveg template
+    - Backend
 - [**Beretzky Bence**](https://github.com/BBence1)
-    - mit csinalt szoveg template
+    - Frontend
 
+## :wrench: Setup
+### Backend
+1) ```cd backend```
+2) Windows: ``copy .env.example .env`` | Linux: ```cp .env.example .env``` VAGY manuálisan át kell nevezni a .env.example-t .env-re
+3) ```composer i```
+4) ```php artisan key:generate```
+5) ```php artisan migrate```
+6) ```php artisan db:seed```
+7) ```php artisan serve```
+
+### Frontend
+1) ```cd frontend```
+2) ```npm i``` VAGY ```npm install```
+3) ```npm run dev```
 ## :information_source: A projektről
 
 > A projektünk célja egy olyan hibrid állásportál elkészítése, ami egyszerre ad lehetőséget szabadúszóknak, akik egyszeri munkát keresnek és cégeknek is, akik full-time állásokhoz keresnek alkalmazottakat.
@@ -37,7 +51,7 @@
         - Boltok
     #### *...és ez még csak a jéghegy csúcsa!*
 - Kezdés dátuma: ```2026. 01. 22```
-- Befejezés dátuma: ```???```
+- Befejezés dátuma: ```2026 04 17``` előtt
 
 ## :closed_book: Felhasználói dokumentáció
 

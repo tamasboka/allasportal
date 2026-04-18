@@ -44,11 +44,10 @@ class RegisterRequest extends FormRequest
                 'required',
                 'string',
                 'min:8',
-                'max:25'
             ],
             'gender' => [
                 'string',
-                'in:male,female'
+                'in:male,female,not-given'
             ],
             'birthdate' => [
                 'date',

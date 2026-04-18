@@ -9,7 +9,9 @@ use App\Http\Requests\JobRequest;
 use App\Http\Requests\SaveJobRequest;
 use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\Job\JobResource;
+use App\Models\Category;
 use App\Models\Job;
+use App\Models\Skill;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -63,7 +65,8 @@ class JobController extends Controller
                 'owner',
                 'categories',
                 'workers',
-                'required_skills'
+                'required_skills',
+                'ratings'
             ])->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return response()->json([
@@ -127,6 +130,17 @@ class JobController extends Controller
             'message' => 'Unauthorized'
         ]);
     }
+    public function removeCategory(Job $job, Category $category, Request $request) {
+        if ($request->user()->id === $job->user_id) {
+            $job->categories()->detach($category->id);
+            return response()->json([
+                "message" => "Category removed successfully",
+            ], 204);
+        }
+        return response()->json([
+            'message' => 'Unauthorized'
+        ]);
+    }
     public function addSkill(JobAddSkillRequest $request) {
         $job = Job::findOrFail($request->job_id);
         if ($request->user()->id === $job->user_id) {
@@ -138,6 +152,17 @@ class JobController extends Controller
         return response()->json([
             'message' => 'Unauthorized'
         ]);
+    }
+    public function removeSkill(Job $job, Skill $skill, Request $request) {
+        if ($request->user()->id === $job->user_id) {
+            $job->required_skills()->detach($skill->id);
+            return response()->json([
+                "message" => "Skill removed successfully",
+            ], 204);
+        }
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
     }
     public function saveJob(SaveJobRequest $request) {
         DB::table('user_saved_jobs')->insert([

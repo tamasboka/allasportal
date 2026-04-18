@@ -5,7 +5,9 @@ export default {
 </script>
 
 <template>
-<RouterView/>
+  <main class="min-vh-100">
+    <RouterView/>
+  </main>
 </template>
 
 <style scoped>

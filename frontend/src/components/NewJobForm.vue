@@ -6,17 +6,15 @@ export default {
   components: {Form, ErrorMessage, Field},
   data() {
     return {
-      job_type: '',
       has_home_office: false
     }
   },
   methods: {
     async Create(data) {
       try {
-        console.log({...data, type: this.job_type, has_home_office: this.has_home_office})
+        console.log({...data, has_home_office: this.has_home_office})
         const res = await http.post('/api/jobs', {
           ...data,
-          type: this.job_type,
           has_home_office: this.has_home_office
         }, {
           headers: {
@@ -67,18 +65,33 @@ export default {
   <section class="mt-3">
     <h1 class="text-center mb-4">Új munka</h1>
     <Form @submit="Create">
-      <Field name="name" class="mt-3 form-control" type="text" placeholder="Munka neve"/>
-      <select v-model="job_type" name="type" class="mt-3 form-select">
+      <ErrorMessage class="alert alert-danger text-center" name="name" as="p"/>
+      <ErrorMessage class="alert alert-danger text-center" name="type" as="p"/>
+      <ErrorMessage class="alert alert-danger text-center" name="min_salary" as="p"/>
+      <ErrorMessage class="alert alert-danger text-center" name="max_salary" as="p"/>
+      <ErrorMessage class="alert alert-danger text-center" name="capacity" as="p"/>
+      <ErrorMessage class="alert alert-danger text-center" name="description" as="p"/>
+      <Field name="name" class="mt-3 form-control" type="text" placeholder="Munka neve" rules="required|min:3|max:100"/>
+      <Field name="type" as="select" class="mt-3 form-select" rules="required">
         <option selected hidden="hidden">Típus</option>
         <option value="full-time">Teljes munka</option>
         <option value="part-time">Részmunka</option>
         <option value="one-time">Egyszeri munka</option>
-      </select>
-      <Field name="min_salary" class="form-control mt-3" type="number" placeholder="Minimum fizetés"/>
-      <Field name="max_salary" class="form-control mt-3" type="number" placeholder="Maximum fizetés"/>
+      </Field>
+      <div class="input-group mt-3">
+        <Field name="min_salary" class="form-control" type="number" placeholder="Minimum fizetés" rules="required|min:1"/>
+        <span class="input-group-text">Ft</span>
+      </div>
+      <div class="input-group mt-3">
+        <Field name="max_salary" class="form-control" type="number" placeholder="Maximum fizetés" rules="required|min:1"/>
+        <span class="input-group-text">Ft</span>
+      </div>
       <Field name="location" class="form-control mt-3" type="text" placeholder="Hely (nem kötelező)"/>
-      <Field name="capacity" class="mt-3 form-control" type="number" placeholder="Férőhely"/>
-      <Field as="textarea" name="description" class="mt-3 form-control" placeholder="Leírás"/>
+      <div class="input-group mt-3">
+        <Field name="capacity" class="form-control" type="number" placeholder="Férőhely" rules="required|min:1"/>
+        <span class="input-group-text">Fő</span>
+      </div>
+      <Field as="textarea" name="description" class="mt-3 form-control" placeholder="Leírás" rules="required|min:3|max:500"/>
 
       <div class="d-flex">
         <label class="mt-3 me-2" for="has_home_office">Lehet dolgozni home office-ban</label>

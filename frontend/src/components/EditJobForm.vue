@@ -39,7 +39,7 @@ export default {
 <template>
   <div class="row">
     <div class="col-12 col-lg-4 col-md-12 col-sm-12 mt-5">
-      <h1 class="bg-primary text-center">Alap adatok</h1>
+      <h1 class="border-bottom border-4 border-primary text-center mb-4 fw-bold">Alap adatok</h1>
       <Form @submit="editJob">
         <div class="d-flex align-items-center">
           <label for="name" class="form-label me-2">

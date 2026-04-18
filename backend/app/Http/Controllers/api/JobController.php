@@ -173,4 +173,25 @@ class JobController extends Controller
             "message" => "Job saved successfully",
         ], 201);
     }
+    public function getApplications(Request $request, string $jobID) {
+        try {
+            $job = Job::with([
+                'received_applications.sender',
+            ])->findOrFail($jobID);
+            if ($job->user_id !== $request->user()->id) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Unauthorized"
+                ], 401);
+            }
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                "success" => false,
+                "message" => "Job not found"
+            ], 404);
+        }
+        return (new JobResource($job))
+            ->response()
+            ->setStatusCode(200);
+    }
 }

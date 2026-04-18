@@ -124,4 +124,40 @@ class JobApplicationController extends Controller
             ], 401);
         }
     }
+    public function acceptApplication(Request $request, string $applicationID) {
+        try {
+            $application = JobApplication::findOrFail($applicationID);
+            $job = $application->receiver;
+        } catch (ModelNotFoundException) {
+            return response()->json([
+                "message" => "Application not found"
+            ], 404);
+        }
+        if ($request->user()->id === $job->user_id) {
+            $application->update([
+                'status' => 'accepted'
+            ]);
+            $job->workers()->attach($application->user_id);
+            return response()->json([
+                "message" => 'Application accepted successfully'
+            ]);
+        }
+        $application->delete();
+        return response()->json([
+            "message" => "Unauthorized"
+        ], 401);
+    }
+    public function rejectApplication(Request $request, string $applicationID) {
+        try {
+            $application = JobApplication::findOrFail($applicationID);
+        } catch (ModelNotFoundException) {
+            return response()->json([
+                "message" => "Application not found"
+            ], 404);
+        }
+        $application->delete();
+        return response()->json([
+            "message" => "Application rejected"
+        ]);
+    }
 }

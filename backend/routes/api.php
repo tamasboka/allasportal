@@ -55,5 +55,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/addcategory', [JobController::class, 'addCategory']);
     Route::post('/savejob', [JobController::class, 'saveJob']);
     Route::get('/savedjobs', [UserController::class, 'savedJobs']);
+    Route::get('/job/{job}/applications', [JobController::class, 'getApplications']);
+    Route::post('/acceptapplication/{id}', [JobApplicationController::class, 'acceptApplication']);
+    Route::post('/rejectapplication/{id}', [JobApplicationController::class, 'rejectApplication']);
     Route::get('/me', [AuthController::class, 'me']);
 });

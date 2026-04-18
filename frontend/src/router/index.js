@@ -33,6 +33,13 @@ const routes = [
                         path: ':jobID',
                         component: () => import("@/views/App/Jobs/JobView.vue"),
                         name: 'job',
+                        beforeEnter: async (to) => {
+                            const job = await getJobById(to.params.jobID)
+                            if (!job) return {name: 'not-found'}
+                            to.meta.prefetched = job.data.data
+                            to.meta.title = job.data.data.name
+                            return true
+                        }
                     }
                 ]
             },
@@ -148,7 +155,7 @@ const routes = [
                 beforeEnter: async (to) => {
                     const user = await getUserById(to.params.userID)
                     console.log(user)
-                    if (!user) return
+                    if (!user) return {name: 'not-found'}
                     to.meta.prefetched = {user}
                     to.meta.title = user.data.data.firstname + " " + user.data.data.lastname
                     return true
@@ -156,16 +163,16 @@ const routes = [
             },
             {
                 path: 'saved',
-                component: ()=> import("@/views/User/SavedJobs.vue"),
+                component: () => import("@/views/User/SavedJobs.vue"),
                 name: 'saved-jobs',
                 meta: {
                     title: 'Saved jobs',
                     requiresAuth: true
                 },
-                beforeEnter: async(to)=>{
+                beforeEnter: async (to) => {
                     const result = await getSavedJobs();
-                    const jobs=result.data.data;
-                    to.meta.prefetched={jobs}
+                    const jobs = result.data.data;
+                    to.meta.prefetched = {jobs}
                     return true;
                 }
             },
@@ -199,8 +206,7 @@ const routes = [
                 beforeEnter: async (to) => {
                     const job = await getJobById(to.params.jobID)
                     if (!job) {
-                        await this.$router.push({name: 'not-found'})
-                        return
+                        return {name: 'not-found'}
                     }
                     to.meta.prefetched = {job}
                     to.meta.title = "Szerkesztés | " + job.data.data.name
@@ -246,23 +252,23 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 })
-const isLoggedIn = !!localStorage.getItem('token')
-const isAdmin = async () => {
-    if (!isLoggedIn) {
-        return false;
-    }
-    const result = await http.get('/api/role', {
-        headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
-    })
-    return result.data.role === 'admin';
-}
 router.beforeEach(async (to, from, next) => {
+    const isLoggedIn = !!localStorage.getItem('token')
+    const isAdmin = async () => {
+        if (!isLoggedIn) {
+            return false;
+        }
+        const result = await http.get('/api/role', {
+            headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+        })
+        return result.data.role === 'admin';
+    }
     if (to.meta.requiresAuth) {
         if (isLoggedIn) {
             next()
         } else {
             next({
-                name: 'register'
+                name: 'login'
             })
         }
         return;

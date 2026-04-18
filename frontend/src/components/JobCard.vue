@@ -8,15 +8,13 @@ export default {
       required: true
     }
   },
-  computed:{
-    Translate(){
-      if (this.job.type === "full-time"){
+  computed: {
+    Translate() {
+      if (this.job.type === "full-time") {
         return "Teljes munka"
-      }
-      else if(this.job.type === "part-time"){
+      } else if (this.job.type === "part-time") {
         return "Részmunka"
-      }
-      else if(this.job.type === "one-time"){
+      } else if (this.job.type === "one-time") {
         return "Egyszeri munka"
       }
     }
@@ -27,24 +25,44 @@ export default {
 <template>
   <section>
     <div class="card" :class="job.type">
-      <div class="card-body">
-        <h1 class="card-title text-dark">{{ job.name }}</h1>
-        <p class="card-text text-dark">({{Translate}})</p>
-        <p class="card-text text-dark">{{ job.advertiser.firstname }} {{ job.advertiser.lastname }}</p>
-        <RouterLink :to="{name: 'job', params: {jobID: job.id}}" class="btn btn-outline-dark">Részletek</RouterLink>
+      <div class="card-body d-flex flex-column p-4">
+        <div class="mb-2">
+          <h2 class="h4 fw-bold mb-1 text-dark">{{ job.name }}</h2>
+          <p class="text-muted fw-bold text-uppercase">{{ Translate }}</p>
+        </div>
+        <p class="card-text text-secondary mb-4">
+          <i class="bi bi-person-fill"></i> {{ job.advertiser.firstname }} {{ job.advertiser.lastname }}
+        </p>
+        <RouterLink
+            :to="{name: 'job', params: {jobID: job.id}}"
+            class="btn btn-dark px-4 fw-bold">
+          Részletek
+        </RouterLink>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-.full-time{
-    border: 10px solid var(--bs-primary);
+.card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #fff;
 }
-.part-time{
-    border: 10px solid var(--bs-secondary);
+
+.card:hover {
+  transform: translate(-10px, -10px);
+  box-shadow: 8px 8px black;
 }
-.one-time{
-  border: 10px solid #ffff47;
+
+.full-time {
+  border-left: 10px solid var(--bs-primary) !important;
+}
+
+.part-time {
+  border-left: 10px solid var(--bs-secondary) !important;
+}
+
+.one-time {
+  border-left: 10px solid #ffff47 !important;
 }
 </style>

@@ -12,6 +12,7 @@ use App\Http\Resources\Job\JobResource;
 use App\Models\Category;
 use App\Models\Job;
 use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -193,5 +194,18 @@ class JobController extends Controller
         return (new JobResource($job))
             ->response()
             ->setStatusCode(200);
+    }
+
+    public function fireUser(Request $request, Job $job, User $user)
+    {
+        if ($request->user()->id === $job->user_id) {
+            $job->workers()->detach($user->id);
+            return response()->json([
+                "message" => "Woker successfully fired"
+            ]);
+        }
+        return response()->json([
+            "message" => "Unauthorized"
+        ], 401);
     }
 }

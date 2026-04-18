@@ -1,15 +1,30 @@
 <script>
+import {http} from "@/utils/http.js";
+
 export default {
   name: "EditWorkersForm",
   props: {
     workers: {
       type: Array,
       required: true
+    },
+    jobID: {
+      type: Number,
+      required: true
     }
   },
   methods: {
-    kickWorker(id) {
-
+    async kickWorker(id) {
+      try {
+        await http.delete(`/api/jobs/${this.jobID}/user/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+      } catch (e) {
+        console.log(e.message)
+      }
+      this.workers.splice(this.workers.findIndex(worker => worker.id === id), 1)
     }
   }
 }
@@ -17,7 +32,7 @@ export default {
 
 <template>
   <div class="mt-5">
-    <h1 class="text-success text-center">Dolgozók</h1>
+    <h1 class="text-success text-center fw-bold">Dolgozók</h1>
     <h2 v-if="!workers.length" class="text-center">Nincsenek dolgozók!</h2>
     <table class="table table-striped" v-else>
       <thead>
@@ -29,7 +44,7 @@ export default {
       <tbody>
       <tr v-for="worker in workers">
         <td>{{ worker.firstname }} {{ worker.lastname }}</td>
-        <td><button class="btn btn-danger"><i class="bi bi-door-open"></i></button></td>
+        <td><button class="btn btn-danger" @click="kickWorker(worker.id)"><i class="bi bi-door-open"></i></button></td>
       </tr>
       </tbody>
     </table>

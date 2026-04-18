@@ -1,25 +1,26 @@
 import {http} from '@/utils/http.js'
-export async function getAllJobs(){
+
+export async function getAllJobs() {
     return await http.get('/api/jobs')
 }
 
-export async function getJobById(id){
-    return await  http.get('/api/jobs/'+id)
+export async function getJobById(id) {
+    return await http.get('/api/jobs/' + id)
 }
 
-export async function getAllUsers(){
-    return await http.get('/api/user',{
+export async function getAllUsers() {
+    return await http.get('/api/user', {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     })
 }
 
-export async function getAllCategories(){
+export async function getAllCategories() {
     return await http.get('/api/categories')
 }
 
-export async function getAllSkills(){
+export async function getAllSkills() {
     return await http.get('/api/skills')
 }
 
@@ -27,10 +28,18 @@ export async function getUserById(id) {
     return await http.get('/api/user/' + id)
 }
 
-export async function getSavedJobs(){
-    return await http.get('/api/savedjobs',{
-        headers:{
-            Authorization:`Bearer ${localStorage.getItem('token')}`
+export async function getSavedJobs() {
+    return await http.get('/api/savedjobs', {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+}
+
+export async function getApplications(jobID) {
+    return await http.get(`/api/job/${jobID}/applications`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     })
 }

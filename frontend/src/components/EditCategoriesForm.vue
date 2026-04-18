@@ -47,7 +47,22 @@ export default {
       } catch (e) {
         console.log(e)
       }
-      this.$router.go()
+      this.categories.push({
+        id: this.categoryID,
+        name: this.allCategories.find(cat => cat.id === this.categoryID).name
+      })
+    },
+    async removeCategory(cat_id) {
+      try {
+        await http.delete(`/api/jobs/${this.job_id}/category/${cat_id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+      } catch (e) {
+        console.log(e.message)
+      }
+      this.categories.splice(this.categories.findIndex(cat => cat.id === cat_id), 1)
     }
   },
   mounted() {
@@ -57,7 +72,7 @@ export default {
 </script>
 
 <template>
-  <h1 class="bg-warning text-center">Kategóriák</h1>
+  <h1 class="border-bottom border-4 border-warning text-center fw-bold mb-4">Kategóriák</h1>
   <div class="row">
     <div class="col-12 col-lg-4 col-md-12 col-sm-12">
       <p class="me-5">Új kategória</p>
@@ -82,7 +97,7 @@ export default {
     <tbody>
     <tr v-for="category in categories">
       <td>{{ category.name }}</td>
-      <td><button class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button></td>
+      <td><button class="btn btn-danger" @click="removeCategory(category.id)"><i class="bi bi-trash3-fill"></i></button></td>
     </tr>
     </tbody>
   </table>

@@ -8,7 +8,7 @@ export default {
     return {
       allSkills: [],
       skillsLoading: false,
-      skillId: 0
+      skillId: 0,
     }
   },
   props: {
@@ -47,7 +47,22 @@ export default {
       } catch (e) {
         console.log(e)
       }
-      this.$router.go()
+      this.skills.push({
+        id: this.skillId,
+        name: this.allSkills.find(skill => skill.id === this.skillId).name
+      })
+    },
+    async removeSkill(skill_id) {
+      try {
+        await http.delete(`/api/jobs/${this.job_id}/skill/${skill_id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+      } catch (e) {
+        console.log(e.message)
+      }
+      this.skills.splice(this.skills.findIndex(skill => skill.id === skill_id), 1)
     }
   },
   mounted() {
@@ -57,7 +72,7 @@ export default {
 </script>
 
 <template>
-  <h1 class="bg-secondary text-center">Skillek</h1>
+  <h1 class="border-bottom border-4 border-secondary text-center mb-4 fw-bold">Skillek</h1>
   <div class="row">
     <div class="col-12 col-lg-4 col-md-12 col-sm-12">
       <p class="me-5">Új skill</p>
@@ -82,7 +97,7 @@ export default {
     <tbody>
     <tr v-for="skill in skills">
       <td>{{ skill.name }}</td>
-      <td><button class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button></td>
+      <td><button class="btn btn-danger" @click="removeSkill(skill.id)"><i class="bi bi-trash3-fill"></i></button></td>
     </tr>
     </tbody>
   </table>

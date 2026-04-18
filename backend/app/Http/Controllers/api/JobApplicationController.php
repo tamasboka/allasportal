@@ -138,11 +138,11 @@ class JobApplicationController extends Controller
                 'status' => 'accepted'
             ]);
             $job->workers()->attach($application->user_id);
+            $application->delete();
             return response()->json([
                 "message" => 'Application accepted successfully'
             ]);
         }
-        $application->delete();
         return response()->json([
             "message" => "Unauthorized"
         ], 401);

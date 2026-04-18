@@ -38,6 +38,7 @@ class JobRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1',
+                'gt:min_salary',
             ],
             'capacity' => [
                 'required',

@@ -27,7 +27,7 @@ return new class extends Migration {
                 ->onDelete('cascade');
             */
             $table->string('name');
-            $table->string('job_type')->nullable();
+            $table->string('currency')->nullable();
             $table->integer('min_salary');
             $table->integer('max_salary');
             $table->string('location')->nullable();

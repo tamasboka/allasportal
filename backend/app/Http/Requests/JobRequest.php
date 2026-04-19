@@ -49,6 +49,10 @@ class JobRequest extends FormRequest
                 'required',
                 'boolean',
             ],
+            'location' => [
+                'nullable',
+                'string'
+            ],
             'type' => [
                 'required',
                 'string',
@@ -59,6 +63,11 @@ class JobRequest extends FormRequest
                 'string',
                 'min:3',
                 'max:500',
+            ],
+            'currency' => [
+                'required',
+                'string',
+                Rule::in(['HUF', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'AUD', 'RON']),
             ]
         ];
     }

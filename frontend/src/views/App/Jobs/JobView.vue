@@ -1,16 +1,17 @@
 <script>
-import {getJobById} from "@/data/data.js";
 import Spinner from "@/components/Spinner.vue";
 import {http} from "@/utils/http.js";
+import JobApplicationForm from "@/components/JobApplicationForm.vue";
 
 export default {
   name: "JobView",
-  components: {Spinner},
+  components: {JobApplicationForm, Spinner},
   data() {
     return {
       job: this.$route.meta.prefetched,
       user: {},
-      userLoading: false
+      userLoading: false,
+      isWriting:false
     }
   },
   computed: {
@@ -105,11 +106,14 @@ export default {
             <p class="lh-lg">{{ job.description }}</p>
           </div>
           <div class="d-grid d-md-flex gap-3 mt-auto">
-            <button class="btn btn-primary btn-lg px-5 fw-bold">Jelentkezés</button>
+            <button class="btn btn-primary btn-lg px-5 fw-bold" @click="isWriting = !isWriting">Jelentkezés</button>
             <button class="btn btn-outline-secondary btn-lg px-5" @click="SaveJob">
               <i class="bi bi-bookmark"></i> Mentés
             </button>
             <RouterLink :to="{name: 'edit-job', params: {jobID: job.id}}" v-if="isOwner" class="btn btn-outline-warning btn-lg px-5 fw-bold">Szerkesztés</RouterLink>
+          </div>
+          <div v-if="isWriting" class="">
+            <JobApplicationForm user-i-d="user.id" job-i-d="job.id"/>
           </div>
         </div>
       </div>

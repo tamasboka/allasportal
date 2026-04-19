@@ -11,7 +11,7 @@ export default {
   computed:{
     isLoggedIn(){
       return !!localStorage.getItem('token')
-    }
+    },
   },
   methods:{
     async Logout(){
@@ -66,8 +66,11 @@ export default {
               <RouterLink class="btn btn-secondary rounded-pill" :to="{name: 'login'}">Bejelentkezés</RouterLink>
             </div>
             <div v-else-if="isLoggedIn && !userLoading">
-              <RouterLink :to="{name: 'user-home', params: {userID: user.id}}" class="btn btn-primary">{{ user.firstname }} {{ user.lastname }}</RouterLink>
+              <RouterLink :to="{name: 'admin-home'}" class="btn btn-outline-warning mx-3" v-if="user.role === 'admin'">Admin</RouterLink>
+              <RouterLink :to="{name: 'user-home', params: {userID: user.id}}" class="btn btn-primary ">{{ user.firstname }} {{ user.lastname }}</RouterLink>
             </div>
+            <RouterLink class="btn btn-warning" :to="{name: 'create-job'}">Új munka</RouterLink>
+            <RouterLink class="btn btn-warning" v-if="isLoggedIn" :to="{name: 'saved-jobs'}"><i class="bi bi-star-fill"></i></RouterLink>
             <div class="dropdown" v-if="isLoggedIn">
               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear"></i>
@@ -77,8 +80,6 @@ export default {
                 <li class="bg-danger" v-if="isLoggedIn"><button class="dropdown-item bg-danger" @click="Logout">Kijelentkezés</button></li>
               </ul>
             </div>
-            <RouterLink class="btn btn-warning" :to="{name: 'create-job'}">Új munka</RouterLink>
-            <RouterLink class="btn btn-warning" v-if="isLoggedIn" :to="{name: 'saved-jobs'}"><i class="bi bi-star-fill"></i></RouterLink>
           </div>
         </div>
       </div>

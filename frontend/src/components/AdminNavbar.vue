@@ -24,6 +24,7 @@ export default {
             </li>
           </ul>
         </div>
+        <RouterLink class="btn btn-outline-primary" :to="{name: 'home'}">Vissza</RouterLink>
       </div>
     </nav>
   </header>

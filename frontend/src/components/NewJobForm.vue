@@ -6,7 +6,42 @@ export default {
   components: {Form, ErrorMessage, Field},
   data() {
     return {
-      has_home_office: false
+      has_home_office: false,
+      currencies: [
+        {
+          code: 'EUR',
+          symbol: '€'
+        },
+        {
+          code: 'HUF',
+          symbol: 'Ft'
+        },
+        {
+          code: 'USD',
+          symbol: '$'
+        },
+        {
+          code: 'GBP',
+          symbol: '£'
+        },
+        {
+          code: 'CHF',
+          symbol: 'Fr'
+        },
+        {
+          code: 'CAD',
+          symbol: '$'
+        },
+        {
+          code: 'AUD',
+          symbol: '$'
+        },
+        {
+          code: 'RON',
+          symbol: 'lei'
+        },
+      ],
+      currency: 'HUF'
     }
   },
   methods: {
@@ -71,34 +106,61 @@ export default {
       <ErrorMessage class="alert alert-danger text-center" name="max_salary" as="p"/>
       <ErrorMessage class="alert alert-danger text-center" name="capacity" as="p"/>
       <ErrorMessage class="alert alert-danger text-center" name="description" as="p"/>
-      <Field name="name" class="mt-3 form-control" type="text" placeholder="Munka neve" rules="required|min:3|max:100"/>
-      <Field name="type" as="select" class="mt-3 form-select" rules="required">
-        <option selected hidden="hidden">Típus</option>
-        <option value="full-time">Teljes munka</option>
-        <option value="part-time">Részmunka</option>
-        <option value="one-time">Egyszeri munka</option>
-      </Field>
-      <div class="input-group mt-3">
-        <Field name="min_salary" class="form-control" type="number" placeholder="Minimum fizetés" rules="required|min:1"/>
-        <span class="input-group-text">Ft</span>
+      <div class="input-group">
+        <span class="input-group-text">Név</span>
+        <Field name="name" id="name" class="form-control" rules="required|min:3|max:100"/>
       </div>
       <div class="input-group mt-3">
-        <Field name="max_salary" class="form-control" type="number" placeholder="Maximum fizetés" rules="required|min:1"/>
-        <span class="input-group-text">Ft</span>
+        <span class="input-group-text">Típus</span>
+        <Field name="type" as="select" class="form-select" rules="required">
+          <option value="full-time">Teljes munka</option>
+          <option value="part-time">Részmunka</option>
+          <option value="one-time">Egyszeri munka</option>
+        </Field>
       </div>
-      <Field name="location" class="form-control mt-3" type="text" placeholder="Hely (nem kötelező)"/>
       <div class="input-group mt-3">
-        <Field name="capacity" class="form-control" type="number" placeholder="Férőhely" rules="required|min:1"/>
+        <span class="input-group-text">Minimum fizetés</span>
+        <Field name="min_salary" class="form-control" type="number"
+               rules="required|min:1"/>
+        <Field as="select" class="input-group-text" v-model="currency" name="currency" id="currency-select">
+          <option v-for="currency in currencies" :value="currency.code">{{ currency.code }} ({{
+              currency.symbol
+            }})
+          </option>
+        </Field>
+      </div>
+      <div class="input-group mt-3">
+        <span class="input-group-text">Maximum fizetés</span>
+        <Field name="max_salary" id="max_salary" type="number" class="form-control" rules="required|min:1"/>
+        <Field as="select" class="input-group-text" v-model="currency" name="currency" id="currency-select">
+          <option v-for="currency in currencies" :value="currency.code">{{ currency.code }} ({{
+              currency.symbol
+            }})
+          </option>
+        </Field>
+      </div>
+      <div class="input-group mt-3">
+        <span class="input-group-text">Hely (Nem kötelező)</span>
+        <Field name="location" id="location" class="form-control"/>
+      </div>
+      <div class="input-group mt-3">
+        <span class="input-group-text">Férőhely</span>
+        <Field name="capacity" id="capacity" class="form-control" type="number" rules="required|min:1"/>
         <span class="input-group-text">Fő</span>
       </div>
-      <Field as="textarea" name="description" class="mt-3 form-control" placeholder="Leírás" rules="required|min:3|max:500"/>
-
-      <div class="d-flex">
-        <label class="mt-3 me-2" for="has_home_office">Lehet dolgozni home office-ban</label>
-        <input v-model="has_home_office" class="mt-3 form-check" name="has_home_office" id="has_home_office" type="checkbox"/>
+      <div class="input-group mt-3">
+        <span class="input-group-text">Leírás</span>
+        <Field name="description" id="description" as="textarea" class="form-control" rules="required|min:3|max:500"/>
+      </div>
+      <div class="d-flex align-items-center">
+        <label for="has_home_office" class="form-label me-2">
+          Van home office
+        </label>
+        <Field name="has_home_office" id="has_home_office" type="checkbox" v-model="has_home_office"
+               class="form-check"/>
       </div>
       <div class="d-flex justify-content-center">
-        <button class="mt-3 btn btn-warning" type="submit">Feltöltés</button>
+        <input type="submit" class="btn btn-warning mt-3" value="Mentés">
       </div>
     </Form>
   </section>

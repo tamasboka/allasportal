@@ -49,18 +49,26 @@ export default {
     <section class="min-vh-100 d-flex align-items-center justify-content-center" v-if="userLoading">
       <h1 class="bg-danger">Authenticating</h1>
     </section>
-    <section class="min-vh-100 d-flex align-items-center justify-content-center" v-if="isOwner">
-      <div class="card text-bg-dark border border-secondary rounded-5 shadow-lg">
+    <section class="min-vh-100 d-flex align-items-center justify-content-center py-5" v-if="isOwner">
+      <div class="card text-bg-dark border border-5 border-secondary rounded-5 shadow-lg my-5">
         <div class="card-body">
-          <RouterLink to="/" class="text-decoration-none text-light btn"
+          <RouterLink :to="{name: 'job', params: {jobID: job.id}}" class="text-decoration-none text-light btn"
                       :class="{ 'btn-outline-light': !isReturnBtnHovered, 'btn-outline-primary': isReturnBtnHovered}"
                       @mouseover="isReturnBtnHovered = true" @mouseleave="isReturnBtnHovered = false">
             <i class="bi bi-arrow-left-circle me-2"></i>
             Vissza
           </RouterLink>
           <EditJobForm :job="job" class="mt-3"/>
-          <EditWorkersForm :jobID="job.id" :workers="job.workers"/>
-          <IncomingApplications :jobID="job.id"/>
+          <div class="container border-3 border-top border-secondary mt-5">
+            <div class="row">
+              <div class="col-12 col-lg-6 col-md-12 col-sm-12">
+                <EditWorkersForm :jobID="job.id" :workers="job.workers"/>
+              </div>
+              <div class="col-12 col-lg-6 col-md-12 col-sm-12">
+                <IncomingApplications :jobID="job.id"/>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

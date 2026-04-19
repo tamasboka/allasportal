@@ -32,7 +32,11 @@ class UserSeeder extends Seeder
             'phone' => '0630676767',
         ]);
 
-        $tamas->role = 'admin';
-        $bence->role = 'admin';
+        $tamas->update([
+            'role' => 'admin'
+        ]);
+        $bence->update([
+            'role' => 'admin'
+        ]);
     }
 }

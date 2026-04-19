@@ -16,6 +16,8 @@ class Job extends Model
         'has_home_office',
         'job_type',
         'type',
+        'location',
+        'currency',
         'user_id'
     ];
 
@@ -40,4 +42,7 @@ class Job extends Model
     public function workers() {
         return $this->belongsToMany(User::class);
     }
+    public $casts = [
+        'has_home_office' => 'boolean',
+    ];
 }

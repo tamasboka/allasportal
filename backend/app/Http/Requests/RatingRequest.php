@@ -22,6 +22,10 @@ class RatingRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'job_id' => [
+                'required',
+                'exists:jobs,id',
+            ],
             'title' => [
                 'required',
                 'string',

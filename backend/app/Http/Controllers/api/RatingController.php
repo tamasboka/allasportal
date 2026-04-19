@@ -22,7 +22,9 @@ class RatingController extends Controller
      */
     public function store(RatingRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $validated['user_id'] = $request->user()->id;
+        Rating::create($validated);
     }
 
     /**

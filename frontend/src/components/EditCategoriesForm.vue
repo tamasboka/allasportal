@@ -34,6 +34,7 @@ export default {
       }
     },
     async addCategory() {
+      if (this.categories.find(cat => this.categoryID === cat.id)) return
       try {
         await http.post('/api/addcategory', {
           job_id: this.job_id,
@@ -73,20 +74,15 @@ export default {
 
 <template>
   <h1 class="border-bottom border-4 border-warning text-center fw-bold mb-4">Kategóriák</h1>
-  <div class="row">
-    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
-      <p class="me-5">Új kategória</p>
-    </div>
-    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
-      <select v-if="!categoriesLoading" v-model="categoryID" class="form-select">
-        <option :value="category.id" v-for="category in allCategories">{{ category.name }}</option>
-      </select>
-    </div>
-    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
-      <button class="btn btn-success" @click="addCategory">Hozzáadás</button>
-    </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text">Új kategória</span>
+    <select v-if="!categoriesLoading" v-model="categoryID" class="form-select">
+      <option :value="category.id" v-for="category in allCategories">{{ category.name }}</option>
+    </select>
+    <button class="btn btn-success" @click="addCategory">Hozzáadás</button>
   </div>
-  <h2 v-if="!categories.length">Nincsenek hozzáadott kategóriák!</h2>
+  <h2 v-if="!categories.length" class="text-danger fw-bold border-top border-5 border-danger border-bottom">Nincsenek
+    hozzáadott kategóriák!</h2>
   <table class="table table-striped" v-else>
     <thead>
     <tr>
@@ -97,7 +93,9 @@ export default {
     <tbody>
     <tr v-for="category in categories">
       <td>{{ category.name }}</td>
-      <td><button class="btn btn-danger" @click="removeCategory(category.id)"><i class="bi bi-trash3-fill"></i></button></td>
+      <td>
+        <button class="btn btn-danger" @click="removeCategory(category.id)"><i class="bi bi-trash3-fill"></i></button>
+      </td>
     </tr>
     </tbody>
   </table>

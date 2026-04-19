@@ -67,7 +67,7 @@ class JobController extends Controller
                 'categories',
                 'workers',
                 'required_skills',
-                'ratings'
+                'ratings.rater'
             ])->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return response()->json([

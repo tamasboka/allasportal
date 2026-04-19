@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        $tamas = User::create([
             'firstname' => 'Tamás',
             'lastname' => 'Bóka',
             'email' => 'tamasboka@jobnest.hu',
@@ -22,13 +22,17 @@ class UserSeeder extends Seeder
             'gender' => 'male',
             'phone' => '062012312312',
         ]);
-        User::create([
+
+        $bence = User::create([
             'firstname' => 'Bence',
             'lastname' => 'Beretzky',
             'email' => 'beretzkybence@jobnest.hu',
-            'password' => 'jelszo121212',
+            'password' => 'jelszo12345',
             'gender' => 'male',
             'phone' => '0630676767',
         ]);
+
+        $tamas->role = 'admin';
+        $bence->role = 'admin';
     }
 }

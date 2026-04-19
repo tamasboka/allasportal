@@ -2,16 +2,21 @@
 import Spinner from "@/components/Spinner.vue";
 import {http} from "@/utils/http.js";
 import JobApplicationForm from "@/components/JobApplicationForm.vue";
+import ReviewForm from "@/components/ReviewForm.vue";
+import Review from "@/components/Review.vue";
 
 export default {
   name: "JobView",
-  components: {JobApplicationForm, Spinner},
+  components: {Review, ReviewForm, JobApplicationForm, Spinner},
   data() {
     return {
       job: this.$route.meta.prefetched,
       user: {},
       userLoading: false,
-      isWriting:false
+      isWritingApplication: false,
+      isApplicationSuccessful: false,
+      isWritingReview: false,
+      isReviewSuccessful: false
     }
   },
   computed: {
@@ -31,6 +36,9 @@ export default {
   },
   methods: {
     async SaveJob() {
+      if (!localStorage.getItem('token')) {
+        this.$router.push({name: 'login'})
+      }
       try {
         await http.post('/api/savejob', {
           job_id: this.job.id,
@@ -57,6 +65,49 @@ export default {
       this.userLoading = false
       this.user = res.data.data
     },
+    async sendReview(data) {
+      console.log(
+          {
+            job_id: this.job.id,
+            ...data
+          }
+      )
+      try {
+        await http.post('/api/ratings', {
+          job_id: this.job.id,
+          ...data
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        this.isWritingReview = false
+        this.job.ratings.push({
+          rater: this.user,
+          ...data
+        })
+      } catch (e) {
+        this.isReviewSuccessful = false
+      }
+    },
+    handleSuccess() {
+      this.isWritingApplication = false
+      this.isApplicationSuccessful = true
+    },
+    toggleWritingApplication() {
+      if (!localStorage.getItem('token')) {
+        this.$router.push({name: 'login'})
+      }
+      this.isWritingApplication = !this.isWritingApplication
+      this.isApplicationSuccessful = false
+    },
+    toggleWritingReview() {
+      if (!localStorage.getItem('token')) {
+        this.$router.push({name: 'login'})
+      }
+      this.isWritingReview = !this.isWritingReview
+      this.isReviewSuccessful = false
+    }
   },
   mounted() {
     this.getUserData()
@@ -68,7 +119,8 @@ export default {
   <section class="container py-5">
     <div v-if="!userLoading" class="row g-4">
       <div class="col-12 col-lg-8 col-md-12 col-sm-12">
-        <div class="card bg-dark text-white border-secondary p-4 shadow">
+        <div class="card bg-dark text-white p-4 border-5 rounded-5"
+             :class="{'border-secondary': job.type === 'part-time', 'border-primary': job.type === 'full-time', 'border-warning': job.type === 'one-time'}">
           <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
               <h1 class="display-5 fw-bold mb-1">{{ job.name }}</h1>
@@ -78,10 +130,10 @@ export default {
                 <i class="bi bi-person"></i> {{ job.advertiser.firstname }} {{ job.advertiser.lastname }}
               </RouterLink>
             </div>
-            <span class="badge bg-primary fs-6">{{ Translate }}</span>
+            <span class="badge fs-6" :class="{'bg-secondary': job.type === 'part-time', 'bg-primary': job.type === 'full-time', 'bg-warning': job.type === 'one-time'}">{{ Translate }}</span>
           </div>
           <div class="mb-4">
-            <span class="h4 text-success fw-bold">{{ job.min_salary }} - {{ job.max_salary }} Ft</span>
+            <span class="h4 text-success fw-bold">{{ job.min_salary }} - {{ job.max_salary }} {{ job.currency }}</span>
           </div>
           <hr class="border-secondary">
           <div class="mb-4">
@@ -105,28 +157,36 @@ export default {
             <h5 class="text-secondary text-uppercase small fw-bold">Leírás</h5>
             <p class="lh-lg">{{ job.description }}</p>
           </div>
-          <div class="d-grid d-md-flex gap-3 mt-auto">
-            <button class="btn btn-primary btn-lg px-5 fw-bold" @click="isWriting = !isWriting">Jelentkezés</button>
-            <button class="btn btn-outline-secondary btn-lg px-5" @click="SaveJob">
-              <i class="bi bi-bookmark"></i> Mentés
-            </button>
-            <RouterLink :to="{name: 'edit-job', params: {jobID: job.id}}" v-if="isOwner" class="btn btn-outline-warning btn-lg px-5 fw-bold">Szerkesztés</RouterLink>
+          <div>
+            <div v-if="!isOwner" class="gap-3 d-grid d-md-flex mt-auto">
+              <button class="btn btn-primary btn-lg px-5 fw-bold" @click="toggleWritingApplication">Jelentkezés</button>
+              <button class="btn btn-outline-secondary btn-lg px-5" @click="SaveJob">
+                <i class="bi bi-bookmark"></i> Mentés
+              </button>
+            </div>
+            <RouterLink :to="{name: 'edit-job', params: {jobID: job.id}}" v-if="isOwner"
+                        class="btn btn-outline-warning btn-lg px-5 fw-bold">Szerkesztés
+            </RouterLink>
           </div>
-          <div v-if="isWriting" class="">
-            <JobApplicationForm user-i-d="user.id" job-i-d="job.id"/>
+          <div v-if="isWritingApplication" class="mt-3">
+            <JobApplicationForm @success="handleSuccess" :userID="user.id" :jobID="job.id"/>
+          </div>
+          <div v-if="isApplicationSuccessful">
+            <p class="alert bg-success text-white text-center mt-3">Sikeres jelentkezés!</p>
           </div>
         </div>
       </div>
       <aside class="col-12 col-lg-4 col-md-12 col-sm-12">
-        <div class="card bg-dark text-white border-secondary p-4 shadow h-100">
+        <div class="card bg-dark text-white border-secondary p-4 h-100 border-5 rounded-5">
           <div class="d-flex border-bottom border-secondary">
             <h3 class="h5">Vélemények</h3>
-            <button class="btn btn-primary ms-auto" :disabled="isOwner">Vélemény írása</button>
+            <button class="btn btn-primary ms-auto" v-if="!isOwner" @click="toggleWritingReview">Vélemény írása</button>
           </div>
-
           <div class="text-center py-5">
-            <h1 class="italic" v-if="!job.ratings.length">Még nincsenek vélemények!</h1>
+            <ReviewForm v-if="isWritingReview" @sent="sendReview"/>
+            <h1 class="italic" v-if="!job.ratings.length && !isWritingReview">Még nincsenek vélemények!</h1>
           </div>
+          <Review v-for="rating in job.ratings" :rating="rating"/>
         </div>
       </aside>
     </div>

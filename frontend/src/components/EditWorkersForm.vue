@@ -32,7 +32,7 @@ export default {
 
 <template>
   <div class="mt-5">
-    <h1 class="text-success text-center fw-bold">Dolgozók</h1>
+    <h1 class="text-success text-center mb-4 fw-bold">Dolgozók</h1>
     <h2 v-if="!workers.length" class="text-center">Nincsenek dolgozók!</h2>
     <table class="table table-striped" v-else>
       <thead>

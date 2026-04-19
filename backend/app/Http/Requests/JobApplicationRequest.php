@@ -31,7 +31,7 @@ class JobApplicationRequest extends FormRequest
             'message' => [
                 'required',
                 'string',
-                'min:255',
+                'min:100',
                 'max:500',
             ],
         ];

@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Job::class);
-            $table->string('message');
+            $table->text('message');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             //$table->date('sent_at');
             $table->timestamps();

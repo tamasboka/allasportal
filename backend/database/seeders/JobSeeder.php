@@ -17,7 +17,7 @@ class JobSeeder extends Seeder
         Job::create([
             'user_id' => 1,
             'name' => 'Frontend programozó',
-            'job_type' => 'programmer',
+            'currency' => 'HUF',
             'min_salary' => 10000,
             'max_salary' => 670000,
             'capacity' => 10,
@@ -28,7 +28,7 @@ class JobSeeder extends Seeder
         Job::create([
             'user_id' => 2,
             'name' => 'aaaeaeeaeaarraar',
-            'job_type' => 'nem tudom',
+            'currency' => 'HUF',
             'min_salary' => 5000,
             'max_salary' => 10000,
             'capacity' => 67,

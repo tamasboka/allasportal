@@ -12,13 +12,13 @@ export default {
   },
   methods:{
     async UpdateUser(data){
-      console.log(data)
       try{
         await http.patch(`/api/user/${this.user.id}`,data,{
           headers:{
             Authorization:`Bearer ${localStorage.getItem('token')}`
           }
         })
+        this.$router.go();
       }catch (e){
         console.log(e.message)
       }

@@ -30,9 +30,10 @@ export default {
       </div>
       <div class="border-top border-secondary border-5 my-4"></div>
       <h2 class="text-center fw-bold h4 text-white">Készségek</h2>
-      <p class="alert alert-warning text-center">Még nincsenek megadva készségek!</p>
-      <div class="d-flex flex-wrap gap-2">
-              <span v-for="skill in user.skills" :key="skill.id" class="badge rounded-pill bg-warning text-dark px-3">
+      <p class="alert alert-warning text-center" v-if="!user.skills.length">Még nincsenek megadva készségek!</p>
+      <div class="d-flex flex-wrap gap-2" v-else>
+              <span v-for="skill in user.skills" :key="skill.id"
+                    class="badge rounded-pill bg-warning text-dark px-3">
                 {{ skill.name }}
               </span>
       </div>

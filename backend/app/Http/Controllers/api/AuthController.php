@@ -91,7 +91,8 @@ class AuthController extends Controller
         $user = User::with([
             'saved_jobs',
             'workplaces',
-            'skills'
+            'skills',
+            'received_notifications.from'
         ])
             ->findOrFail($request->user()->id);
         return (new UserResource($user))

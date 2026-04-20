@@ -141,8 +141,8 @@ class UserController extends Controller
             "message" => "Skill added successfully"
         ]);
     }
-    public function removeSkill(Request $request, Skill $skill, User $user) {
-        $user->skills()->detach($request->skill_id);
+    public function removeSkill(Request $request, User $user, Skill $skill) {
+        $user->skills()->detach($skill->id);
         return response()->json([
             "message" => "Skill removed successfully"
         ]);

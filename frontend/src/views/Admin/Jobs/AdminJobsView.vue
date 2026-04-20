@@ -48,13 +48,16 @@ export default {
   <section v-if="loading" class="min-vh-100 d-flex justify-content-center align-items-center">
     <spinner/>
   </section>
-  <section v-else-if="!loading" class="d-flex justify-content-center">
+  <section v-else-if="!loading" class="p-5 mb-0">
     <table class="table table-striped table-dark">
       <thead>
       <tr>
         <th>Név</th>
         <th>Típus</th>
         <th>Feltöltő</th>
+        <th>Min. fizetés</th>
+        <th>Max fizetés</th>
+        <th>Pénznem</th>
         <th>Részletek</th>
         <th>Törlés</th>
       </tr>
@@ -62,10 +65,13 @@ export default {
       <tbody>
       <tr v-for="job in jobs">
         <td>{{ job.name }}</td>
-        <td>{{ job.job_type }}</td>
-        <td>{{ job.advertiser.firstname }} {{ job.advertiser.lastname }}</td>
+        <td>{{ job.type }}</td>
+        <td><RouterLink :to="{name: 'user-home', params: {userID: job.advertiser.id}}" class="text-decoration-none">{{ job.advertiser.firstname }} {{ job.advertiser.lastname }}</RouterLink></td>
+        <td>{{ job.min_salary }}</td>
+        <td>{{ job.max_salary }}</td>
+        <td>{{ job.currency }}</td>
         <td>
-          <RouterLink :to="{name:'admin-job',params:{jobID: job.id}}"><i class="bi bi-info-circle-fill"></i>
+          <RouterLink :to="{name:'job',params:{jobID: job.id}}"><i class="bi bi-info-circle-fill"></i>
           </RouterLink>
         </td>
         <td><button class="btn btn-danger" @click="DeleteJob(job.id)"><i class="bi bi-trash3-fill"></i></button></td>

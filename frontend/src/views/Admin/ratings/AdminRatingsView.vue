@@ -49,7 +49,7 @@ export default {
   <section v-if="loading" class="min-vh-100 d-flex justify-content-center align-items-center">
     <spinner/>
   </section>
-  <section v-else-if="!loading" class="d-flex justify-content-center">
+  <section v-else-if="!loading" class="p-5 mb-0">
     <table class="table table-striped table-dark">
       <thead>
       <tr>
@@ -65,8 +65,8 @@ export default {
       <tbody>
       <tr v-for="rating in ratings">
         <td>{{rating.id}}</td>
-        <td><RouterLink :to="{name: 'user-home',params:{userID:rating.rater.id}}">{{rating.rater.firstname}} {{rating.rater.lastname}}</RouterLink></td>
-        <td><RouterLink :to="{name: 'job',params:{jobID:rating.rated.id}}">{{rating.rated.name}}</RouterLink></td>
+        <td><RouterLink :to="{name: 'user-home',params:{userID:rating.rater.id}}" class="text-decoration-none">{{rating.rater.firstname}} {{rating.rater.lastname}}</RouterLink></td>
+        <td><RouterLink :to="{name: 'job',params:{jobID:rating.rated.id}}" class="text-decoration-none">{{rating.rated.name}}</RouterLink></td>
         <td>{{rating.stars}}</td>
         <td>{{rating.title}}</td>
         <td>{{rating.message}}</td>

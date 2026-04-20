@@ -61,12 +61,12 @@ export default {
   <section v-if="loading" class="min-vh-100 d-flex justify-content-center align-items-center">
     <spinner/>
   </section>
-  <section v-else-if="!loading">
-    <Form @submit="CreateSkill">
+  <section v-else-if="!loading" class="p-5 mb-0">
+    <Form @submit="CreateSkill" class="mb-5">
       <div class="input-group">
-        <span class="input-group-text">Név:</span>
+        <span class="input-group-text">Új készség neve</span>
         <Field name="name" class="form-control" rules="required"/>
-        <button type="submit" class="btn btn-primary">Küldés</button>
+        <button type="submit" class="btn btn-primary">Létrehozás</button>
       </div>
     </Form>
     <table class="table table-striped table-dark">

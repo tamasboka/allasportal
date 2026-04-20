@@ -31,7 +31,7 @@ export default {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         });
-      }catch (e){
+      } catch (e) {
         console.log(e.message)
       }
       await this.GetAllUsers();
@@ -47,10 +47,11 @@ export default {
   <section v-if="loading" class="min-vh-100 d-flex justify-content-center align-items-center">
     <spinner/>
   </section>
-  <section v-else-if="!loading" class="d-flex justify-content-center">
+  <section v-else-if="!loading" class="p-5 mb-0">
     <table class="table table-striped table-dark">
       <thead>
       <tr>
+        <th>Azonosító</th>
         <th>Név</th>
         <th>Email</th>
         <th>Részletek</th>
@@ -59,13 +60,16 @@ export default {
       </thead>
       <tbody>
       <tr v-for="user in users">
-        <td>{{user.firstname}} {{user.lastname}}</td>
-        <td>{{user.email}}</td>
+        <td>{{ user.id }}</td>
+        <td>{{ user.firstname }} {{ user.lastname }}</td>
+        <td>{{ user.email }}</td>
         <td>
-          <RouterLink :to="{name:'admin-user',params:{userID: user.id}}"><i class="bi bi-info-circle-fill"></i>
+          <RouterLink :to="{name:'user-home',params:{userID: user.id}}"><i class="bi bi-info-circle-fill"></i>
           </RouterLink>
         </td>
-        <td><button class="btn btn-danger" @click="DeleteUser(user.id)"><i class="bi bi-trash3-fill"></i></button></td>
+        <td>
+          <button class="btn btn-danger" @click="DeleteUser(user.id)"><i class="bi bi-trash3-fill"></i></button>
+        </td>
       </tr>
       </tbody>
     </table>

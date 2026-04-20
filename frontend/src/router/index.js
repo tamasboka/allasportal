@@ -139,6 +139,33 @@ const routes = [
                         }
                     }
                 ]
+            },
+            {
+              path: 'categories',
+                name: 'admin-categories',
+                component:()=>import("@/views/Admin/categories/AdminCategoriesView.vue"),
+                meta: {
+                    title:'Admin - Categories',
+                    requiresAdmin: true
+                }
+            },
+            {
+                path: 'skills',
+                name: 'admin-skills',
+                component:()=>import("@/views/Admin/Skills/AdminSkillsView.vue"),
+                meta: {
+                    title:'Admin - Skills',
+                    requiresAdmin: true
+                }
+            },
+            {
+                path: 'ratings',
+                name: 'admin-ratings',
+                component:()=>import("@/views/Admin/ratings/AdminRatingsView.vue"),
+                meta: {
+                    title:'Admin - Ratings',
+                    requiresAdmin: true
+                }
             }
         ]
     },

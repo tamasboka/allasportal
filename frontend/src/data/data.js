@@ -43,3 +43,11 @@ export async function getApplications(jobID) {
         }
     })
 }
+
+export async function getAllRatings(){
+    return await http.get('/api/ratings',{
+        headers:{
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+}

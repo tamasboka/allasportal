@@ -90,7 +90,8 @@ class AuthController extends Controller
     {
         $user = User::with([
             'saved_jobs',
-            'workplaces'
+            'workplaces',
+            'skills'
         ])
             ->findOrFail($request->user()->id);
         return (new UserResource($user))

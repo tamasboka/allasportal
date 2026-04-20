@@ -10,6 +10,7 @@ export default {
     return {
       loading: false,
       jobs: [],
+      error:''
     }
   },
   methods: {

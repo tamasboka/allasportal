@@ -44,12 +44,14 @@ class EditUserRequest extends FormRequest
             ],
             'phone' => [
                 'string',
+                'nullable',
                 'min:8',
                 'max:15',
                 Rule::unique('users')->ignore($this->user()->id, 'id')
             ],
             'bio' => [
                 'string',
+                'nullable',
                 'min:1',
                 'max:1000'
             ]

@@ -7,6 +7,7 @@ use App\Http\Requests\JobApplication\JobApplicationRequest;
 use App\Http\Resources\JobApplication\JobApplicationCollection;
 use App\Http\Resources\JobApplication\JobApplicationResource;
 use App\Models\JobApplication;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -127,6 +128,7 @@ class JobApplicationController extends Controller
     public function acceptApplication(Request $request, string $applicationID) {
         try {
             $application = JobApplication::findOrFail($applicationID);
+            $user = User::findOrFail($application->user_id);
             $job = $application->receiver;
         } catch (ModelNotFoundException) {
             return response()->json([
@@ -138,6 +140,7 @@ class JobApplicationController extends Controller
                 'status' => 'accepted'
             ]);
             $job->workers()->attach($application->user_id);
+            $user->workplaces()->attach($job->id);
             $application->delete();
             return response()->json([
                 "message" => 'Application accepted successfully'

@@ -39,7 +39,7 @@ class UserController extends Controller
         try {
             $user = User::with([
                 'workplaces',
-                'published_jobs',
+                'published_jobs.workers',
                 'sent_ratings',
                 'skills'
             ])->findOrFail($id);

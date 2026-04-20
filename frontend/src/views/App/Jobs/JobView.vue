@@ -134,6 +134,7 @@ export default {
           </div>
           <div class="mb-4">
             <span class="h4 text-success fw-bold">{{ job.min_salary }} - {{ job.max_salary }} {{ job.currency }}</span>
+            <p class="text-secondary h4 fw-bold">Férőhely: {{job.workers.length}}/{{job.capacity}}</p>
           </div>
           <hr class="border-secondary">
           <div class="mb-4">
@@ -159,7 +160,7 @@ export default {
           </div>
           <div>
             <div v-if="!isOwner" class="gap-3 d-grid d-md-flex mt-auto">
-              <button class="btn btn-primary btn-lg px-5 fw-bold" @click="toggleWritingApplication">Jelentkezés</button>
+              <button class="btn btn-primary btn-lg px-5 fw-bold" :disabled="job.capacity===job.workers.length" @click="toggleWritingApplication">Jelentkezés</button>
               <button class="btn btn-outline-secondary btn-lg px-5" @click="SaveJob">
                 <i class="bi bi-bookmark"></i> Mentés
               </button>

@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {http} from "@/utils/http.js";
-import {getJobById, getSavedJobs, getUserById} from "@/data/data.js";
+import {getJobById, getSavedJobs, getUserById, getUserData} from "@/data/data.js";
 
 
 const routes = [
@@ -210,6 +210,11 @@ const routes = [
                 meta: {
                     title: 'Settings',
                     requiresAuth: true
+                },
+                beforeEnter:async (to)=>{
+                    const result=await getUserData()
+                    to.meta.prefetched=result.data.data;
+                    return true;
                 }
             },
         ]

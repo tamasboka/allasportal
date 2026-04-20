@@ -30,6 +30,7 @@ class UserResource extends JsonResource
             'work_experience' => $this->work_experience,
             'bio' => $this->bio,
             'saved_jobs' => new JobCollection($this->whenLoaded('saved_jobs')),
+            'published_jobs' => new JobCollection($this->whenLoaded('published_jobs')),
             'received_ratings' => new RatingCollection($this->whenLoaded('received_ratings')),
             //'sent_notifications' => new NotificationCollection($this->whenLoaded('sent_notifications')),
             'received_notifications' => new NotificationCollection($this->whenLoaded('received_notifications')),

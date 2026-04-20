@@ -56,12 +56,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(EditUserRequest $request, string $id)
+    public function update(EditUserRequest $request, User $user)
     {
-        if ($request->user()->id === $id) {
+        if ($request->user()->id === $user->id) {
             $validated = $request->validated();
             try {
-                $user = User::findOrFail($id);
                 $user->update($validated);
                 return response()->json([
                     "message" => "User updated successfully"
@@ -73,7 +72,7 @@ class UserController extends Controller
             }
         } else {
             return response()->json([
-                "message" => "Unauthorized"
+                "message" => "Unauthorized",
             ], 401);
         }
     }

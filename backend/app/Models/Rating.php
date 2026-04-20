@@ -18,6 +18,6 @@ class Rating extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
     public function rated() {
-        return $this->belongsTo(Job::class);
+        return $this->belongsTo(Job::class, 'job_id');
     }
 }

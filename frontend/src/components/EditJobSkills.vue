@@ -36,7 +36,7 @@ export default {
     async addSkill() {
       if (this.skills.find(skill => this.skillId === skill.id)) return
       try {
-        await http.post('/api/addskill', {
+        await http.post('/api/addjobskill', {
           job_id: this.job_id,
           skill_id: this.skillId
         }, {

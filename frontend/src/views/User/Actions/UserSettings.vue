@@ -1,13 +1,17 @@
 <script>
 import {Field, Form} from "vee-validate";
 import {http} from "@/utils/http.js";
+import {getAllSkills} from "@/data/data.js";
 
 export default {
   name: "UserSettings",
   components: {Field, Form},
   data() {
     return {
-      user: this.$route.meta.prefetched
+      user: this.$route.meta.prefetched,
+      allSkills: [],
+      loading: false,
+      skillID: 0
     }
   },
   methods:{
@@ -22,7 +26,53 @@ export default {
       }catch (e){
         console.log(e.message)
       }
-    }
+    },
+    async addSkill() {
+      if (this.user.skills.find(skill => this.skillID === skill.id)) return
+      try {
+        await http.post('/api/adduserskill', {
+          job_id: this.job_id,
+          skill_id: this.skillID
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        await this.getAllSkills()
+      } catch (e) {
+        console.log(e)
+      }
+      this.user.skills.push({
+        id: this.skillID,
+        name: this.allSkills.find(skill => skill.id === this.skillID).name
+      })
+    },
+    async removeSkill(skill_id) {
+      try {
+        await http.delete(`/api/user/${this.job_id}/skill/${skill_id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+      } catch (e) {
+        console.log(e.message)
+      }
+      this.user.skills.splice(this.user.skills.findIndex(skill => skill.id === skill_id), 1)
+    },
+    async getAllSkills() {
+      this.skillsLoading = true
+      try {
+        const res = await getAllSkills()
+        this.allSkills = res.data.data
+      } catch (e) {
+        console.log(e.message)
+      } finally {
+        this.skillsLoading = false
+      }
+    },
+  },
+  mounted() {
+    this.getAllSkills()
   }
 }
 </script>
@@ -65,6 +115,37 @@ export default {
             </Form>
           </div>
         </div>
+        <aside class="col-12 col-lg-6 col-md-12 col-sm-12 text-center p-5">
+          <div class="border border-5 border-secondary rounded-5 p-3">
+            <div class="border-5 border-bottom mb-4">
+              <h1 class="text-center fw-bold">Készségeid</h1>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">Új skill</span>
+              <select v-if="!loading" v-model="skillID" class="form-select">
+                <option :value="skill.id" v-for="skill in allSkills">{{ skill.name }}</option>
+              </select>
+              <button class="btn btn-success" @click="addSkill">Hozzáadás</button>
+            </div>
+            <h2 v-if="!user.skills.length" class="text-danger fw-bold border-top border-5 border-danger border-bottom">Nincsenek hozzáadott skillek!</h2>
+            <table class="table table-striped" v-else>
+              <thead>
+              <tr>
+                <th>Név</th>
+                <th>Törlés</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="skill in user.skills">
+                <td>{{ skill.name }}</td>
+                <td>
+                  <button class="btn btn-danger" @click="removeSkill(skill.id)"><i class="bi bi-trash3-fill"></i></button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </aside>
       </div>
     </div>
   </section>

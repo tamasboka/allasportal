@@ -22,6 +22,15 @@ export default {
             <li class="nav-item">
               <RouterLink class="nav-link" :to="{name: 'admin-users'}">Felhasználók</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" :to="{name: 'admin-ratings'}">Értékelések</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" :to="{name: 'admin-categories'}">Kategóriák</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" :to="{name: 'admin-skills'}">Képességek</RouterLink>
+            </li>
           </ul>
         </div>
         <RouterLink class="btn btn-outline-primary" :to="{name: 'home'}">Vissza</RouterLink>

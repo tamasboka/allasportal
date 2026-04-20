@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EditUserRequest extends FormRequest
 {
@@ -34,7 +35,7 @@ class EditUserRequest extends FormRequest
             ],
             'email' => [
                 'email',
-                'unique:users,email'
+                Rule::unique('users')->ignore($this->user()->id, 'id')
             ],
             'password' => [
                 'string',
@@ -45,7 +46,7 @@ class EditUserRequest extends FormRequest
                 'string',
                 'min:8',
                 'max:15',
-                'unique:users,phone',
+                Rule::unique('users')->ignore($this->user()->id, 'id')
             ],
             'bio' => [
                 'string',

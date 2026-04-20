@@ -49,11 +49,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('notifications', NotificationController::class);
     Route::apiResource('ratings', RatingController::class);
     Route::get('/user/admin/{id}', [UserController::class, 'showAdmin']);
-    Route::post('/addskill', [JobController::class, 'addSkill']);
+    Route::post('/addjobskill', [JobController::class, 'addSkill']);
     Route::delete('/jobs/{job}/skill/{skill}', [JobController::class, 'removeSkill']);
+    Route::delete('/user/{job}/skill/{skill}', [UserController::class, 'removeSkill']);
     Route::delete('/jobs/{job}/category/{category}', [JobController::class, 'removeCategory']);
     Route::delete('/jobs/{job}/user/{user}', [JobController::class, 'fireUser']);
-    Route::post('/addcategory', [JobController::class, 'addCategory']);
+    Route::post('/addjobcategory', [JobController::class, 'addCategory']);
+    Route::post('/adduserskill', [UserController::class, 'addSkill']);
     Route::post('/savejob', [JobController::class, 'saveJob']);
     Route::delete('/unsavejob/{id}', [JobController::class, 'unsaveJob']);
     Route::get('/savedjobs', [UserController::class, 'savedJobs']);

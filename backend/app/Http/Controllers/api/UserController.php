@@ -7,6 +7,7 @@ use App\Http\Requests\User\EditUserRequest;
 use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
+use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -133,5 +134,17 @@ class UserController extends Controller
         ])->get()))
             ->response()
             ->setStatusCode(200);
+    }
+    public function addSkill(Request $request) {
+        $request->user()->skills()->attach($request->skill_id);
+        return response()->json([
+            "message" => "Skill added successfully"
+        ]);
+    }
+    public function removeSkill(Request $request, Skill $skill, User $user) {
+        $user->skills()->detach($request->skill_id);
+        return response()->json([
+            "message" => "Skill removed successfully"
+        ]);
     }
 }

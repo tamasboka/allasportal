@@ -22,6 +22,16 @@ class EditUserRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'firstname' => [
+                'string',
+                'min:2',
+                'max:25'
+            ],
+            'lastname' => [
+                'string',
+                'min:2',
+                'max:25'
+            ],
             'email' => [
                 'email',
                 'unique:users,email'
@@ -33,11 +43,14 @@ class EditUserRequest extends FormRequest
             ],
             'phone' => [
                 'string',
+                'min:8',
+                'max:15',
                 'unique:users,phone',
             ],
             'bio' => [
                 'string',
-                'nullable',
+                'min:1',
+                'max:1000'
             ]
         ];
     }

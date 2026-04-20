@@ -34,7 +34,7 @@ class UserResource extends JsonResource
             'saved_jobs' => new JobCollection($this->whenLoaded('saved_jobs')),
             'published_jobs' => new JobCollection($this->whenLoaded('published_jobs')),
             'received_ratings' => new RatingCollection($this->whenLoaded('received_ratings')),
-            //'sent_notifications' => new NotificationCollection($this->whenLoaded('sent_notifications')),
+            'sent_notifications' => new NotificationCollection($this->whenLoaded('sent_notifications')),
             'received_notifications' => new NotificationCollection($this->whenLoaded('received_notifications')),
             'sent_ratings' => new RatingCollection($this->whenLoaded('sent_ratings')),
             'workplace' => new OrganizationResource($this->whenLoaded('workplace')),

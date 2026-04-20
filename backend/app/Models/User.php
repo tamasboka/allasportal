@@ -68,10 +68,10 @@ class User extends Authenticatable
         return $this->hasMany(Job::class);
     }
 
-    /*public function sent_notifications()
+    public function sent_notifications()
     {
         return $this->hasMany(Notification::class, 'from_user_id');
-    }*/
+    }
 
     public function received_notifications()
     {

@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <section class="min-vh-100">
+  <section>
     <div class="border border-5 border-secondary rounded-5 p-3">
       <h1 class="border-bottom border-5 border-secondary">{{ user.firstname }} {{ user.lastname }}</h1>
       <div class="border-bottom border-5 border-secondary">

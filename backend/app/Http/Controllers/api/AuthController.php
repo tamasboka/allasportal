@@ -85,8 +85,14 @@ class AuthController extends Controller
             "role" => $request->user()->role
         ]);
     }
-    function me(Request $request) {
-        $user = User::findOrFail($request->user()->id);
+
+    function me(Request $request)
+    {
+        $user = User::with([
+            'saved_jobs',
+            'workplaces'
+        ])
+            ->findOrFail($request->user()->id);
         return (new UserResource($user))
             ->response()
             ->setStatusCode(200);

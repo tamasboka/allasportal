@@ -6,6 +6,7 @@ use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\Notification\NotificationCollection;
 use App\Http\Resources\Organization\OrganizationResource;
 use App\Http\Resources\Rating\RatingCollection;
+use App\Http\Resources\Skill\SkillCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,6 +30,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'work_experience' => $this->work_experience,
             'bio' => $this->bio,
+            'skills' => new SkillCollection($this->whenLoaded('skills')),
             'saved_jobs' => new JobCollection($this->whenLoaded('saved_jobs')),
             'published_jobs' => new JobCollection($this->whenLoaded('published_jobs')),
             'received_ratings' => new RatingCollection($this->whenLoaded('received_ratings')),

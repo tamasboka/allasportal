@@ -7,7 +7,10 @@ export default {
   emits: ['sent'],
   methods: {
     async sendReview(data) {
-      this.$emit('sent', data)
+      this.$emit('sent', {
+        ...data,
+        stars:data.rating
+      })
     }
   }
 }

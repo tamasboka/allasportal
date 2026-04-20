@@ -55,6 +55,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/jobs/{job}/user/{user}', [JobController::class, 'fireUser']);
     Route::post('/addcategory', [JobController::class, 'addCategory']);
     Route::post('/savejob', [JobController::class, 'saveJob']);
+    Route::delete('/unsavejob/{id}', [JobController::class, 'unsaveJob']);
     Route::get('/savedjobs', [UserController::class, 'savedJobs']);
     Route::get('/job/{job}/applications', [JobController::class, 'getApplications']);
     Route::post('/acceptapplication/{id}', [JobApplicationController::class, 'acceptApplication']);

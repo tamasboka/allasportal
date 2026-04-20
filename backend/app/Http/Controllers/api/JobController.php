@@ -166,10 +166,7 @@ class JobController extends Controller
         ], 401);
     }
     public function saveJob(SaveJobRequest $request) {
-        DB::table('user_saved_jobs')->insert([
-            'job_id' => $request->job_id,
-            'user_id' => $request->user()->id,
-        ]);
+        $request->user()->saved_jobs()->attach($request->job_id);
         return response()->json([
             "message" => "Job saved successfully",
         ], 201);
@@ -200,6 +197,7 @@ class JobController extends Controller
     {
         if ($request->user()->id === $job->user_id) {
             $job->workers()->detach($user->id);
+            $user->workplaces()->detach($job->id);
             return response()->json([
                 "message" => "Woker successfully fired"
             ]);
@@ -207,5 +205,11 @@ class JobController extends Controller
         return response()->json([
             "message" => "Unauthorized"
         ], 401);
+    }
+    public function unsaveJob(Request $request, Job $job) {
+        $request->user()->saved_jobs()->detach($job->id);
+        return response()->json([
+            "message" => "Job removed from saved successfully",
+        ], 201);
     }
 }

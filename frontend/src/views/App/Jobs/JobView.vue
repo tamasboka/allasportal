@@ -29,26 +29,37 @@ export default {
         return "Egyszeri munka"
       }
     },
+    isLoggedIn() {
+      return !!localStorage.getItem('token')
+    },
     isOwner() {
       if (!this.user || !this.job || !this.job.advertiser) return false;
       return this.user.id === this.job.advertiser.id;
     },
+    isJobSaved() {
+      if (!this.isLoggedIn || !this.user?.saved_jobs) return false;
+      return this.user.saved_jobs.some(j => j.id === this.job.id);
+    },
   },
   methods: {
-    async SaveJob() {
-      if (!localStorage.getItem('token')) {
-        this.$router.push({name: 'login'})
+    async toggleSave() {
+      if (!this.isLoggedIn) {
+        return this.$router.push({name: 'login'});
       }
+
+      const token = localStorage.getItem('token');
+      const config = {headers: {Authorization: `Bearer ${token}`}};
+
       try {
-        await http.post('/api/savejob', {
-          job_id: this.job.id,
-        }, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        })
+        if (!this.isJobSaved) {
+          await http.post('/api/savejob', {job_id: this.job.id}, config);
+          this.user.saved_jobs.push({id: this.job.id});
+        } else {
+          await http.delete(`/api/unsavejob/${this.job.id}`, config);
+          this.user.saved_jobs = this.user.saved_jobs.filter(j => j.id !== this.job.id);
+        }
       } catch (e) {
-        console.log(e.message)
+        console.error("Hiba a mentés során:", e.message);
       }
     },
     async getUserData() {
@@ -130,11 +141,14 @@ export default {
                 <i class="bi bi-person"></i> {{ job.advertiser.firstname }} {{ job.advertiser.lastname }}
               </RouterLink>
             </div>
-            <span class="badge fs-6" :class="{'bg-secondary': job.type === 'part-time', 'bg-primary': job.type === 'full-time', 'bg-warning': job.type === 'one-time'}">{{ Translate }}</span>
+            <span class="badge fs-6"
+                  :class="{'bg-secondary': job.type === 'part-time', 'bg-primary': job.type === 'full-time', 'bg-warning': job.type === 'one-time'}">{{
+                Translate
+              }}</span>
           </div>
           <div class="mb-4">
             <span class="h4 text-success fw-bold">{{ job.min_salary }} - {{ job.max_salary }} {{ job.currency }}</span>
-            <p class="text-secondary h4 fw-bold">Férőhely: {{job.workers.length}}/{{job.capacity}}</p>
+            <p class="text-secondary h4 fw-bold">Férőhely: {{ job.workers.length }}/{{ job.capacity }}</p>
           </div>
           <hr class="border-secondary">
           <div class="mb-4">
@@ -160,9 +174,13 @@ export default {
           </div>
           <div>
             <div v-if="!isOwner" class="gap-3 d-grid d-md-flex mt-auto">
-              <button class="btn btn-primary btn-lg px-5 fw-bold" :disabled="job.capacity===job.workers.length" @click="toggleWritingApplication">Jelentkezés</button>
-              <button class="btn btn-outline-secondary btn-lg px-5" @click="SaveJob">
-                <i class="bi bi-bookmark"></i> Mentés
+              <button class="btn btn-primary btn-lg px-5 fw-bold"
+                      :disabled="job.capacity===job.workers.length || !isLoggedIn" @click="toggleWritingApplication">
+                Jelentkezés
+              </button>
+              <button class="btn btn-lg px-5" :class="isJobSaved ? 'btn-success' : 'btn-secondary'" @click="toggleSave" :disabled="!isLoggedIn">
+                <i class="bi" :class="isJobSaved ? 'bi-bookmark-fill' : 'bi bi-bookmark'"></i>
+                {{ isJobSaved ? 'Mentve' : 'Mentés' }}
               </button>
             </div>
             <RouterLink :to="{name: 'edit-job', params: {jobID: job.id}}" v-if="isOwner"
@@ -179,10 +197,12 @@ export default {
       </div>
       <aside class="col-12 col-lg-4 col-md-12 col-sm-12">
         <div class="card bg-dark text-white border-secondary p-4 h-100 border-5 rounded-5">
-          <div class="d-flex border-bottom border-secondary">
+          <div class="d-flex">
             <h3 class="h5">Vélemények</h3>
-            <button class="btn btn-primary ms-auto" v-if="!isOwner" @click="toggleWritingReview">Vélemény írása</button>
+            <button class="btn btn-primary ms-auto btn-sm" v-if="!isOwner" @click="toggleWritingReview">Vélemény írása
+            </button>
           </div>
+          <div class="border-bottom border-secondary mt-4"></div>
           <div class="text-center py-5">
             <ReviewForm v-if="isWritingReview" @sent="sendReview"/>
             <h1 class="italic" v-if="!job.ratings.length && !isWritingReview">Még nincsenek vélemények!</h1>

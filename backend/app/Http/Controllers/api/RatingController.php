@@ -76,7 +76,7 @@ class RatingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, RatingRequest $request)
+    public function destroy(string $id, Request $request)
     {
         $rating = Rating::findOrFail($id);
         if ($request->user()->id === $rating->rater_user_id) {

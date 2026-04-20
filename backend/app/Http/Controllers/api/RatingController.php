@@ -79,7 +79,7 @@ class RatingController extends Controller
     public function destroy(string $id, Request $request)
     {
         $rating = Rating::findOrFail($id);
-        if ($request->user()->id === $rating->rater_user_id) {
+        if ($request->user()->id === $rating->rater_user_id || $request->user()->role === 'admin') {
             $rating->delete();
             return response(null, 204);
         } else {

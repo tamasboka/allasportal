@@ -145,8 +145,8 @@ class JobApplicationController extends Controller
             Notification::create([
                 'to_user_id' => $user->id,
                 'from_user_id' => $request->user()->id,
-                'title' => 'Elfogadva!!',
-                'message' => 'Örömmel közöljuk, hogy ' . $request->user()->firstname . 'elfogadta a jelentkezését!',
+                'title' => 'Elfogadva!',
+                'message' => 'Örömmel közöljuk, hogy ' . $request->user()->firstname . ' elfogadta a jelentkezését az ' . $job->name . ' állásra! Ez a levél automatikusan generált.',
                 'type' => 'accept'
             ]);
             $application->delete();
@@ -159,11 +159,12 @@ class JobApplicationController extends Controller
         ], 401);
     }
     public function rejectApplication(Request $request, JobApplication $application) {
+        $job = Job::findOrFail($application->job_id);
         Notification::create([
             'to_user_id' => $application->user_id,
             'from_user_id' => $request->user()->id,
             'title' => 'Elutasítva!',
-            'message' => 'Sajnálattal közöljuk, hogy ' . $request->user()->firstname . 'elutasította a jelentkezését!',
+            'message' => 'Sajnálattal közöljuk, hogy ' . $request->user()->firstname . ' elutasította a jelentkezését az ' . $job->name . ' állásra! Ez a levél automatikusan generált. Ez a levél automatikusan generált.',
             'type' => 'reject'
         ]);
         $application->delete();

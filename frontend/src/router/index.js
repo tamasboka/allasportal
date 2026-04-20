@@ -141,29 +141,29 @@ const routes = [
                 ]
             },
             {
-              path: 'categories',
+                path: 'categories',
                 name: 'admin-categories',
-                component:()=>import("@/views/Admin/categories/AdminCategoriesView.vue"),
+                component: () => import("@/views/Admin/categories/AdminCategoriesView.vue"),
                 meta: {
-                    title:'Admin - Categories',
+                    title: 'Admin - Categories',
                     requiresAdmin: true
                 }
             },
             {
                 path: 'skills',
                 name: 'admin-skills',
-                component:()=>import("@/views/Admin/Skills/AdminSkillsView.vue"),
+                component: () => import("@/views/Admin/Skills/AdminSkillsView.vue"),
                 meta: {
-                    title:'Admin - Skills',
+                    title: 'Admin - Skills',
                     requiresAdmin: true
                 }
             },
             {
                 path: 'ratings',
                 name: 'admin-ratings',
-                component:()=>import("@/views/Admin/ratings/AdminRatingsView.vue"),
+                component: () => import("@/views/Admin/ratings/AdminRatingsView.vue"),
                 meta: {
-                    title:'Admin - Ratings',
+                    title: 'Admin - Ratings',
                     requiresAdmin: true
                 }
             }
@@ -211,12 +211,33 @@ const routes = [
                     title: 'Settings',
                     requiresAuth: true
                 },
-                beforeEnter:async (to)=>{
-                    const result=await getUserData()
-                    to.meta.prefetched=result.data.data;
+                beforeEnter: async (to) => {
+                    const result = await getUserData()
+                    to.meta.prefetched = result.data.data;
                     return true;
                 }
             },
+            {
+                path: 'notifications',
+                component: () => import('@/views/User/NotificationsView.vue'),
+                name: 'notifications',
+                meta: {
+                    requiresAuth: true
+                },
+                beforeEnter: async (to) => {
+                    const result = await getUserData()
+                    const user = result.data.data
+                    const notifications = user.received_notifications
+                    const unread = notifications.filter(notif => !notif.is_read)
+                    to.meta.prefetched = {notifications};
+                    let count;
+                    if (!unread.length) count = ''
+                    else if (unread.length <= 9) count = `(${unread.length})`
+                    else count = '(9+)'
+                    to.meta.title = `${ count } Postaláda`
+                    return true;
+                }
+            }
         ]
     },
     {

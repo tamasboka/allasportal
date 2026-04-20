@@ -14,16 +14,19 @@ export default {
 </script>
 
 <template>
-  <section class="min-vh-100">
+  <section class="min-vh-100 p-5">
     <div class="container">
       <div class="row">
-        <div class="col-12 col-lg-4 col-md-12 col-sm-12 text-center d-flex align-items-center min-vh-100">
+        <div class="col-12 col-lg-4 col-md-12 col-sm-12 text-center d-flex align-items-center justify-content-center min-vh-100">
           <UserProfileCard :user="user"/>
         </div>
         <div class="col-12 col-lg-8 col-md-12 col-sm-12">
+          <div class="border-5 border-bottom mb-4">
+            <h1 class="text-center fw-bold">{{ user.firstname }} állásajánlásai</h1>
+          </div>
           <JobCard :job="job" v-for="job in user.published_jobs"/>
           <div v-if="!user.published_jobs.length" class="d-flex min-vh-100 align-items-center">
-            <p class="alert alert-danger text-center w-100">Még nincs feltöltött munkája</p>
+            <p class="alert alert-danger text-center w-100">Még nincs feltöltött állásajánlat!</p>
           </div>
         </div>
       </div>

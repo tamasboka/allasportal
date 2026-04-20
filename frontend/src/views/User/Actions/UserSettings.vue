@@ -31,7 +31,6 @@ export default {
       if (this.user.skills.find(skill => this.skillID === skill.id)) return
       try {
         await http.post('/api/adduserskill', {
-          job_id: this.job_id,
           skill_id: this.skillID
         }, {
           headers: {
@@ -49,7 +48,7 @@ export default {
     },
     async removeSkill(skill_id) {
       try {
-        await http.delete(`/api/user/${this.job_id}/skill/${skill_id}`, {
+        await http.delete(`/api/user/${this.user.id}/skill/${skill_id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

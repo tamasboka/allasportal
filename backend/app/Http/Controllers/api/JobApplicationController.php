@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobApplication\JobApplicationRequest;
 use App\Http\Resources\JobApplication\JobApplicationCollection;
 use App\Http\Resources\JobApplication\JobApplicationResource;
+use App\Models\Job;
 use App\Models\JobApplication;
 use App\Models\Notification;
 use App\Models\User;

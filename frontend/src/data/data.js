@@ -51,3 +51,11 @@ export async function getAllRatings(){
         }
     })
 }
+
+export async function getUserData(){
+    return await http.get('/api/me',{
+        headers:{
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    })
+}

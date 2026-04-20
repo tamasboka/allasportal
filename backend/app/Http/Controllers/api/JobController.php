@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\JobAddCategoryRequest;
-use App\Http\Requests\JobAddSkillRequest;
-use App\Http\Requests\JobRequest;
-use App\Http\Requests\SaveJobRequest;
+use App\Http\Requests\Job\JobAddCategoryRequest;
+use App\Http\Requests\Job\JobAddSkillRequest;
+use App\Http\Requests\Job\JobRequest;
+use App\Http\Requests\Job\SaveJobRequest;
 use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\Job\JobResource;
 use App\Models\Category;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Job;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class SaveJobRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,11 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
+            'job_id' => [
                 'required',
-                'string',
-                'max:100'
-            ],
+                'integer',
+                'exists:jobs,id',
+            ]
         ];
     }
 }

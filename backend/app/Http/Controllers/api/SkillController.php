@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SkillRequest;
+use App\Http\Requests\Skill\SkillRequest;
 use App\Http\Resources\Skill\SkillCollection;
 use App\Http\Resources\Skill\SkillResource;
 use App\Models\Skill;

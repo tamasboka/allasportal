@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Job;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class JobAddCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,15 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => [
+            'job_id' => [
                 'required',
-                'string',
-                'email',
+                'integer',
+                'exists:jobs,id',
             ],
-            'password' => [
+            'category_id' => [
                 'required',
-                'string',
+                'integer',
+                'exists:categories,id',
             ]
         ];
     }

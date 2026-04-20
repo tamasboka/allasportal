@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\JobApplicationRequest;
+use App\Http\Requests\JobApplication\JobApplicationRequest;
 use App\Http\Resources\JobApplication\JobApplicationCollection;
 use App\Http\Resources\JobApplication\JobApplicationResource;
 use App\Models\JobApplication;

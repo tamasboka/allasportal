@@ -7,6 +7,7 @@ use App\Http\Requests\JobApplication\JobApplicationRequest;
 use App\Http\Resources\JobApplication\JobApplicationCollection;
 use App\Http\Resources\JobApplication\JobApplicationResource;
 use App\Models\JobApplication;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -139,8 +140,15 @@ class JobApplicationController extends Controller
             $application->update([
                 'status' => 'accepted'
             ]);
-            $job->workers()->attach($application->user_id);
+            $job->workers()->attach($user->id);
             $user->workplaces()->attach($job->id);
+            Notification::create([
+                'to_user_id' => $user->id,
+                'from_user_id' => $request->user()->id,
+                'title' => 'Elfogadva!!',
+                'message' => 'Örömmel közöljuk, hogy ' . $request->user()->firstname . 'elfogadta a jelentkezését!',
+                'type' => 'accept'
+            ]);
             $application->delete();
             return response()->json([
                 "message" => 'Application accepted successfully'
@@ -150,14 +158,14 @@ class JobApplicationController extends Controller
             "message" => "Unauthorized"
         ], 401);
     }
-    public function rejectApplication(Request $request, string $applicationID) {
-        try {
-            $application = JobApplication::findOrFail($applicationID);
-        } catch (ModelNotFoundException) {
-            return response()->json([
-                "message" => "Application not found"
-            ], 404);
-        }
+    public function rejectApplication(Request $request, JobApplication $application) {
+        Notification::create([
+            'to_user_id' => $application->user_id,
+            'from_user_id' => $request->user()->id,
+            'title' => 'Elutasítva!',
+            'message' => 'Sajnálattal közöljuk, hogy ' . $request->user()->firstname . 'elutasította a jelentkezését!',
+            'type' => 'reject'
+        ]);
         $application->delete();
         return response()->json([
             "message" => "Application rejected"

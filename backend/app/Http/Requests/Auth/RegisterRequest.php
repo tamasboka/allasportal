@@ -44,6 +44,7 @@ class RegisterRequest extends FormRequest
                 'required',
                 'string',
                 'min:8',
+                'max:255'
             ],
             'gender' => [
                 'string',
@@ -55,17 +56,9 @@ class RegisterRequest extends FormRequest
             'phone' => [
                 'string',
                 'min:8',
-                'max:15'
+                'max:15',
+                'unique:users,phone'
             ],
-            'work_experience' => [
-                'numeric',
-                'min:0',
-            ],
-            'bio' => [
-                'string',
-                'min:1',
-                'max:1000'
-            ]
         ];
     }
 }

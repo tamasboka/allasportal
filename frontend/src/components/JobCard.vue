@@ -23,15 +23,16 @@ export default {
 </script>
 
 <template>
-  <section>
+  <section class="py-5">
     <div class="card" :class="job.type">
       <div class="card-body d-flex flex-column p-4">
         <div class="mb-2">
           <h2 class="h4 fw-bold mb-1 text-dark">{{ job.name }}</h2>
           <p class="text-muted fw-bold text-uppercase">{{ Translate }}</p>
+          <p class="text-muted fw-bold text-uppercase">Férőhely: {{job.workers.length}}/{{job.capacity}}</p>
         </div>
-        <p class="card-text text-secondary mb-4">
-          <i class="bi bi-person-fill"></i> {{ job.advertiser.firstname }} {{ job.advertiser.lastname }}
+        <p v-if="job?.advertiser" class="card-text text-secondary mb-4">
+          <i class="bi bi-person-fill"></i> {{ job?.advertiser.firstname }} {{ job?.advertiser.lastname }}
         </p>
         <RouterLink
             :to="{name: 'job', params: {jobID: job.id}}"

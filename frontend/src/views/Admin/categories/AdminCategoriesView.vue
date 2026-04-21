@@ -1,20 +1,20 @@
 <script>
-import {Form,Field,ErrorMessage} from "vee-validate";
+import {Form, Field, ErrorMessage} from "vee-validate";
 import Spinner from "@/components/Spinner.vue";
 import {getAllCategories} from "@/data/data.js";
 import {http} from "@/utils/http.js";
 
 export default {
   name: "AdminCategoriesView",
-  components: {Spinner,Form,Field,ErrorMessage},
+  components: {Spinner, Form, Field, ErrorMessage},
   data() {
     return {
       loading: false,
       categories: [],
-      error:''
+      error: ''
     }
   },
-  methods:{
+  methods: {
     async GetAllCategories() {
       this.loading = true;
       try {
@@ -26,26 +26,26 @@ export default {
         this.loading = false
       }
     },
-    async DeleteCategory(id){
-      try{
-        await http.delete(`/api/categories/${id}`,{
-          headers:{
-            Authorization:`Bearer ${localStorage.getItem('token')}`
+    async DeleteCategory(id) {
+      try {
+        await http.delete(`/api/categories/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         })
-      }catch (e){
+      } catch (e) {
         console.log(e.message)
       }
       await this.GetAllCategories();
     },
-    async CreateCategory(data){
-      try{
-        await http.post(`/api/categories`,data,{
-          headers:{
-            Authorization:`Bearer ${localStorage.getItem('token')}`
+    async CreateCategory(data) {
+      try {
+        await http.post(`/api/categories`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         })
-      }catch (e){
+      } catch (e) {
         console.log(e.message)
       }
       await this.GetAllCategories();
@@ -79,9 +79,11 @@ export default {
       </thead>
       <tbody>
       <tr v-for="category in categories">
-        <td>{{category.id}}</td>
-        <td>{{category.name}}</td>
-        <td><button class="btn btn-danger" @click="DeleteCategory(category.id)"><i class="bi bi-trash-fill"></i></button></td>
+        <td>{{ category.id }}</td>
+        <td>{{ category.name }}</td>
+        <td>
+          <button class="btn btn-danger" @click="DeleteCategory(category.id)"><i class="bi bi-trash-fill"></i></button>
+        </td>
       </tr>
       </tbody>
     </table>

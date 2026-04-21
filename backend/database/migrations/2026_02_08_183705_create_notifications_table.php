@@ -23,7 +23,7 @@ return new class extends Migration {
                 ->onDelete('cascade');
             $table->string('title');
             $table->string('message');
-            $table->enum('type', ['accept', 'reject', 'general', 'system']);
+            $table->enum('type', ['accept', 'reject', 'general', 'system'])->default('general');
             $table->boolean('is_read')->default(false);
             $table->timestamps();
         });

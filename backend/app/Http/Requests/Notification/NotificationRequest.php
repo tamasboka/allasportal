@@ -23,10 +23,10 @@ class NotificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'to_user_id' => [
+            'email' => [
                 'required',
-                'integer',
-                'exists:users,id',
+                'email',
+                'exists:users,email',
             ],
             'title' => [
                 'required',
@@ -41,7 +41,7 @@ class NotificationRequest extends FormRequest
                 'max:255',
             ],
             'type' => [
-                'required',
+                'nullable',
                 'string',
                 Rule::in(['accept', 'reject', 'system', 'general'])
             ],

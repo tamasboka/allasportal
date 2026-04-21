@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Notification\EditNotificationRequest;
 use App\Http\Requests\Notification\NotificationRequest;
 use App\Http\Resources\Notification\NotificationCollection;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -45,6 +47,8 @@ class NotificationController extends Controller
     public function store(NotificationRequest $request)
     {
         $validated = $request->validated();
+        if ($request->user()->role === 'user') $validated['type'] = 'general';
+        $validated['to_user_id'] = User::where('email', $request->email)->first()->id;
         $validated['from_user_id'] = $request->user()->id;
         $notif = Notification::create($validated);
         Log::info('Notification created', [
@@ -97,9 +101,25 @@ class NotificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EditNotificationRequest $request, Notification $notification)
     {
-        //
+        if ($request->user()->id === $notification->to_user_id) {
+            Log::info('Notification updated', [
+                'user_id' => $request->user()->id,
+                'notification_id' => $notification->id
+            ]);
+            $notification->update($request->validated());
+            return (new NotificationResource($notification))
+                ->response()
+                ->setStatusCode(200);
+        }
+        Log::alert('Unauthorized user action. notification:update', [
+            'user_id' => $request->user()->id,
+            'notification_id' => $notification->id
+        ]);
+        return response()->json([
+            'Unauthorized'
+        ], 401);
     }
 
     /**

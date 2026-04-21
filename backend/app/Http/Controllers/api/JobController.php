@@ -157,7 +157,13 @@ class JobController extends Controller
                 "message" => "Job not found"
             ], 404);
         }
-
+        Log::alert('Unauthorized user attempt. job:destroy', [
+            'user_id' => $request->user()->id,
+            'job_id' => $id
+        ]);
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
     }
     public function addCategory(JobAddCategoryRequest $request) {
         $job = Job::findOrFail($request->job_id);

@@ -228,8 +228,9 @@ const routes = [
                     const result = await getUserData()
                     const user = result.data.data
                     const notifications = user.received_notifications
+                    const sent = user.sent_notifications
                     const unread = notifications.filter(notif => !notif.is_read)
-                    to.meta.prefetched = {notifications};
+                    to.meta.prefetched = {notifications, userID: user.id, sent};
                     let count;
                     if (!unread.length) count = ''
                     else if (unread.length <= 9) count = `(${unread.length})`

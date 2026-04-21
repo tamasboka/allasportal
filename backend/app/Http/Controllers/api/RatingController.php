@@ -99,7 +99,7 @@ class RatingController extends Controller
         }
         Log::alert('Unauthorized user attempt. rating:update', [
             'user_id' => $request->user()->id,
-            'rating_id' => $id,
+            'rating_id' => $rating->id,
         ]);
         return response()->json([
             'message' => 'Unauthorized'

@@ -68,7 +68,7 @@ export default {
       <div class="min-vh-100 d-flex justify-content-center align-items-center">
         <div class="border-5 border-light rounded-3">
           <h1>Még senki nem rakott fel ilyen típusú ajánlást!</h1>
-          <RouterLink class="h4 text-success" :to="{name: 'create-job'}">Legyél az első!</RouterLink>
+          <RouterLink class="h4 text-primary" :to="{name: 'create-job'}">Legyél az első!</RouterLink>
         </div>
       </div>
     </div>

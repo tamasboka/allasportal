@@ -12,6 +12,7 @@ use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class JobApplicationController extends Controller
 {
@@ -21,21 +22,23 @@ class JobApplicationController extends Controller
     public function index(Request $request)
     {
         if ($request->user()->tokenCan('admin')) {
-            $applications = JobApplication::with(['sender', 'receiver'])
-                ->get();
-        } else if ($request->user()->tokenCan('user')) {
-            $applications = JobApplication::with(['sender', 'receiver'])
-                ->where('user_id', $request->user()->id)
-                ->get();
-        } else {
-            return response()
-                ->json([
-                    "message" => "Unauthorized"
-                ], 401);
+            $applications = JobApplication::with([
+                'sender',
+                'receiver'
+            ])->get();
+            Log::info('Job applications retrieved successfully.', [
+                'user_id' => $request->user()->id
+            ]);
+            return (new JobApplicationCollection($applications))
+                ->response()
+                ->setStatusCode(200);
         }
-        return (new JobApplicationCollection($applications))
-            ->response()
-            ->setStatusCode(200);
+        Log::alert('Unauthorized user attempt. JobApplications:index', [
+            'user_id' => $request->user()->id
+        ]);
+        return response()->json([
+            'message' => 'Forbidden'
+        ], 403);
     }
 
     /**
@@ -45,10 +48,17 @@ class JobApplicationController extends Controller
     {
         if ($request->user()->tokenCan('user')) {
             $application = JobApplication::create($request->all());
+            Log::info('Job application created successfully.', [
+                'user_id' => $request->user()->id,
+                'job_id' => $request['job_id']
+            ]);
             return (new JobApplicationResource($application))
                 ->response()
                 ->setStatusCode(201);
         } else {
+            Log::alert('Unauthorized user attempt. JobApplications:store', [
+                'user_id' => $request->user()->id
+            ]);
             return response()
                 ->json([
                     "message" => "Unauthorized"
@@ -64,16 +74,28 @@ class JobApplicationController extends Controller
         try {
             $application = JobApplication::with(['sender', 'receiver'])->findOrFail($id);
         } catch (ModelNotFoundException $e) {
+            Log::alert('Job application not found.', [
+                'user_id' => $request->user()->id,
+                'application_id' => $id
+            ]);
             return response()
                 ->json([
                     "message" => "Job Application not found"
                 ], 404);
         }
         if ($request->user()->tokenCan('admin') || $request->user()->id === $application->user_id) {
+            Log::info('Job application retrieved successfully.', [
+                'user_id' => $request->user()->id,
+                'application_id' => $id
+            ]);
             return (new JobApplicationResource($application))
                 ->response()
                 ->setStatusCode(200);
         } else {
+            Log::alert('Unauthorized user attempt. JobApplications:show', [
+                'user_id' => $request->user()->id,
+                'application_id' => $id
+            ]);
             return response()->json([
                 "message" => "Unauthorized"
             ], 401);
@@ -88,6 +110,10 @@ class JobApplicationController extends Controller
         try {
             $application = JobApplication::findOrFail($id);
         } catch (ModelNotFoundException $e) {
+            Log::alert('Job application not found.', [
+                'user_id' => $request->user()->id,
+                'application_id' => $id
+            ]);
             return response()
                 ->json([
                     "message" => "Job Application not found"
@@ -95,15 +121,23 @@ class JobApplicationController extends Controller
         }
         if ($request->user()->id === $application->user_id) {
             $application->update($request->validated());
+            Log::info('Job application updated successfully.', [
+                'user_id' => $request->user()->id,
+                'application_id' => $id
+            ]);
             return response()->json([
                 "message" => "Job Application updated successfully"
             ], 200);
-        } else {
-            return response()
-                ->json([
-                    "message" => "Unauthorized"
-                ], 401);
         }
+        Log::alert('Unauthorized user attempt. JobApplications:update', [
+            'user_id' => $request->user()->id,
+            'application_id' => $id
+        ]);
+        return response()
+            ->json([
+                "message" => "Unauthorized"
+            ], 401);
+
     }
 
     /**
@@ -114,25 +148,43 @@ class JobApplicationController extends Controller
         try {
             $application = JobApplication::findOrFail($id);
         } catch (ModelNotFoundException) {
+            Log::info('Job application not found.', [
+                'user_id' => $request->user()->id,
+                'application_id' => $id
+            ]);
             return response()->json([
                 'message' => 'Model not found'
             ], 404);
         }
         if ($request->user()->tokenCan('admin') || $request->user()->id === $application->user_id) {
             $application->delete();
+            Log::info('Job application deleted successfully.', [
+                'user_id' => $request->user()->id,
+                'application_id' => $id
+            ]);
             return response()->json([], 204);
-        } else {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
         }
+        Log::alert('Unauthorized user attempt. JobApplications:destroy', [
+            'user_id' => $request->user()->id,
+            'application_id' => $id
+        ]);
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
+
     }
-    public function acceptApplication(Request $request, string $applicationID) {
+
+    public function acceptApplication(Request $request, string $applicationID)
+    {
         try {
             $application = JobApplication::findOrFail($applicationID);
             $user = User::findOrFail($application->user_id);
             $job = $application->receiver;
         } catch (ModelNotFoundException) {
+            Log::alert('Job application not found.', [
+                'user_id' => $request->user()->id,
+                'application_id' => $applicationID
+            ]);
             return response()->json([
                 "message" => "Application not found"
             ], 404);
@@ -142,7 +194,6 @@ class JobApplicationController extends Controller
                 'status' => 'accepted'
             ]);
             $job->workers()->attach($user->id);
-            $user->workplaces()->attach($job->id);
             Notification::create([
                 'to_user_id' => $user->id,
                 'from_user_id' => $request->user()->id,
@@ -151,26 +202,51 @@ class JobApplicationController extends Controller
                 'type' => 'accept'
             ]);
             $application->delete();
+            Log::info('Job application accepted successfully.', [
+                'receiver' => $request->user()->id,
+                'sender' => $application->user_id,
+                'application_id' => $applicationID
+            ]);
             return response()->json([
                 "message" => 'Application accepted successfully'
             ]);
         }
+        Log::alert('Unauthorized user attempt. JobApplications:accept', [
+            'user_id' => $request->user()->id,
+            'application_id' => $applicationID
+        ]);
         return response()->json([
             "message" => "Unauthorized"
         ], 401);
     }
-    public function rejectApplication(Request $request, JobApplication $application) {
+
+    public function rejectApplication(Request $request, JobApplication $application)
+    {
         $job = Job::findOrFail($application->job_id);
-        Notification::create([
-            'to_user_id' => $application->user_id,
-            'from_user_id' => $request->user()->id,
-            'title' => 'Elutasítva!',
-            'message' => 'Sajnálattal közöljuk, hogy ' . $request->user()->firstname . ' elutasította a jelentkezését az ' . $job->name . ' állásra! Ez a levél automatikusan generált. Ez a levél automatikusan generált.',
-            'type' => 'reject'
+        if ($request->user()->id === $job->user_id) {
+            Notification::create([
+                'to_user_id' => $application->user_id,
+                'from_user_id' => $request->user()->id,
+                'title' => 'Elutasítva!',
+                'message' => 'Sajnálattal közöljuk, hogy ' . $request->user()->firstname . ' elutasította a jelentkezését az ' . $job->name . ' állásra! Ez a levél automatikusan generált. Ez a levél automatikusan generált.',
+                'type' => 'reject'
+            ]);
+            $application->delete();
+            Log::info('Job application rejected successfully.', [
+                'receiver' => $request->user()->id,
+                'sender' => $application->user_id,
+                'application' => $application->id,
+            ]);
+            return response()->json([
+                "message" => "Application rejected"
+            ]);
+        }
+        Log::alert('Unauthorized user attempt. JobApplications:reject', [
+            'user_id' => $request->user()->id,
+            'application_id' => $application->id
         ]);
-        $application->delete();
         return response()->json([
-            "message" => "Application rejected"
-        ]);
+            "message" => "Unauthorized"
+        ], 401);
     }
 }

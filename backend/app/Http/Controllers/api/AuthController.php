@@ -9,6 +9,7 @@ use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -17,6 +18,10 @@ class AuthController extends Controller
         $validated = $request->validated();
         $user = User::create($validated);
 
+        Log::info('New user registered', [
+            'user_id' => $user->id,
+            'ip' => $request->ip(),
+        ]);
         return response()->json([
             "success" => true,
             "message" => "Register successfully",
@@ -29,6 +34,9 @@ class AuthController extends Controller
         $validated = $request->validated();
 
         if (!Auth::attempt($validated)) {
+            Log::alert('Failed login attempt', [
+                'ip' => $request->ip()
+            ]);
             return response()->json([
                 "success" => false,
                 "message" => "Unauthorized"
@@ -50,6 +58,9 @@ class AuthController extends Controller
         $abilities = $role_abilities[$user->role];
         $token = $user->createToken('auth_token', $abilities)->plainTextToken;
 
+        Log::info('User logged in.', [
+            'user_id' => $user->id
+        ]);
         return response()->json([
             "uid" => $user->id,
             "success" => true,
@@ -62,25 +73,19 @@ class AuthController extends Controller
     function logout(Request $request)
     {
         $request->user()->tokens()->delete();
+        Log::info('User logged out.', [
+            'user_id' => $request->user()->id
+        ]);
         return response()->json([
             "success" => true,
             "message" => "Logout successfully"
         ], 200);
     }
-
-    function abilities(Request $request)
-    {
-        $abilities = [];
-        foreach ($request->user()->tokens() as $token) {
-            $abilities[] = $token->abilities;
-        }
-        return response()->json([
-            "role" => $request->user()->role,
-        ], 200);
-    }
-
     function role(Request $request)
     {
+        Log::info('User role retrieved', [
+            'user_id' => $request->user()->id
+        ]);
         return response()->json([
             "role" => $request->user()->role
         ]);
@@ -95,6 +100,9 @@ class AuthController extends Controller
             'received_notifications.from'
         ])
             ->findOrFail($request->user()->id);
+        Log::debug('User profile retrieved', [
+            'user_id' => $request->user()->id
+        ]);
         return (new UserResource($user))
             ->response()
             ->setStatusCode(200);

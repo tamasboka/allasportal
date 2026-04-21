@@ -8,6 +8,7 @@ use App\Http\Resources\Rating\RatingCollection;
 use App\Http\Resources\Rating\RatingResource;
 use App\Models\Rating;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RatingController extends Controller
 {
@@ -21,10 +22,16 @@ class RatingController extends Controller
                 'rater',
                 'rated'
             ])->get();
+            Log::info('All ratings fetched', [
+                'user_id' => $request->user()->id,
+            ]);
             return (new RatingCollection($ratings))
                 ->response()
                 ->setStatusCode(200);
         }
+        Log::alert('Unauthorized user attempt. rating:index', [
+            'user_id' => $request->user()->id,
+        ]);
         return response()->json([
             'message' => 'Unauthorized'
         ], 401);
@@ -37,7 +44,14 @@ class RatingController extends Controller
     {
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
-        Rating::create($validated);
+        $rating = Rating::create($validated);
+        Log::info('Rating created', [
+            'user_id' => $request->user()->id,
+            'rating_id' => $rating->id,
+        ]);
+        return (new RatingResource($rating))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -50,10 +64,18 @@ class RatingController extends Controller
                 'rater',
                 'rated'
             ])->findOrFail($id);
+            Log::info('Rating fetched', [
+                'user_id' => $request->user()->id,
+                'rating_id' => $id,
+            ]);
             return (new RatingResource($rating))
                 ->response()
                 ->setStatusCode(200);
         }
+        Log::alert('Unauthorized user attempt. rating:show', [
+            'user_id' => $request->user()->id,
+            'rating_id' => $id,
+        ]);
         return response()->json([
             'message' => 'Unauthorized'
         ], 401);
@@ -67,7 +89,18 @@ class RatingController extends Controller
         if ($request->user()->id === $rating->rater()->id) {
             $validated = $request->validated();
             $rating->update($validated);
+            Log::info('Rating updated', [
+                'user_id' => $request->user()->id,
+                'rating_id' => $rating->id
+            ]);
+            return (new RatingResource($rating))
+                ->response()
+                ->setStatusCode(200);
         }
+        Log::alert('Unauthorized user attempt. rating:update', [
+            'user_id' => $request->user()->id,
+            'rating_id' => $id,
+        ]);
         return response()->json([
             'message' => 'Unauthorized'
         ], 401);
@@ -81,11 +114,18 @@ class RatingController extends Controller
         $rating = Rating::findOrFail($id);
         if ($request->user()->id === $rating->user_id || $request->user()->role === 'admin') {
             $rating->delete();
-            return response(null, 204);
-        } else {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+            Log::alert('Rating deleted', [
+                'user_id' => $request->user()->id,
+                'rating_id' => $id,
+            ]);
+            return response()->json([], 204);
         }
+        Log::alert('Unauthorized user attempt. ratings:destroy', [
+            'user_id' => $request->user()->id,
+            'rating_id' => $id,
+        ]);
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
     }
 }

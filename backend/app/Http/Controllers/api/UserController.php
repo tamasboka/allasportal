@@ -11,6 +11,8 @@ use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use function Laravel\Prompts\alert;
 
 class UserController extends Controller
 {
@@ -21,15 +23,20 @@ class UserController extends Controller
     {
         if ($request->user()->tokenCan('admin')) {
             $users = User::all();
+            Log::info('All users fetched', [
+                'user_id' => $request->user()->id,
+            ]);
             return (new UserCollection($users))
                 ->response()
                 ->setStatusCode(200);
-        } else {
-            return response()
-                ->json([
-                    "message" => "Unauthorized"
-                ], 401);
         }
+        Log::alert('Unauthorized user attempt. user:index', [
+            'user_id' => $request->user()->id,
+        ]);
+        return response()
+            ->json([
+                "message" => "Unauthorized"
+            ], 401);
     }
 
     /**
@@ -44,11 +51,17 @@ class UserController extends Controller
                 'sent_ratings',
                 'skills'
             ])->findOrFail($id);
-        } catch(ModelNotFoundException) {
+        } catch (ModelNotFoundException) {
+            Log::alert('User not found', [
+                'id' => $id,
+            ]);
             return response()->json([
                 'message' => 'User not found'
             ], 404);
         }
+        Log::info('User fetched', [
+            'id' => $id
+        ]);
         return (new UserResource($user))
             ->response()
             ->setStatusCode(200);
@@ -63,15 +76,26 @@ class UserController extends Controller
             $validated = $request->validated();
             try {
                 $user->update($validated);
+                Log::info('User updated', [
+                    'user_id' => $request->user()->id,
+                    'id' => $user->id
+                ]);
                 return response()->json([
                     "message" => "User updated successfully"
                 ]);
             } catch (ModelNotFoundException $e) {
+                Log::alert('User not found', [
+                    'user_id' => $request->user()->id,
+                ]);
                 return response()->json([
                     "message" => "User not found"
                 ], 404);
             }
         } else {
+            Log::alert('Unauthorized user attempt', [
+                'user_id' => $request->user()->id,
+                'id' => $user->id
+            ]);
             return response()->json([
                 "message" => "Unauthorized",
             ], 401);
@@ -87,21 +111,34 @@ class UserController extends Controller
             try {
                 $user = User::findOrFail($id);
                 $user->delete();
+                Log::info('User deleted', [
+                    'user_id' => $request->user()->id,
+                    'id' => $user->id
+                ]);
                 return response()->json([
                     "message" => "User deleted successfully"
                 ]);
             } catch (ModelNotFoundException $e) {
+                Log::alert('User not found', [
+                    'id' => $user->id
+                ]);
                 return response()->json([
                     "message" => "User not found"
                 ], 404);
             }
-        } else {
-            return response()->json([
-                "message" => "Unauthorized"
-            ], 401);
         }
+        Log::alert('Unauthorized user attempt', [
+            'user_id' => $request->user()->id,
+            'id' => $id
+        ]);
+        return response()->json([
+            "message" => "Unauthorized"
+        ], 401);
+
     }
-    public function showAdmin(Request $request, string $id) {
+
+    public function showAdmin(Request $request, string $id)
+    {
         if ($request->user()->tokenCan('admin')) {
             try {
                 $user = User::with([
@@ -125,7 +162,12 @@ class UserController extends Controller
             'message' => 'Unauthorized'
         ], 401);
     }
-    public function savedJobs(Request $request) {
+
+    public function savedJobs(Request $request)
+    {
+        Log::info('Saved jobs retrieved successfully', [
+            'user_id' => $request->user()->id,
+        ]);
         return (new JobCollection($request->user()->saved_jobs()->with([
             'owner',
             'categories',
@@ -135,14 +177,26 @@ class UserController extends Controller
             ->response()
             ->setStatusCode(200);
     }
-    public function addSkill(Request $request) {
+
+    public function addSkill(Request $request)
+    {
         $request->user()->skills()->attach($request->skill_id);
+        Log::info('Skill added successfully to user', [
+            'user_id' => $request->user()->id,
+            'skill_id' => $request->skill_id
+        ]);
         return response()->json([
             "message" => "Skill added successfully"
         ]);
     }
-    public function removeSkill(Request $request, User $user, Skill $skill) {
+
+    public function removeSkill(Request $request, User $user, Skill $skill)
+    {
         $user->skills()->detach($skill->id);
+        Log::info('Skill removed successfully from user', [
+            'user_id' => $request->user()->id,
+            'skill_id' => $request->skill_id
+        ]);
         return response()->json([
             "message" => "Skill removed successfully"
         ]);

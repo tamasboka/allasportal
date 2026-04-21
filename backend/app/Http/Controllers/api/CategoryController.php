@@ -9,6 +9,7 @@ use App\Http\Resources\Category\CategoryResource;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -18,6 +19,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+        Log::debug('Categories requested');
         return (new CategoryCollection($categories))
             ->response()
             ->setStatusCode(200);
@@ -31,10 +33,17 @@ class CategoryController extends Controller
         if ($request->user()->tokenCan('admin')) {
             $validated = $request->validated();
             $category = Category::create($validated);
+            Log::info('New category created.', [
+                'user_id' => $request->user()->id,
+                'category_id' => $category->id
+            ]);
             return (new CategoryResource($category))
                 ->response()
                 ->setStatusCode(201);
         } else {
+            Log::alert('Unauthorized user attempt! categories:store', [
+                'user_id' => $request->user()->id
+            ]);
             return response()->json([
                 'message' => 'Unauthorized'
             ], 404);
@@ -49,15 +58,27 @@ class CategoryController extends Controller
         if ($request->user()->tokenCan('admin')) {
             try {
                 $category = Category::findOrFail($id);
+                Log::info('Category retrieved successfully.', [
+                    'user_id' => $request->user()->id,
+                    'category_id' => $category->id
+                ]);
                 return (new CategoryResource($category))
                     ->response()
                     ->setStatusCode(200);
             } catch (ModelNotFoundException) {
+                Log::alert('Category not found', [
+                    'user_id' => $request->user()->id,
+                    'category_id' => $id
+                ]);
                 return response()->json([
                     'message' => 'Model not found'
                 ], 404);
             }
         } else {
+            Log::alert('Unauthorized user attempt. categories:show', [
+                'user_id' => $request->user()->id,
+                'category_id' => $id
+            ]);
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
@@ -73,16 +94,28 @@ class CategoryController extends Controller
             try {
                 $category = Category::findOrFail($id);
             } catch (ModelNotFoundException) {
+                Log::alert('Category not found', [
+                    'user_id' => $request->user()->id,
+                    'category_id' => $id
+                ]);
                 return response()->json([
                     'message' => 'Model not found'
                 ], 404);
             }
             $validated = $request->validated();
             $category->update($validated);
+            Log::info('Category updated successfully.', [
+                'user_id' => $request->user()->id,
+                'category_id' => $category->id
+            ]);
             return (new CategoryResource($category))
                 ->response()
                 ->setStatusCode(200);
         } else {
+            Log::alert('Unauthorized user attempt. categories:update', [
+                'user_id' => $request->user()->id,
+                'category' => $id
+            ]);
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
@@ -98,13 +131,25 @@ class CategoryController extends Controller
             try {
                 $category = Category::findOrFail($id);
                 $category->delete();
+                Log::info('Category deleted', [
+                    'user_id' => $request->user()->id,
+                    'category_id' => $id
+                ]);
                 return response()->json([], 204);
             } catch (ModelNotFoundException) {
+                Log::alert('Category not found', [
+                    'user_id' => $request->user()->id,
+                    'category_id' => $id
+                ]);
                 return response()->json([
                     'message' => 'Model not found'
                 ], 404);
             }
         } else {
+            Log::alert('Unauthorized user attempt. categories:destroy', [
+                'user_id' => $request->user()->id,
+                'category' => $id
+            ]);
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);

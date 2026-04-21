@@ -9,6 +9,7 @@ use App\Http\Resources\Notification\NotificationResource;
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
 {
@@ -17,12 +18,21 @@ class NotificationController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->user()->tokenCan('user')) {
-            $notifications = Notification::where('to_user_id', $request->user()->id)->with(['from'])->get();
+        if ($request->user()->tokenCan('admin')) {
+            $notifications = Notification::with([
+                'to',
+                'from'
+            ])->get();
+            Log::info('All notifications fetched', [
+                'user_id' => $request->user()->id,
+            ]);
             return (new NotificationCollection($notifications))
                 ->response()
                 ->setStatusCode(200);
         } else {
+            Log::alert('Unauthorized user attempt. notifications:index', [
+                'user_id' => $request->user()->id,
+            ]);
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
@@ -34,18 +44,16 @@ class NotificationController extends Controller
      */
     public function store(NotificationRequest $request)
     {
-        if ($request->user()->tokenCan('user')) {
-            $validated = $request->validated();
-            $validated['from_user_id'] = $request->user()->id;
-            $notif = Notification::create($validated);
-            return (new NotificationResource($notif))
-                ->response()
-                ->setStatusCode(201);
-        } else {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
-        }
+        $validated = $request->validated();
+        $validated['from_user_id'] = $request->user()->id;
+        $notif = Notification::create($validated);
+        Log::info('Notification created', [
+            'user_id' => $request->user()->id,
+            'notification_id' => $notif->id,
+        ]);
+        return (new NotificationResource($notif))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -60,14 +68,26 @@ class NotificationController extends Controller
                     $notification->update(['is_read' => 1]);
                 }
             } else {
+                Log::alert('Unauthorized user attempt. notifications:show', [
+                    'user_id' => $request->user()->id,
+                    'notification_id' => $id,
+                ]);
                 return response()->json([
                     'message' => 'Unauthorized'
                 ], 401);
             }
+            Log::info('Notification fetched', [
+                'user_id' => $request->user()->id,
+                'notification_id' => $id,
+            ]);
             return (new NotificationResource($notification))
                 ->response()
                 ->setStatusCode(200);
         } catch (ModelNotFoundException $e) {
+            Log::alert('Notification not found', [
+                'user_id' => $request->user()->id,
+                'notification_id' => $id,
+            ]);
             return response()->json([
                 'message' => 'Notification not found'
             ], 404);
@@ -92,12 +112,24 @@ class NotificationController extends Controller
             if ($request->user()->tokenCan('admin') || $request->user()->id === $notification->from_user_id) {
                 $notification->delete();
             } else {
+                Log::alert('Unauthorized user attempt. notifications:destroy', [
+                    'user_id' => $request->user()->id,
+                    'notification_id' => $id,
+                ]);
                 return response()->json([
                     'message' => 'Unauthorized'
                 ], 401);
             }
+            Log::info('Notification deleted', [
+                'user_id' => $request->user()->id,
+                'notification_id' => $id,
+            ]);
             return response()->json([], 204);
         } catch (ModelNotFoundException $e) {
+            Log::alert('Notification not found', [
+                'user_id' => $request->user()->id,
+                'notification_id' => $id,
+            ]);
             return response()->json([
                 'message' => 'Notification not found'
             ], 404);

@@ -97,7 +97,10 @@ class AuthController extends Controller
             'saved_jobs',
             'workplaces',
             'skills',
-            'received_notifications.from'
+            'received_notifications.from',
+            'received_notifications.to',
+            'sent_notifications.from',
+            'sent_notifications.to',
         ])
             ->findOrFail($request->user()->id);
         Log::debug('User profile retrieved', [

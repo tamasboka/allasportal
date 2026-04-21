@@ -63,7 +63,7 @@ export default {
 
 <template>
   <div class="container mt-5">
-    <h1 class="text-success text-center mb-4 fw-bold">Jelentkezők</h1>
+    <h1 class="underline-yellow text-center mb-4 fw-bold">Jelentkezők</h1>
     <h2 v-if="!applications.length" class="text-center">Nincsenek jelentkezők!</h2>
     <div v-else class="px-5">
       <JobApplication v-for="application in applications" @accept="acceptApplication" @reject="rejectApplication" :application="application" class="my-2"/>

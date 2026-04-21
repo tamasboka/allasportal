@@ -98,7 +98,7 @@ export default {
 
 <template>
   <section class="mt-3">
-    <h1 class="text-center mb-4">Új munka</h1>
+    <h1 class="text-center mb-4 underline-gray">Új munka</h1>
     <Form @submit="Create">
       <ErrorMessage class="alert alert-danger text-center" name="name" as="p"/>
       <ErrorMessage class="alert alert-danger text-center" name="type" as="p"/>

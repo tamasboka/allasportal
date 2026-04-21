@@ -81,7 +81,7 @@ export default {
     <div class="container">
       <div class="row">
         <div class="col-12 col-lg-6 col-md-12 col-sm-12 d-flex min-vh-100 align-items-center">
-          <div class="border border-5 border-secondary rounded-5 p-3">
+          <div class="border-block rounded-5 p-3">
             <Form @submit="UpdateUser">
               <div class="border-5 border-bottom mb-4">
                 <h1 class="text-center fw-bold">Fiók adatok</h1>
@@ -115,7 +115,7 @@ export default {
           </div>
         </div>
         <aside class="col-12 col-lg-6 col-md-12 col-sm-12 text-center p-5">
-          <div class="border border-5 border-secondary rounded-5 p-3">
+          <div class="border-block rounded-5 p-3">
             <div class="border-5 border-bottom mb-4">
               <h1 class="text-center fw-bold">Készségeid</h1>
             </div>

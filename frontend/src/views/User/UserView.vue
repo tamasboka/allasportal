@@ -21,7 +21,7 @@ export default {
           <UserProfileCard :user="user"/>
         </div>
         <div class="col-12 col-lg-8 col-md-12 col-sm-12">
-          <div class="border-5 border-bottom mb-4">
+          <div class="underline-white mb-4">
             <h1 class="text-center fw-bold">{{ user.firstname }} állásajánlásai</h1>
           </div>
           <JobCard :job="job" v-for="job in user.published_jobs"/>

@@ -73,7 +73,7 @@ export default {
 </script>
 
 <template>
-  <h1 class="border-bottom border-4 border-warning text-center fw-bold mb-4">Kategóriák</h1>
+  <h1 class="underline-yellow text-center fw-bold mb-4">Kategóriák</h1>
   <div class="input-group mb-3">
     <span class="input-group-text">Új kategória</span>
     <select v-if="!categoriesLoading" v-model="categoryID" class="form-select">

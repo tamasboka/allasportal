@@ -1,6 +1,6 @@
 main {
-    --darkbg: #121314;
-    background-color: var(--darkbg);
+    --darkbg: #0a0a0a;
+    background: linear-gradient(to bottom, var(--darkbg), rgb(50 50 50));
 }
 
 footer {
@@ -10,6 +10,44 @@ footer {
 
 h1, p {
     color: white;
+}
+
+.border-block {
+    border: 15px solid var(--bs-secondary);
+    border-radius: 2rem;
+}
+.border-block-yellow {
+    border: 15px solid var(--bs-warning);
+    border-radius: 2rem;
+}
+.border-block-red {
+    border: 15px solid var(--bs-danger);
+    border-radius: 2rem;
+}
+.border-block-white {
+    border: 15px solid var(--bs-light);
+    border-radius: 2rem;
+}
+.underline-gray {
+    border-bottom: 10px solid var(--bs-secondary);
+}
+.underline-white {
+    border-bottom: 10px solid var(--bs-light)
+}
+.underline-red {
+    border-bottom: 10px solid var(--bs-danger)
+}
+.underline-yellow {
+    border-bottom: 10px solid var(--bs-warning)
+}
+.underline-blue {
+    border-bottom: 10px solid var(--bs-primary)
+}
+.horizontal-green {
+    border-left: 10px solid var(--bs-success)
+}
+.horizontal-blue {
+    border-left: 10px solid var(--bs-primary)
 }
 
 .navbar-nav .nav-link {

@@ -17,7 +17,7 @@ export default {
   <div class="row">
     <div class="col-12">
       <RouterLink :to="{name: 'home'}" class="btn btn-outline-primary mb-5">Vissza</RouterLink>
-      <h1 class="border-bottom border-danger" v-if="!jobs.length">Nincsenek mentett állásaid!</h1>
+      <h1 class="underline-yellow" v-if="!jobs.length">Nincsenek mentett állásaid!</h1>
       <JobCard v-for="job in jobs" :job="job" class="mb-5" v-else/>
     </div>
   </div>

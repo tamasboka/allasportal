@@ -130,7 +130,7 @@ export default {
   <section class="container py-5">
     <div v-if="!userLoading" class="row g-4">
       <div class="col-12 col-lg-8 col-md-12 col-sm-12">
-        <div class="card bg-dark text-white p-4 border-5 rounded-5"
+        <div class="card bg-dark text-white p-4 border-block"
              :class="{'border-secondary': job.type === 'part-time', 'border-primary': job.type === 'full-time', 'border-warning': job.type === 'one-time'}">
           <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
@@ -150,7 +150,7 @@ export default {
             <span class="h4 text-success fw-bold">{{ job.min_salary }} - {{ job.max_salary }} {{ job.currency }}</span>
             <p class="text-secondary h4 fw-bold">Férőhely: {{ job.workers.length }}/{{ job.capacity }}</p>
           </div>
-          <hr class="border-secondary">
+          <div class="underline-gray mb-3"></div>
           <div class="mb-4">
             <h5 class="text-secondary text-uppercase small fw-bold">Kategóriák</h5>
             <div class="d-flex flex-wrap gap-2">
@@ -196,13 +196,13 @@ export default {
         </div>
       </div>
       <aside class="col-12 col-lg-4 col-md-12 col-sm-12">
-        <div class="card bg-dark text-white border-secondary p-4 h-100 border-5 rounded-5">
+        <div class="card bg-dark text-white p-4 h-100 border-block">
           <div class="d-flex">
             <h3 class="h5">Vélemények</h3>
             <button class="btn btn-primary ms-auto btn-sm" v-if="!isOwner" @click="toggleWritingReview">Vélemény írása
             </button>
           </div>
-          <div class="border-bottom border-secondary mt-4"></div>
+          <div class="underline-gray mt-4"></div>
           <div class="text-center py-5">
             <ReviewForm v-if="isWritingReview" @sent="sendReview"/>
             <h1 class="italic" v-if="!job.ratings.length && !isWritingReview">Még nincsenek vélemények!</h1>

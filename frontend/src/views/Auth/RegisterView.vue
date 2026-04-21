@@ -28,7 +28,7 @@ export default {
 
 <template>
   <section class="mt-3">
-    <div class="border-5 border-bottom mb-4">
+    <div class="underline mb-4">
       <h1 class="text-center fw-bold">Regisztráció</h1>
     </div>
     <p class="alert alert-danger text-center mb-4" v-if="failed">Sikertelen regisztráció!</p>

@@ -73,7 +73,7 @@ export default {
 </script>
 
 <template>
-  <h1 class="border-bottom border-4 border-secondary text-center mb-4 fw-bold">Skillek</h1>
+  <h1 class="underline-gray text-center mb-4 fw-bold">Skillek</h1>
   <div class="input-group mb-3">
     <span class="input-group-text">Új skill</span>
     <select v-if="!skillsLoading" v-model="skillId" class="form-select">

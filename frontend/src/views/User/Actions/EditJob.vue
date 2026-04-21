@@ -50,7 +50,7 @@ export default {
       <h1 class="bg-danger">Authenticating</h1>
     </section>
     <section class="min-vh-100 d-flex align-items-center justify-content-center py-5" v-if="isOwner">
-      <div class="card text-bg-dark border border-5 border-secondary rounded-5 shadow-lg my-5">
+      <div class="card text-bg-dark border-block rounded-5 shadow-lg my-5">
         <div class="card-body">
           <RouterLink :to="{name: 'job', params: {jobID: job.id}}" class="text-decoration-none text-light btn"
                       :class="{ 'btn-outline-light': !isReturnBtnHovered, 'btn-outline-primary': isReturnBtnHovered}"
@@ -59,7 +59,8 @@ export default {
             Vissza
           </RouterLink>
           <EditJobForm :job="job" class="mt-3"/>
-          <div class="container border-3 border-top border-secondary mt-5">
+          <div class="underline-gray mt-5"></div>
+          <div class="container mt-5">
             <div class="row">
               <div class="col-12 col-lg-6 col-md-12 col-sm-12">
                 <EditWorkersForm :jobID="job.id" :workers="job.workers"/>

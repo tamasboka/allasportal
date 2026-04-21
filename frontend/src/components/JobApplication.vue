@@ -19,9 +19,9 @@ export default {
 </script>
 
 <template>
-  <div class="card w-100 border-5 border-secondary rounded-5">
+  <div class="card w-100 border-block">
     <div class="card-body p-4">
-      <div class="d-flex border-bottom border-5 border-secondary">
+      <div class="d-flex underline-gray">
         <h2 class="h4">{{ application.sender.firstname }} {{ application.sender.lastname }}</h2>
         <div class="ms-auto">
           <button class="btn btn-success me-1" @click="accept(application.id)">Elfogadás</button>

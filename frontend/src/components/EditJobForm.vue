@@ -80,7 +80,7 @@ export default {
 <template>
   <div class="row">
     <div class="col-12 col-lg-4 col-md-12 col-sm-12 mt-5">
-      <h1 class="border-bottom border-4 border-primary text-center mb-4 fw-bold">Alap adatok</h1>
+      <h1 class="underline-blue text-center mb-4 fw-bold">Alap adatok</h1>
       <Form @submit="editJob" @input="successful = false">
         <p class="alert alert-success text-center" v-if="successful">Sikeres mentés!</p>
         <ErrorMessage class="alert alert-danger text-center" name="name" as="p"/>

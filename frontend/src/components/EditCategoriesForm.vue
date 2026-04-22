@@ -36,7 +36,7 @@ export default {
     async addCategory() {
       if (this.categories.find(cat => this.categoryID === cat.id)) return
       try {
-        await http.post('/api/addcategory', {
+        await http.post('/api/addjobcategory', {
           job_id: this.job_id,
           category_id: this.categoryID
         }, {

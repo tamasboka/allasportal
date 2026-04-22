@@ -32,18 +32,18 @@ class JobRequest extends FormRequest
             'min_salary' => [
                 'required',
                 'integer',
-                'min:1',
+                'gt:1',
             ],
             'max_salary' => [
                 'required',
                 'integer',
                 'min:1',
-                'gt:min_salary',
+                'gte:min_salary',
             ],
             'capacity' => [
                 'required',
                 'integer',
-                'min:1',
+                'gt:0',
             ],
             'has_home_office' => [
                 'required',

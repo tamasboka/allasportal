@@ -42,10 +42,10 @@ export default {
         <div class="underline-blue">
           <h1 class="h2 fw-bold text-white">{{ notification.from.firstname }} {{ notification.from.lastname }}<span v-if="isOwner"><i class="bi bi-arrow-right mx-2"></i>{{ notification.to.firstname }} {{ notification.to.lastname }}</span></h1>
 
-          <h2 class="h6 fw-bold text-secondary">{{ notification.from.email }}</h2>
+          <h2 class="h6 fw-bold text-secondary">{{ notification.from.email }}<span v-if="isOwner"><i class="bi bi-arrow-right mx-2"></i>{{ notification.to.email }}</span></h2>
         </div>
         <div>
-          <h2 class="fw-bold text-white">{{ notification.title }}</h2>
+          <h2 class="fw-bold text-white my-3">{{ notification.title }}</h2>
           <p class="text-white mt-3">{{ notification.message }}</p>
         </div>
         <button class="btn btn-primary" v-if="!notification.is_read && !isOwner" @click="read">Megjelölés olvasottnak

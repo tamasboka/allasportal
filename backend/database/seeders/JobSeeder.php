@@ -27,11 +27,11 @@ class JobSeeder extends Seeder
         ]);
         Job::create([
             'user_id' => 2,
-            'name' => 'aaaeaeeaeaarraar',
+            'name' => 'Backend fejlesztő',
             'currency' => 'HUF',
             'min_salary' => 5000,
             'max_salary' => 10000,
-            'capacity' => 67,
+            'capacity' => 15,
             'location' => 'Hungary',
             'has_home_office' => 0,
             'type' => 'full-time'

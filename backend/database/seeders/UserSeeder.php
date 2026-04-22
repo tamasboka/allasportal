@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             'email' => 'beretzkybence@jobnest.hu',
             'password' => 'jelszo12345',
             'gender' => 'male',
-            'phone' => '0630676767',
+            'phone' => '0630111111',
         ]);
 
         $tamas->update([

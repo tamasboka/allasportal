@@ -203,7 +203,7 @@ export default {
             </button>
           </div>
           <div class="underline-gray mt-4"></div>
-          <div class="text-center py-5">
+          <div class="text-center py-3">
             <ReviewForm v-if="isWritingReview" @sent="sendReview"/>
             <h1 class="italic" v-if="!job.ratings.length && !isWritingReview">Még nincsenek vélemények!</h1>
           </div>

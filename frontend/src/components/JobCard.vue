@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-  <section class="py-5">
+  <section class="py-2">
     <div class="card" :class="job.type">
       <div class="card-body d-flex flex-column p-4">
         <div class="mb-2">

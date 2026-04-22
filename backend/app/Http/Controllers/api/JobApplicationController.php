@@ -46,24 +46,23 @@ class JobApplicationController extends Controller
      */
     public function store(JobApplicationRequest $request)
     {
-        if ($request->user()->tokenCan('user')) {
-            $application = JobApplication::create($request->all());
-            Log::info('Job application created successfully.', [
-                'user_id' => $request->user()->id,
-                'job_id' => $request['job_id']
-            ]);
-            return (new JobApplicationResource($application))
-                ->response()
-                ->setStatusCode(201);
-        } else {
-            Log::alert('Unauthorized user attempt. JobApplications:store', [
-                'user_id' => $request->user()->id
-            ]);
-            return response()
-                ->json([
-                    "message" => "Unauthorized"
-                ], 401);
-        }
+        $application = JobApplication::create($request->all());
+        $job = Job::findOrFail($request->job_id);
+        $user = User::findOrFail($job->user_id);
+        Notification::create([
+            'to_user_id' => $user->id,
+            'from_user_id' => $request->user()->id,
+            'title' => 'Új jelentkező!',
+            'message' => $request->user()->firstname . ' jelentkezett a(z) ' . $job->name . ' pozícióra. Ez a levél automatikusan generált.',
+            'type' => 'accept'
+        ]);
+        Log::info('Job application created successfully.', [
+            'user_id' => $request->user()->id,
+            'job_id' => $request['job_id']
+        ]);
+        return (new JobApplicationResource($application))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -228,7 +227,7 @@ class JobApplicationController extends Controller
                 'to_user_id' => $application->user_id,
                 'from_user_id' => $request->user()->id,
                 'title' => 'Elutasítva!',
-                'message' => 'Sajnálattal közöljuk, hogy ' . $request->user()->firstname . ' elutasította a jelentkezését az ' . $job->name . ' állásra! Ez a levél automatikusan generált. Ez a levél automatikusan generált.',
+                'message' => 'Sajnálattal közöljuk, hogy ' . $request->user()->firstname . ' elutasította a jelentkezését az ' . $job->name . ' állásra! Ez a levél automatikusan generált.',
                 'type' => 'reject'
             ]);
             $application->delete();

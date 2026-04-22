@@ -11,11 +11,11 @@ use App\Http\Resources\Job\JobCollection;
 use App\Http\Resources\Job\JobResource;
 use App\Models\Category;
 use App\Models\Job;
+use App\Models\Notification;
 use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class JobController extends Controller
@@ -165,7 +165,9 @@ class JobController extends Controller
             'message' => 'Unauthorized'
         ], 401);
     }
-    public function addCategory(JobAddCategoryRequest $request) {
+
+    public function addCategory(JobAddCategoryRequest $request)
+    {
         $job = Job::findOrFail($request->job_id);
         if ($request->user()->id === $job->user_id) {
             $job->categories()->attach($request->category_id);
@@ -187,7 +189,9 @@ class JobController extends Controller
             'message' => 'Unauthorized'
         ]);
     }
-    public function removeCategory(Job $job, Category $category, Request $request) {
+
+    public function removeCategory(Job $job, Category $category, Request $request)
+    {
         if ($request->user()->id === $job->user_id) {
             $job->categories()->detach($category->id);
             Log::info('Category removed successfully', [
@@ -208,7 +212,9 @@ class JobController extends Controller
             'message' => 'Unauthorized'
         ]);
     }
-    public function addSkill(JobAddSkillRequest $request) {
+
+    public function addSkill(JobAddSkillRequest $request)
+    {
         $job = Job::findOrFail($request->job_id);
         if ($request->user()->id === $job->user_id) {
             $job->required_skills()->attach($request->skill_id);
@@ -230,7 +236,9 @@ class JobController extends Controller
             'message' => 'Unauthorized'
         ]);
     }
-    public function removeSkill(Job $job, Skill $skill, Request $request) {
+
+    public function removeSkill(Job $job, Skill $skill, Request $request)
+    {
         if ($request->user()->id === $job->user_id) {
             $job->required_skills()->detach($skill->id);
             Log::info('Skill removed successfully', [
@@ -251,7 +259,9 @@ class JobController extends Controller
             'message' => 'Unauthorized'
         ], 401);
     }
-    public function saveJob(SaveJobRequest $request) {
+
+    public function saveJob(SaveJobRequest $request)
+    {
         $request->user()->saved_jobs()->attach($request->job_id);
         Log::info('Job saved successfully', [
             'job_id' => $request->job_id,
@@ -261,7 +271,9 @@ class JobController extends Controller
             "message" => "Job saved successfully",
         ], 201);
     }
-    public function getApplications(Request $request, string $jobID) {
+
+    public function getApplications(Request $request, string $jobID)
+    {
         try {
             $job = Job::with([
                 'received_applications.sender',
@@ -298,8 +310,14 @@ class JobController extends Controller
     public function fireUser(Request $request, Job $job, User $user)
     {
         if ($request->user()->id === $job->user_id) {
+            Notification::create([
+                'to_user_id' => $user->id,
+                'from_user_id' => $request->user()->id,
+                'title' => 'Ki lettél rúgva!',
+                'message' => 'Sajnálattal közöljuk, hogy ' . $user->firstname . ' kirúgott a ' . $job->name . 'állásról! Ez a levél automatikusan generált.',
+                'type' => 'reject'
+            ]);
             $job->workers()->detach($user->id);
-            $user->workplaces()->detach($job->id);
             Log::info('User fired from job', [
                 'owner' => $request->user()->id,
                 'worker' => $user->id,
@@ -317,7 +335,9 @@ class JobController extends Controller
             "message" => "Unauthorized"
         ], 401);
     }
-    public function unsaveJob(Request $request, Job $job) {
+
+    public function unsaveJob(Request $request, Job $job)
+    {
         $request->user()->saved_jobs()->detach($job->id);
         Log::alert('Job unsaved successfully', [
             'user_id' => $request->user()->id,

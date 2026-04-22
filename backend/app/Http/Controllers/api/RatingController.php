@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Rating\RatingRequest;
 use App\Http\Resources\Rating\RatingCollection;
 use App\Http\Resources\Rating\RatingResource;
+use App\Models\Job;
+use App\Models\Notification;
 use App\Models\Rating;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -43,7 +46,17 @@ class RatingController extends Controller
     public function store(RatingRequest $request)
     {
         $validated = $request->validated();
+        $job = Job::findOrFail($request->job_id);
         $validated['user_id'] = $request->user()->id;
+        $ratedUser = $job->owner;
+        $rater = User::findOrFail($request->user()->id);
+        Notification::create([
+            'to_user_id' => $ratedUser->id,
+            'from_user_id' => $request->user()->id,
+            'title' => 'Új értékelés!',
+            'message' => $rater->firstname . ' ' . $rater->lastname . ' értékelést írt a ' . $job->name . ' állásról! Ez a levél automatikusan generált.',
+            'type' => 'general'
+        ]);
         $rating = Rating::create($validated);
         Log::info('Rating created', [
             'user_id' => $request->user()->id,

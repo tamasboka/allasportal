@@ -20,8 +20,6 @@ Route::get('/role', [AuthController::class, 'role'])
     ->middleware('auth:sanctum');
 
 // Roles
-Route::post('/roles', [AuthController::class, 'abilities'])
-    ->middleware('auth:sanctum');
 
 // Organizations
 Route::apiResource('/organizations', OrganizationController::class)

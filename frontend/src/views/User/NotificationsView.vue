@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       notifications: this.$route.meta.prefetched.notifications,
-      filteredNotifications: this.$route.meta.prefetched.notifications,
+      filteredNotifications: [...this.$route.meta.prefetched.notifications, ...this.$route.meta.prefetched.sent],
       sent: this.$route.meta.prefetched.sent,
       filtered: false,
       isWriting: false,

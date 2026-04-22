@@ -49,6 +49,9 @@ h1, p {
 .horizontal-blue {
     border-left: 10px solid var(--bs-primary)
 }
+.horizontal-red {
+    border-left: 10px solid var(--bs-danger)
+}
 
 .navbar-nav .nav-link {
     font-size: 18px;

@@ -39,24 +39,29 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('job_skill', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Skill::class);
-            $table->foreignIdFor(Job::class);
-            $table->timestamps();
-        });
-
-        Schema::create('category_job', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Category::class);
-            $table->foreignIdFor(Job::class);
-            $table->timestamps();
-        });
-
         Schema::create('job_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Job::class);
+            $table->foreignIdFor(User::class)
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignIdFor(Job::class)
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        Schema::create('user_saved_jobs', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class)
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignIdFor(Job::class)
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

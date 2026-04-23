@@ -14,8 +14,14 @@ return new class extends Migration {
     {
         Schema::create('job_applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Job::class);
+            $table->foreignIdFor(User::class)
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignIdFor(Job::class)
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->text('message');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             //$table->date('sent_at');

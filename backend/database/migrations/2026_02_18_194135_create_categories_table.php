@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Job;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +16,19 @@ return new class extends Migration {
 
             $table->id();
             $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('category_job', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Category::class)
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignIdFor(Job::class)
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

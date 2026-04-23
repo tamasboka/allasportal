@@ -27,19 +27,6 @@ return new class extends Migration {
             $table->string('bio')->nullable();
             $table->timestamps();
         });
-        Schema::create('user_saved_jobs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Job::class);
-            $table->timestamps();
-        });
-        Schema::create('skill_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Skill::class);
-            $table->string('level')->nullable();
-            $table->timestamps();
-        });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

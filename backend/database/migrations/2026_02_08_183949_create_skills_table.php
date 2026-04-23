@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Job;
 use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -15,6 +16,33 @@ return new class extends Migration {
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('skill_user', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class)
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignIdFor(Skill::class)
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->string('level')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('job_skill', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Skill::class)
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignIdFor(Job::class)
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

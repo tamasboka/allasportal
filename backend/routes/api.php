@@ -58,7 +58,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/unsavejob/{id}', [JobController::class, 'unsaveJob']);
     Route::get('/savedjobs', [UserController::class, 'savedJobs']);
     Route::get('/job/{job}/applications', [JobController::class, 'getApplications']);
-    Route::post('/acceptapplication/{id}', [JobApplicationController::class, 'acceptApplication']);
+    Route::post('/acceptapplication/{application}', [JobApplicationController::class, 'acceptApplication']);
     Route::post('/rejectapplication/{application}', [JobApplicationController::class, 'rejectApplication']);
     Route::get('/me', [AuthController::class, 'me']);
 });

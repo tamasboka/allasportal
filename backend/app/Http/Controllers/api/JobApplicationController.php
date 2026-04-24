@@ -177,16 +177,15 @@ class JobApplicationController extends Controller
 
     }
 
-    public function acceptApplication(Request $request, string $applicationID)
+    public function acceptApplication(Request $request, JobApplication $application)
     {
         try {
-            $application = JobApplication::findOrFail($applicationID);
             $user = User::findOrFail($application->user_id);
             $job = $application->receiver;
         } catch (ModelNotFoundException) {
             Log::alert('Job application not found.', [
                 'user_id' => $request->user()->id,
-                'application_id' => $applicationID
+                'application_id' => $application->id
             ]);
             return response()->json([
                 "message" => "Application not found"
@@ -208,7 +207,7 @@ class JobApplicationController extends Controller
             Log::info('Job application accepted successfully.', [
                 'receiver' => $request->user()->id,
                 'sender' => $application->user_id,
-                'application_id' => $applicationID
+                'application_id' => $application->id
             ]);
             return response()->json([
                 "message" => 'Application accepted successfully'
@@ -216,7 +215,7 @@ class JobApplicationController extends Controller
         }
         Log::alert('Unauthorized user attempt. JobApplications:accept', [
             'user_id' => $request->user()->id,
-            'application_id' => $applicationID
+            'application_id' => $application->id
         ]);
         return response()->json([
             "message" => "Unauthorized"

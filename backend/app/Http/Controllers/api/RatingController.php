@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Rating\RatingRequest;
+use App\Http\Requests\Rating\EditRatingRequest;
 use App\Http\Resources\Rating\RatingCollection;
 use App\Http\Resources\Rating\RatingResource;
 use App\Models\Job;
@@ -97,7 +98,7 @@ class RatingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RatingRequest $request, Rating $rating)
+    public function update(EditRatingRequest $request, Rating $rating)
     {
         if ($request->user()->id === $rating->rater()->id) {
             $validated = $request->validated();

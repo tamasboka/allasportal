@@ -46,7 +46,11 @@ class JobApplicationController extends Controller
      */
     public function store(JobApplicationRequest $request)
     {
-        $application = JobApplication::create($request->all());
+        $application = JobApplication::create([
+            'job_id' => $request->job_id,
+            'user_id' => $request->user()->id,
+            'message' => $request->message
+        ]);
         $job = Job::findOrFail($request->job_id);
         $user = User::findOrFail($job->user_id);
         Notification::create([

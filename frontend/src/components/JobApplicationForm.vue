@@ -25,7 +25,6 @@ export default {
     async Send(data) {
       try {
         await http.post('/api/applications', {
-          user_id: this.userID,
           job_id: this.jobID,
           ...data
         }, {

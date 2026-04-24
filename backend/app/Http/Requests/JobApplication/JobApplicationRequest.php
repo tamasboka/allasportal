@@ -22,9 +22,6 @@ class JobApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => [
-                'required',
-            ],
             'job_id' => [
                 'required',
             ],

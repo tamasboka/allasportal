@@ -24,6 +24,7 @@ class JobApplicationRequest extends FormRequest
         return [
             'job_id' => [
                 'required',
+                'exists:jobs,id'
             ],
             'message' => [
                 'required',

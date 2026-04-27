@@ -314,7 +314,7 @@ class JobController extends Controller
                 'to_user_id' => $user->id,
                 'from_user_id' => $request->user()->id,
                 'title' => 'Ki lettél rúgva!',
-                'message' => 'Sajnálattal közöljuk, hogy ' . $user->firstname . ' kirúgott a ' . $job->name . 'állásról! Ez a levél automatikusan generált.',
+                'message' => 'Sajnálattal közöljuk, hogy ' . $user->firstname . ' kirúgott a ' . $job->name . ' állásról! Ez a levél automatikusan generált.',
                 'type' => 'reject'
             ]);
             $job->workers()->detach($user->id);

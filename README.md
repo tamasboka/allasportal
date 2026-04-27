@@ -3,8 +3,8 @@
 ## :pushpin: Tartalomjegyzék
 
 - [:man_technologist: Fejlesztők](#man_technologist-fejlesztők)
+- [:wrench: Setup](#wrench-setup)
 - [:information_source: A projektről](#information_source-a-projektről)
-- [:closed_book: Felhasználói dokumentáció](#closed_book-felhasználói-dokumentáció)
 - [:computer: Fejlesztői dokumentáció](#computer-fejlesztői-dokumentáció)
 
 ## :man_technologist: Fejlesztők
@@ -14,6 +14,8 @@
     - Frontend
 
 ## :wrench: Setup
+### Adatbázis
+1) Adatbázisra MySQL szervert használtunk és ezt is ajánljuk. A [XAMPP](https://www.apachefriends.org/download.html) felhasználói felületén könnyen el lehet indítani.
 ### Backend
 1) ```cd backend```
 2) Windows: ``copy .env.example .env`` | Linux: ```cp .env.example .env``` VAGY manuálisan át kell nevezni a .env.example-t .env-re
@@ -52,10 +54,6 @@
     #### *...és ez még csak a jéghegy csúcsa!*
 - Kezdés dátuma: ```2026. 01. 22```
 - Befejezés dátuma: ```2026 04 17``` előtt
-
-## :closed_book: Felhasználói dokumentáció
-
-- 
 
 ## :computer: Fejlesztői dokumentáció
 
